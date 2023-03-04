@@ -6,18 +6,17 @@ import {
   StatusBar,
   StyleSheet,
 } from "react-native";
+import PrimaryButton from "../components/PrimaryButton";
 
 export default function Location({ navigation }) {
+  const handleNext = () => {
+    console.log("goto Avatar");
+    navigation.navigate("Avatar");
+  };
   return (
     <View style={styles.container}>
       <Text>Location</Text>
-      <Button
-        title="Next"
-        onPress={() => {
-          console.log("goto Avatar");
-          navigation.navigate("Avatar");
-        }}
-      />
+      <PrimaryButton title="Next" onPress={handleNext} />
     </View>
   );
 }
