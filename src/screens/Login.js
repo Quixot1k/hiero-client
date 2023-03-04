@@ -9,7 +9,7 @@ export default function Login({ navigation }) {
         <Text style={styles.text}>Email</Text>
         <TextInput placeholder="Email" style={styles.textInput} />
       </View>
-      <View style={styles.group}>
+      <View style={[styles.group, { marginBottom: 10 }]}>
         <Text style={styles.text}>Password</Text>
         <TextInput placeholder="Password" style={styles.textInput} />
       </View>
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    fontSize: 50,
-    marginBottom: 50,
+    fontSize: 45,
+    marginBottom: 45,
   },
   group: {
     flexWrap: "wrap",

@@ -12,7 +12,10 @@ export default function Information({ navigation }) {
       <TextInput placeholder="Last Name" style={styles.textInput} />
       <TextInput placeholder="Age " style={styles.textInput} />
       <TextInput placeholder="Gender" style={styles.textInput} />
-      <TextInput placeholder="Mobile" style={styles.textInput} />
+      <TextInput
+        placeholder="Mobile"
+        style={[styles.textInput, { marginBottom: 10 }]}
+      />
       <PrimaryButton title="Next" onPress={handleNext} />
     </View>
   );
