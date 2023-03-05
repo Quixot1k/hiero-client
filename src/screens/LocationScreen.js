@@ -1,5 +1,6 @@
 import {
   View,
+  SafeAreaView,
   Text,
   TextInput,
   Button,
@@ -8,16 +9,16 @@ import {
 } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 
-export default function Location({ navigation }) {
+export default function LocationScreen({ navigation }) {
   const handleNext = () => {
-    console.log("goto Avatar");
-    navigation.navigate("Avatar");
+    console.log("goto AvatarScreen");
+    navigation.navigate("AvatarScreen");
   };
   return (
-    <View style={styles.container}>
-      <Text>Location</Text>
+    <SafeAreaView style={styles.container}>
+      <Text>LocationScreen</Text>
       <PrimaryButton title="Next" onPress={handleNext} />
-    </View>
+    </SafeAreaView>
   );
 }
 

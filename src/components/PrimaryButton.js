@@ -1,15 +1,19 @@
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function PrimaryButton({ title, onPress }) {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={onPress}
+      underlayColor="#FAB"
+    >
       <Text style={styles.text}>{title}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  container: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 12,
@@ -17,7 +21,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "black",
-    marginTop: 25,
+    marginTop: 24,
     marginBottom: 20,
   },
   text: {

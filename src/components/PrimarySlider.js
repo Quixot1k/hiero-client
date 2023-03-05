@@ -1,0 +1,41 @@
+import { Slider } from "@rneui/themed";
+import { View, Text, StyleSheet } from "react-native";
+
+export default function PrimarySlider({
+  value,
+  minimumValue,
+  maximumValue,
+  onSlidingComplete,
+}) {
+  return (
+    <View style={styles.container}>
+      <Text style={{ marginRight: 6, fontSize: 18, fontWeight: 400 }}>
+        {minimumValue}
+      </Text>
+      <Slider
+        value={value}
+        minimumValue={minimumValue}
+        maximumValue={maximumValue}
+        minimumTrackTintColor="#000"
+        maximumTrackTintColor="#ccc"
+        allowTouchTrack={true}
+        thumbStyle={{ height: 18, width: 18, backgroundColor: "#000" }}
+        trackStyle={{ height: 6, width: 200, borderRadius: 10 }}
+        step={1}
+        onSlidingComplete={onSlidingComplete}
+      />
+      <Text style={{ marginLeft: 6, fontSize: 18, fontWeight: 400 }}>
+        {maximumValue}+
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 50,
+    marginBottom: 40,
+  },
+});

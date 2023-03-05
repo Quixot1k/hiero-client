@@ -1,23 +1,23 @@
 import {
   View,
+  SafeAreaView,
   Text,
-  TextInput,
   Button,
   StatusBar,
   StyleSheet,
 } from "react-native";
 
-export default function Avatar({ navigation }) {
+export default function AvatarScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text>Avatar</Text>
+    <SafeAreaView style={styles.container}>
+      <Text>AvatarScreen</Text>
       <Button
-        title="Congratulation!!!"
+        title="🥳 Congratulation 🎉"
         onPress={() => {
           console.log("Done");
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
