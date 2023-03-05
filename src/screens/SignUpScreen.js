@@ -103,23 +103,25 @@ export default function LoginScreen({ navigation }) {
         <View>
           <CheckBox
             title={"I'm a customer"}
-            size={26}
+            size={24}
             textStyle={{ fontSize: 18, fontWeight: 500, color: "#000" }}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
             checked={state.role == "customer" ? true : false}
+            checkedColor="#000"
             onPress={() => {
               dispatch({ type: "changeRole", payload: "customer" });
             }}
           />
           <CheckBox
             title={"I'm a provider"}
-            size={26}
+            size={24}
             textStyle={{ fontSize: 18, fontWeight: 500, color: "#000" }}
             wrapperStyle={{ marginTop: -10 }}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
             checked={state.role == "provider" ? true : false}
+            checkedColor="#000"
             onPress={() => {
               dispatch({ type: "changeRole", payload: "provider" });
             }}

@@ -96,7 +96,9 @@ export default function IntSpecScreen({ navigation }) {
         </View>
         <View style={{ marginTop: -10 }}>
           <CheckBox
+            size={22}
             checked={state.online == true ? true : false}
+            checkedColor="#000"
             title={"Online session possible?"}
             textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
             wrapperStyle={{ marginBottom: -20 }}
@@ -105,7 +107,9 @@ export default function IntSpecScreen({ navigation }) {
             }}
           />
           <CheckBox
+            size={22}
             checked={state.home == true ? true : false}
+            checkedColor="#000"
             title={"Home session possible?"}
             textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
             wrapperStyle={{ marginBottom: -20 }}
@@ -114,7 +118,9 @@ export default function IntSpecScreen({ navigation }) {
             }}
           />
           <CheckBox
+            size={22}
             checked={state.gym == true ? true : false}
+            checkedColor="#000"
             title={"Gym session possible?"}
             textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
             onPress={() => {

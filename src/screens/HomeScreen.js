@@ -24,7 +24,7 @@ export default function Home() {
             })
           );
         }}
-        title="Login"
+        title="Home"
         color="#000"
       />
     ),
