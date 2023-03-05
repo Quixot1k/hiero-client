@@ -25,7 +25,7 @@ export default function PrimarySlider({
         onSlidingComplete={onSlidingComplete}
       />
       <Text style={{ marginLeft: 6, fontSize: 18, fontWeight: 400 }}>
-        {maximumValue}+
+        {`${maximumValue}+`}
       </Text>
     </View>
   );
