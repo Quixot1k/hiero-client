@@ -13,57 +13,68 @@ import ProfileScreen from "./ProfileScreen";
 export default function Home() {
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
-  const stackStyle = {
-    headerRight: () => (
-      <Button
-        onPress={() => {
-          console.log("goto LoginScreen and claer navigation stack");
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{ name: "LoginScreen" }],
-            })
-          );
-        }}
-        title="Home"
-        color="#000"
-      />
-    ),
-  };
+
+  const headRightButton = () => (
+    <Button
+      onPress={() => {
+        console.log("goto LoginScreen and claer navigation stack");
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: "LoginScreen" }],
+          })
+        );
+      }}
+      title="Home"
+      color="#000"
+    />
+  );
+
   return (
     <Stack.Navigator>
       {/* General */}
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ title: "Home", headerRight: headRightButton }}
+      />
+      <Stack.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ title: "Sign Up", headerRight: headRightButton }}
+      />
       <Stack.Screen
         name="InfoScreen"
         component={InfoScreen}
-        options={stackStyle}
+        options={{ title: "Information", headerRight: headRightButton }}
       />
       <Stack.Screen
         name="IntSpecScreen"
         component={IntSpecScreen}
-        options={stackStyle}
+        options={{ title: "Interest", headerRight: headRightButton }}
       />
       <Stack.Screen
         name="CapacityScreen"
         component={CapacityScreen}
-        options={stackStyle}
+        options={{ title: "Split the cost", headerRight: headRightButton }}
       />
       <Stack.Screen
         name="LocationScreen"
         component={LocationScreen}
-        options={stackStyle}
+        options={{ title: "Location", headerRight: headRightButton }}
       />
       <Stack.Screen
         name="AvatarScreen"
         component={AvatarScreen}
-        options={stackStyle}
+        options={{
+          title: "Upload a profile picture",
+          headerRight: headRightButton,
+        }}
       />
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={stackStyle}
+        options={{ title: "Your profile", headerRight: headRightButton }}
       />
       {/* Only for provider */}
     </Stack.Navigator>
