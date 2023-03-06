@@ -67,7 +67,7 @@ export default function LoginScreen({ navigation }) {
         <Text style={[styles.header, { marginBottom: 35 }]}>
           With The Best!
         </Text>
-        <View style={styles.inputGroup}>
+        <View style={styles.textInputGroup}>
           <Text style={styles.text}>Email</Text>
           <TextInput
             value={state.email}
@@ -78,7 +78,7 @@ export default function LoginScreen({ navigation }) {
             }}
           />
         </View>
-        <View style={styles.inputGroup}>
+        <View style={styles.textInputGroup}>
           <Text style={styles.text}>Password</Text>
           <TextInput
             value={state.password}
@@ -89,7 +89,7 @@ export default function LoginScreen({ navigation }) {
             }}
           />
         </View>
-        <View style={[styles.inputGroup, { marginBottom: 20 }]}>
+        <View style={[styles.textInputGroup, { marginBottom: 20 }]}>
           <Text style={styles.text}>Password</Text>
           <TextInput
             value={state.secondPassword}
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     marginBottom: 10,
   },
-  inputGroup: {
+  textInputGroup: {
     flexWrap: "wrap",
     margin: 10,
   },

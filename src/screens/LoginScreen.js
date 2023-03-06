@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>Welcome to Kairos!</Text>
-        <View style={styles.inputGroup}>
+        <View style={styles.textInputGroup}>
           <Text style={styles.text}>Email</Text>
           <TextInput
             placeholder="Email"
@@ -35,7 +35,7 @@ export default function LoginScreen({ navigation }) {
             }}
           />
         </View>
-        <View style={[styles.inputGroup, { marginBottom: 20 }]}>
+        <View style={[styles.textInputGroup, { marginBottom: 20 }]}>
           <Text style={styles.text}>Password</Text>
           <TextInput
             placeholder="Password"
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     marginBottom: 35,
   },
-  inputGroup: {
+  textInputGroup: {
     flexWrap: "wrap",
     marginBottom: 20,
   },

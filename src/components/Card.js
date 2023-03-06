@@ -30,7 +30,7 @@ styles = StyleSheet.create({
     borderWidth: 1.2,
     borderRadius: 4,
     fontSize: 30,
-    width: 100,
+    width: 107,
     height: 48,
     marginHorizontal: 5,
     marginVertical: 6,
