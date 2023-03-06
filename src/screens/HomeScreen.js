@@ -17,7 +17,7 @@ export default function Home() {
   const headRightButton = () => (
     <Button
       onPress={() => {
-        console.log("goto LoginScreen and claer navigation stack");
+        console.log("goto HomeScreen and claer navigation stack");
         navigation.dispatch(
           CommonActions.reset({
             index: 1,
