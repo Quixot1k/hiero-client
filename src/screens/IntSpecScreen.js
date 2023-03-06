@@ -128,7 +128,7 @@ export default function IntSpecScreen({ navigation }) {
             }}
           />
         </View>
-        <PrimaryButton title="Next" onPress={handleNext} />
+        <PrimaryButton title="Next" marginTop={12} onPress={handleNext} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 60,
   },
   header: {
-    fontSize: 25,
+    fontSize: 26,
     fontWeight: 500,
     marginBottom: 30,
   },

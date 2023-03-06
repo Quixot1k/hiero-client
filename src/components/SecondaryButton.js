@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export default function PrimaryButton({
+export default function SecondaryButton({
   title,
   onPress,
   marginTop = 20,
@@ -25,15 +25,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
+    borderWidth: 2.5,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "black",
   },
   text: {
     fontSize: 16,
     lineHeight: 21,
-    fontWeight: "bold",
+    fontWeight: 400,
     letterSpacing: 0.25,
-    color: "white",
+    color: "black",
   },
 });

@@ -64,7 +64,7 @@ export default function LoginScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>Get Connected</Text>
-        <Text style={[styles.header, { marginBottom: 35 }]}>
+        <Text style={[styles.header, { marginBottom: 24 }]}>
           With The Best!
         </Text>
         <View style={styles.textInputGroup}>

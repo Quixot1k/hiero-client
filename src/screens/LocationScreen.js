@@ -68,7 +68,7 @@ export default function LocationScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.header}>What's your location?</Text>
+        <Text style={styles.header}>What's your location</Text>
         <View>
           <TextInput
             placeholder="Address 1"
@@ -156,16 +156,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scrollView: {
-    marginTop: 26,
+    marginTop: 30,
     alignItems: "center",
   },
   header: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: 500,
-    marginBottom: 20,
+    marginBottom: 26,
   },
   textInput: {
-    borderWidth: 1.3,
+    borderWidth: 1.4,
     borderRadius: 4,
     height: 40,
     textAlign: "center",
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
     borderWidth: 1.4,
     borderRadius: 30,
     height: 250,
-    width: 260,
-    marginTop: 18,
+    width: 266,
+    marginTop: 20,
     marginBottom: 22,
     backgroundColor: "#ccc",
   },

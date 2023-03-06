@@ -8,6 +8,7 @@ import IntSpecScreen from "./IntSpecScreen";
 import CapacityScreen from "./CapacityScreen";
 import LocationScreen from "./LocationScreen";
 import AvatarScreen from "./AvatarScreen";
+import ProfileScreen from "./ProfileScreen";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -53,7 +54,16 @@ export default function Home() {
         component={LocationScreen}
         options={stackStyle}
       />
-      <Stack.Screen name="AvatarScreen" component={AvatarScreen} />
+      <Stack.Screen
+        name="AvatarScreen"
+        component={AvatarScreen}
+        options={stackStyle}
+      />
+      <Stack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={stackStyle}
+      />
     </Stack.Navigator>
   );
 }
