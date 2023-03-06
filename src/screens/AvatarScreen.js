@@ -17,9 +17,7 @@ export default function AvatarScreen({ navigation }) {
   const openImageLibrary = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.granted === false) {
-      alert(
-        "Please go to settings and  allow this app to access your library!"
-      );
+      alert("Please go to settings and allow this app to access your library!");
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -36,7 +34,7 @@ export default function AvatarScreen({ navigation }) {
   const openCamera = async () => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
     if (permission.granted === false) {
-      alert("Please go to settings and  allow this app to access your camera!");
+      alert("Please go to settings and allow this app to access your camera!");
       return;
     }
     const result = await ImagePicker.launchCameraAsync({
@@ -65,10 +63,12 @@ export default function AvatarScreen({ navigation }) {
         <View style={{ marginTop: 6 }}>
           <SecondaryButton
             title={"Choose from library"}
+            fontWeight={500}
             onPress={openImageLibrary}
           />
           <SecondaryButton
             title={"Open camera"}
+            fontWeight={500}
             marginTop={-8}
             onPress={openCamera}
           />

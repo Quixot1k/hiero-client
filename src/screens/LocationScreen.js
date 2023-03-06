@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     marginBottom: 26,
   },
   textInput: {
-    borderWidth: 1.4,
+    borderWidth: 1.8,
     borderRadius: 4,
     height: 40,
     textAlign: "center",
