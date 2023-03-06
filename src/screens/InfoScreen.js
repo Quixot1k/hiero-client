@@ -47,9 +47,8 @@ const initialState = {
   firstName: "",
   lastName: "",
   birth: "",
-  gender: "", // 0 for female, 1 for male
+  gender: "",
   mobile: "",
-  role: 0, // 0 for customer, 1 for provider
 };
 
 export default function InfoScreen({ navigation }) {
