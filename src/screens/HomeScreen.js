@@ -32,6 +32,7 @@ export default function Home() {
   };
   return (
     <Stack.Navigator>
+      {/* General */}
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen
@@ -64,6 +65,7 @@ export default function Home() {
         component={ProfileScreen}
         options={stackStyle}
       />
+      {/* Only for provider */}
     </Stack.Navigator>
   );
 }
