@@ -43,7 +43,7 @@ export default function Home() {
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
-        options={{ title: "Sign Up", headerRight: headRightButton }}
+        options={{ title: "Sign Up" }}
       />
       <Stack.Screen
         name="InfoScreen"
