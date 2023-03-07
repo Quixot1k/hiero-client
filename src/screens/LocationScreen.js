@@ -104,8 +104,8 @@ export default function LocationScreen({ navigation }) {
           Distance
           <Text style={{ fontSize: 18, fontStyle: "italic", fontWeight: 800 }}>
             {" "}
-            {distance}
-            {distance == 90 ? "+ " : " "}
+            {distance < 90 ? distance : 90}
+            {distance >= 90 ? "+ " : " "}
           </Text>
           miles
         </Text>

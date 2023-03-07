@@ -11,9 +11,20 @@ import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import {
-  distanceChanged,
   firstNameChanged,
   lastNameChanged,
+  birthChanged,
+  genderChanged,
+  emailChanged,
+  passwordChanged,
+  password2Changed,
+  mobileChanged,
+  addr1Changed,
+  addr2Chnaged,
+  cityChanged,
+  stateChanged,
+  zipChanged,
+  distanceChanged,
 } from "../features/userSlice";
 
 export default function ProfileScreen({ navigation }) {
@@ -152,7 +163,7 @@ export default function ProfileScreen({ navigation }) {
             style={[styles.textInput, { width: 85.6 }]}
             placeholder={"State"}
             onChangeText={(text) => {
-              dispatch(state(text));
+              dispatch(stateChanged(text));
             }}
           />
           <TextInput
@@ -165,11 +176,15 @@ export default function ProfileScreen({ navigation }) {
           />
         </View>
         <TextInput
-          value={String(distance)}
+          value={distance ? String(distance) : "0"}
           style={styles.textInput}
           placeholder={"Maximum Travel Distance"}
           onChangeText={(text) => {
-            dispatch(distanceChanged(parseInt(text)));
+            if (text) {
+              dispatch(distanceChanged(parseInt(text)));
+            } else {
+              dispatch(distanceChanged(0));
+            }
           }}
         />
         <TextInput

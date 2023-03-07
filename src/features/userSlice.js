@@ -90,9 +90,6 @@ const userSlice = createSlice({
     },
     distanceChanged: (state, action) => {
       state.distance = action.payload;
-      console.log("====================================");
-      console.log(state);
-      console.log("====================================");
     },
     avatarChanged: (state, action) => {
       state.avatar = action.payload;
