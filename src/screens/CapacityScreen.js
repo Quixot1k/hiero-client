@@ -14,7 +14,13 @@ export default function CapacityScreen({ navigation }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView
+        contentContainerStyle={
+          role == "customer"
+            ? styles.scrollView
+            : [styles.scrollView, { marginTop: 200 }]
+        }
+      >
         <Text style={styles.text}>
           {role == "customer"
             ? "Sharing a session with other people allows you to split the cost. How many people would you be willing to capacity with?"
@@ -23,7 +29,7 @@ export default function CapacityScreen({ navigation }) {
         <PrimarySlider
           value={capacity}
           minimumValue={0}
-          maximumValue={4}
+          maximumValue={role == "customer" ? 4 : 5}
           onValueChange={(value) => dispatch(capacityChanged(value))}
         />
         <PrimaryButton title="Next" onPress={handleNext} />
