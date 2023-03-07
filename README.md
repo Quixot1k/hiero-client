@@ -1,7 +1,9 @@
 # kairos-client
 
-React Native project using Expo SDK48
+React Native project with help of the Expo SDK48
+
+Used Modern Redux to manage states
 
 npm i
 
-npm run
+npm start
