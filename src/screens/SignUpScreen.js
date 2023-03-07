@@ -24,20 +24,36 @@ export default function LoginScreen({ navigation }) {
 
   const handleSignUp = () => {
     console.log("goto InfoScreen and clear navigation stack");
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: "InfoScreen" }],
-      })
-    );
+    navigation.navigate("InfoScreen");
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [{ name: "InfoScreen" }],
+    //   })
+    // );
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.header}>Get Connected</Text>
-        <Text style={[styles.header, { marginBottom: 24 }]}>
-          With The Best!
-        </Text>
+      <ScrollView
+        contentContainerStyle={
+          role == "customer"
+            ? styles.scrollView
+            : [styles.scrollView, { marginTop: 113 }]
+        }
+      >
+        {role == "customer" ? (
+          <View>
+            <Text style={styles.header}>Get Connected</Text>
+            <Text style={[styles.header, { marginBottom: 20 }]}>
+              With The Best!
+            </Text>
+          </View>
+        ) : (
+          <Text style={[styles.header, { marginBottom: 20 }]}>
+            Optimize your time
+          </Text>
+        )}
+
         <View style={styles.textInputGroup}>
           <Text style={styles.text}>Email</Text>
           <TextInput
@@ -113,7 +129,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 60,
   },
   header: {
     fontSize: 32,

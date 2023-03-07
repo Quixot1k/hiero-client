@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import {
   birthChanged,
+  businessChanged,
   firstNameChanged,
   genderChanged,
   lastNameChanged,
@@ -20,13 +21,20 @@ export default function InfoScreen({ navigation }) {
   const { firstName, lastName, birth, gender, mobile } = useSelector(
     (state) => state.user
   );
+  const { role } = useSelector((state) => state.general);
   const handleNext = () => {
     console.log("goto IntSpecScreen");
     navigation.navigate("IntSpecScreen");
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView
+        contentContainerStyle={
+          role == "customer"
+            ? styles.scrollView
+            : [styles.scrollView, { marginTop: 70 }]
+        }
+      >
         <Text style={styles.header}>Tell us more</Text>
         <TextInput
           value={firstName}
@@ -44,6 +52,7 @@ export default function InfoScreen({ navigation }) {
             dispatch(lastNameChanged(text));
           }}
         />
+
         <TextInput
           value={birth}
           placeholder="Birth"
@@ -52,6 +61,16 @@ export default function InfoScreen({ navigation }) {
             dispatch(birthChanged(text));
           }}
         />
+        {role == "provider" && (
+          <TextInput
+            value={birth}
+            placeholder="Business name (if applicable)"
+            style={styles.textInput}
+            onChangeText={(text) => {
+              dispatch(businessChanged(text));
+            }}
+          />
+        )}
         <TextInput
           value={gender}
           placeholder="Gender"
@@ -83,7 +102,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 90,
+    marginTop: 100,
   },
   header: {
     fontSize: 30,
@@ -98,6 +117,6 @@ const styles = StyleSheet.create({
     width: 260,
     marginTop: 25,
     paddingLeft: 12,
-    fontSize: 17,
+    fontSize: 15,
   },
 });

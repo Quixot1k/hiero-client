@@ -1,4 +1,5 @@
 import { Button } from "react-native";
+import { useSelector } from "react-redux";
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./LoginScreen";
@@ -13,7 +14,7 @@ import ProfileScreen from "./ProfileScreen";
 export default function Home() {
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
-
+  const { role } = useSelector((state) => state.general);
   const headRightButton = () => (
     <Button
       onPress={() => {
@@ -51,12 +52,18 @@ export default function Home() {
       <Stack.Screen
         name="IntSpecScreen"
         component={IntSpecScreen}
-        options={{ title: "Interest", headerRight: headRightButton }}
+        options={{
+          title: role == "customer " ? "Interest" : "Speciality",
+          headerRight: headRightButton,
+        }}
       />
       <Stack.Screen
         name="CapacityScreen"
         component={CapacityScreen}
-        options={{ title: "Split the cost", headerRight: headRightButton }}
+        options={{
+          title: role == "customer " ? "Split the cost" : "Grow your clientele",
+          headerRight: headRightButton,
+        }}
       />
       <Stack.Screen
         name="LocationScreen"

@@ -23,6 +23,8 @@ export default function LocationScreen({ navigation }) {
   const { addr1, addr2, city, state, zip, distance } = useSelector(
     (state) => state.user
   );
+  const { role } = useSelector((state) => state.general);
+
   const handleNext = () => {
     console.log("goto AvatarScreen");
     navigation.navigate("AvatarScreen");
@@ -30,7 +32,9 @@ export default function LocationScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.header}>What's your location</Text>
+        <Text style={styles.header}>
+          {role == "customer" ? "What's your location" : "Residential Address"}
+        </Text>
         <View>
           <TextInput
             value={addr1}
@@ -77,7 +81,9 @@ export default function LocationScreen({ navigation }) {
         </View>
         <View style={styles.map}></View>
         <Text style={{ fontSize: 16, marginBottom: 10, fontWeight: 500 }}>
-          How far are you willing to go for service?
+          {role == "customer"
+            ? "How far are you willing to go for service?"
+            : "How far are you willing to travel to clients?"}
         </Text>
         <Slider
           value={distance}

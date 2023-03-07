@@ -4,7 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import Card from "../components/Card";
 import { CheckBox } from "@rneui/themed";
 import {
-  interestChanged,
+  intSpecChanged,
   onlineChanged,
   homeChanged,
   gymChanged,
@@ -33,7 +33,8 @@ const typeList = [
 
 export default function IntSpecScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { interest, online, home, gym } = useSelector((state) => state.user);
+  const { online, home, gym } = useSelector((state) => state.user);
+  const { role } = useSelector((state) => state.general);
 
   const handleNext = () => {
     console.log("goto CapacityScreen");
@@ -42,53 +43,65 @@ export default function IntSpecScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.header}>What are your interests</Text>
+      <ScrollView
+        contentContainerStyle={
+          role == "customer"
+            ? styles.scrollView
+            : [styles.scrollView, { marginTop: 102 }]
+        }
+      >
+        <Text style={styles.header}>
+          {role == "customer"
+            ? "What are your interests"
+            : "What are your specialities"}
+        </Text>
         <View style={styles.cardGroup}>
           {typeList.map((type) => (
             <Card
               key={type}
               type={type}
               add={() => {
-                dispatch(interestChanged(type));
+                dispatch(intSpecChanged(type));
               }}
             />
           ))}
         </View>
-        <View style={{ marginTop: -10 }}>
-          <CheckBox
-            size={22}
-            checked={online == true ? true : false}
-            checkedColor="#000"
-            title={"Online session possible?"}
-            textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-            wrapperStyle={{ marginBottom: -20 }}
-            onPress={() => {
-              dispatch(onlineChanged());
-            }}
-          />
-          <CheckBox
-            size={22}
-            checked={home == true ? true : false}
-            checkedColor="#000"
-            title={"Home session possible?"}
-            textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-            wrapperStyle={{ marginBottom: -20 }}
-            onPress={() => {
-              dispatch(homeChanged());
-            }}
-          />
-          <CheckBox
-            size={22}
-            checked={gym == true ? true : false}
-            checkedColor="#000"
-            title={"Gym session possible?"}
-            textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-            onPress={() => {
-              dispatch(gymChanged());
-            }}
-          />
-        </View>
+        {role == "customer" && (
+          <View style={{ marginTop: -10 }}>
+            <CheckBox
+              size={22}
+              checked={online == true ? true : false}
+              checkedColor="#000"
+              title={"Online session possible?"}
+              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
+              wrapperStyle={{ marginBottom: -20 }}
+              onPress={() => {
+                dispatch(onlineChanged());
+              }}
+            />
+            <CheckBox
+              size={22}
+              checked={home == true ? true : false}
+              checkedColor="#000"
+              title={"Home session possible?"}
+              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
+              wrapperStyle={{ marginBottom: -20 }}
+              onPress={() => {
+                dispatch(homeChanged());
+              }}
+            />
+            <CheckBox
+              size={22}
+              checked={gym == true ? true : false}
+              checkedColor="#000"
+              title={"Gym session possible?"}
+              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
+              onPress={() => {
+                dispatch(gymChanged());
+              }}
+            />
+          </View>
+        )}
         <PrimaryButton title="Next" marginTop={12} onPress={handleNext} />
       </ScrollView>
     </SafeAreaView>

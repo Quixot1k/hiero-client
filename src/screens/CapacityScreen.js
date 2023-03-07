@@ -2,12 +2,12 @@ import { View, SafeAreaView, ScrollView, Text, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import PrimarySlider from "../components/PrimarySlider";
-import { shareChanged } from "../features/userSlice";
+import { capacityChanged } from "../features/userSlice";
 
 export default function CapacityScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { share } = useSelector((state) => state.user);
-
+  const { capacity } = useSelector((state) => state.user);
+  const { role } = useSelector((state) => state.general);
   const handleNext = () => {
     console.log("goto LocationScreen");
     navigation.navigate("LocationScreen");
@@ -16,14 +16,15 @@ export default function CapacityScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.text}>
-          Sharing a session with other people allows you to split the cost. How
-          many people would you be willing to share with?
+          {role == "customer"
+            ? "Sharing a session with other people allows you to split the cost. How many people would you be willing to capacity with?"
+            : "Doing sessions with multiple clients creates more opportunity for growth."}
         </Text>
         <PrimarySlider
-          value={share}
+          value={capacity}
           minimumValue={0}
           maximumValue={4}
-          onValueChange={(value) => dispatch(shareChanged(value))}
+          onValueChange={(value) => dispatch(capacityChanged(value))}
         />
         <PrimaryButton title="Next" onPress={handleNext} />
       </ScrollView>
