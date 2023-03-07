@@ -6,50 +6,21 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { CommonActions } from "@react-navigation/native";
 import { CheckBox } from "@rneui/themed";
-import { useReducer } from "react";
 import PrimaryButton from "../components/PrimaryButton";
+import { roleChanged } from "../features/generalSlice";
+import {
+  emailChanged,
+  password2Changed,
+  passwordChanged,
+} from "../features/customerSlice";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "changeEmail": {
-      return {
-        ...state,
-        email: action.payload,
-      };
-    }
-    case "changePassword": {
-      return {
-        ...state,
-        password: action.payload,
-      };
-    }
-    case "changeSecondPassword": {
-      return {
-        ...state,
-        secondPassword: action.payload,
-      };
-    }
-    case "changeRole": {
-      return {
-        ...state,
-        role: action.payload,
-      };
-    }
-  }
-};
-
-const initialState = {
-  email: "",
-  password: "",
-  secondPassword: "",
-  role: "customer",
-};
 export default function LoginScreen({ navigation }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  console.log(state);
+  const dispatch = useDispatch();
+  const role = useSelector((state) => state.general.role);
+  const { email, password, password2 } = useSelector((state) => state.customer);
 
   const handleSignUp = () => {
     console.log("goto InfoScreen and clear navigation stack");
@@ -70,33 +41,33 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.textInputGroup}>
           <Text style={styles.text}>Email</Text>
           <TextInput
-            value={state.email}
+            value={email}
             placeholder="Email"
             style={styles.textInput}
             onChangeText={(text) => {
-              dispatch({ type: "changeEmail", payload: text });
+              dispatch(emailChanged(text));
             }}
           />
         </View>
         <View style={styles.textInputGroup}>
           <Text style={styles.text}>Password</Text>
           <TextInput
-            value={state.password}
+            value={password}
             placeholder="Password (8 or more characters)"
             style={styles.textInput}
             onChangeText={(text) => {
-              dispatch({ type: "changePassword", payload: text });
+              dispatch(passwordChanged(text));
             }}
           />
         </View>
         <View style={[styles.textInputGroup, { marginBottom: 20 }]}>
           <Text style={styles.text}>Password</Text>
           <TextInput
-            value={state.secondPassword}
+            value={password2}
             placeholder="Password Again"
             style={styles.textInput}
             onChangeText={(text) => {
-              dispatch({ type: "changeSecondPassword", payload: text });
+              dispatch(password2Changed(text));
             }}
           />
         </View>
@@ -107,10 +78,10 @@ export default function LoginScreen({ navigation }) {
             textStyle={{ fontSize: 18, fontWeight: 500, color: "#000" }}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
-            checked={state.role == "customer" ? true : false}
+            checked={role == "customer" ? true : false}
             checkedColor="#000"
             onPress={() => {
-              dispatch({ type: "changeRole", payload: "customer" });
+              dispatch(roleChanged("customer"));
             }}
           />
           <CheckBox
@@ -120,10 +91,10 @@ export default function LoginScreen({ navigation }) {
             wrapperStyle={{ marginTop: -10 }}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
-            checked={state.role == "provider" ? true : false}
+            checked={role == "provider" ? true : false}
             checkedColor="#000"
             onPress={() => {
-              dispatch({ type: "changeRole", payload: "provider" });
+              dispatch(roleChanged("provider"));
             }}
           />
         </View>

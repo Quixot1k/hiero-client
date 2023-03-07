@@ -1,8 +1,14 @@
 import { View, SafeAreaView, Text, StyleSheet, ScrollView } from "react-native";
-import { useReducer } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import Card from "../components/Card";
 import { CheckBox } from "@rneui/themed";
+import {
+  interestChanged,
+  onlineChanged,
+  homeChanged,
+  gymChanged,
+} from "../features/customerSlice";
 
 const typeList = [
   "Nutrition",
@@ -25,54 +31,11 @@ const typeList = [
   "Other",
 ];
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "addInterest": {
-      if (state.interest.includes(action.payload)) {
-        newState = { ...state };
-        newInterest = newState.interest.filter(function (value) {
-          return value != action.payload;
-        });
-        newState.interest = newInterest;
-        return newState;
-      } else {
-        newState = { ...state };
-        newState.interest.push(action.payload);
-        return newState;
-      }
-    }
-    case "changeOnline": {
-      return {
-        ...state,
-        online: !state.online,
-      };
-    }
-    case "changeHome": {
-      return {
-        ...state,
-        home: !state.home,
-      };
-    }
-    case "changeGym": {
-      return {
-        ...state,
-        gym: !state.gym,
-      };
-    }
-  }
-};
-
-const initialState = {
-  interest: [],
-  online: false,
-  home: false,
-  gym: false,
-};
-
 export default function IntSpecScreen({ navigation }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  console.log(state);
+  const dispatch = useDispatch();
+  const { interest, online, home, gym } = useSelector(
+    (state) => state.customer
+  );
 
   const handleNext = () => {
     console.log("goto CapacityScreen");
@@ -89,7 +52,7 @@ export default function IntSpecScreen({ navigation }) {
               key={type}
               type={type}
               add={() => {
-                dispatch({ type: "addInterest", payload: type });
+                dispatch(interestChanged(type));
               }}
             />
           ))}
@@ -97,34 +60,34 @@ export default function IntSpecScreen({ navigation }) {
         <View style={{ marginTop: -10 }}>
           <CheckBox
             size={22}
-            checked={state.online == true ? true : false}
+            checked={online == true ? true : false}
             checkedColor="#000"
             title={"Online session possible?"}
             textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
             wrapperStyle={{ marginBottom: -20 }}
             onPress={() => {
-              dispatch({ type: "changeOnline" });
+              dispatch(onlineChanged());
             }}
           />
           <CheckBox
             size={22}
-            checked={state.home == true ? true : false}
+            checked={home == true ? true : false}
             checkedColor="#000"
             title={"Home session possible?"}
             textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
             wrapperStyle={{ marginBottom: -20 }}
             onPress={() => {
-              dispatch({ type: "changeHome" });
+              dispatch(homeChanged());
             }}
           />
           <CheckBox
             size={22}
-            checked={state.gym == true ? true : false}
+            checked={gym == true ? true : false}
             checkedColor="#000"
             title={"Gym session possible?"}
             textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
             onPress={() => {
-              dispatch({ type: "changeGym" });
+              dispatch(gymChanged());
             }}
           />
         </View>

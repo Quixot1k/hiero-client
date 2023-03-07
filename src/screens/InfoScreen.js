@@ -5,55 +5,21 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import { useReducer } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "changeFirstName": {
-      return {
-        ...state,
-        firstName: action.payload,
-      };
-    }
-    case "changeLastName": {
-      return {
-        ...state,
-        lastName: action.payload,
-      };
-    }
-    case "changeBirth": {
-      return {
-        ...state,
-        birth: action.payload,
-      };
-    }
-    case "changeGender": {
-      return {
-        ...state,
-        gender: action.payload,
-      };
-    }
-    case "changeMobile": {
-      return {
-        ...state,
-        mobile: action.payload,
-      };
-    }
-  }
-};
-
-const initialState = {
-  firstName: "",
-  lastName: "",
-  birth: "",
-  gender: "",
-  mobile: "",
-};
+import {
+  birthChanged,
+  firstNameChanged,
+  genderChanged,
+  lastNameChanged,
+  mobileChanged,
+} from "../features/customerSlice";
 
 export default function InfoScreen({ navigation }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
+  const dispatch = useDispatch();
+  const { firstName, lastName, birth, gender, mobile } = useSelector(
+    (state) => state.customer
+  );
   const handleNext = () => {
     console.log("goto IntSpecScreen");
     navigation.navigate("IntSpecScreen");
@@ -63,43 +29,43 @@ export default function InfoScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>Tell us more</Text>
         <TextInput
-          value={state.firstName}
+          value={firstName}
           placeholder="First Name"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch({ type: "changeFirstName", payload: text });
+            dispatch(firstNameChanged(text));
           }}
         />
         <TextInput
-          value={state.lastName}
+          value={lastName}
           placeholder="Last Name"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch({ type: "changeLastName", payload: text });
+            dispatch(lastNameChanged(text));
           }}
         />
         <TextInput
-          value={state.birth}
+          value={birth}
           placeholder="Birth"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch({ type: "changeBirth", payload: text });
+            dispatch(birthChanged(text));
           }}
         />
         <TextInput
-          value={state.gender}
+          value={gender}
           placeholder="Gender"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch({ type: "changeGender", payload: text });
+            dispatch(genderChanged(text));
           }}
         />
         <TextInput
-          value={state.mobile}
+          value={mobile}
           placeholder="Mobile"
           style={[styles.textInput, { marginBottom: 10 }]}
           onChangeText={(text) => {
-            dispatch({ type: "changeMobile", payload: text });
+            dispatch(mobileChanged(text));
           }}
         />
         <PrimaryButton title="Next" onPress={handleNext} />

@@ -6,14 +6,15 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
+import { avatarChanged } from "../features/customerSlice";
 
 export default function AvatarScreen({ navigation }) {
-  const [avatar, setAvatar] = useState(null);
-  console.log(avatar);
+  const dispatch = useDispatch();
+  const { avatar } = useSelector((state) => state.customer);
   const openImageLibrary = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.granted === false) {
@@ -27,7 +28,7 @@ export default function AvatarScreen({ navigation }) {
       quality: 1,
     });
     if (!result.canceled) {
-      setAvatar(result.assets[0].uri);
+      dispatch(avatarChanged(result.assets[0].uri));
     }
   };
 
@@ -44,7 +45,7 @@ export default function AvatarScreen({ navigation }) {
       quality: 1,
     });
     if (!result.canceled) {
-      setAvatar(result.assets[0].uri);
+      dispatch(avatarChanged(result.assets[0].uri));
     }
   };
 

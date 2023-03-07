@@ -1,15 +1,13 @@
 import { View, SafeAreaView, ScrollView, Text, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import PrimarySlider from "../components/PrimarySlider";
+import { shareChanged } from "../features/customerSlice";
 
 export default function CapacityScreen({ navigation }) {
-  const [capacity, setCapacity] = useState(1);
-  console.log(capacity);
+  const dispatch = useDispatch();
+  const { share } = useSelector((state) => state.customer);
 
-  const onSlidingComplete = (value) => {
-    setCapacity(value);
-  };
   const handleNext = () => {
     console.log("goto LocationScreen");
     navigation.navigate("LocationScreen");
@@ -22,10 +20,10 @@ export default function CapacityScreen({ navigation }) {
           many people would you be willing to share with?
         </Text>
         <PrimarySlider
-          value={capacity}
+          value={share}
           minimumValue={0}
           maximumValue={4}
-          onSlidingComplete={onSlidingComplete}
+          onValueChange={(value) => dispatch(shareChanged(value))}
         />
         <PrimaryButton title="Next" onPress={handleNext} />
       </ScrollView>
