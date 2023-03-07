@@ -64,16 +64,18 @@ export default function ProfileScreen({ navigation }) {
           ) : (
             <View style={styles.circle}></View>
           )}
-          <View
-            style={{
-              height: 104,
-              width: 140,
-              borderWidth: 0.5,
-              marginHorizontal: 20,
-            }}
-          >
-            <Text>Bio</Text>
-          </View>
+          {role == "provider" && (
+            <View
+              style={{
+                height: 104,
+                width: 140,
+                borderWidth: 0.5,
+                marginHorizontal: 20,
+              }}
+            >
+              <Text>Bio</Text>
+            </View>
+          )}
         </View>
         <PrimaryButton
           title={"Update profile picture"}
@@ -224,11 +226,14 @@ export default function ProfileScreen({ navigation }) {
             ></TextInput>
           </View>
         )}
-        <TextInput
-          value={""}
-          style={[styles.textInput, { width: 160 }]}
-          placeholder={"Minimum Bid"}
-        />
+
+        {role == "provider" && (
+          <TextInput
+            value={""}
+            style={[styles.textInput, { width: 160 }]}
+            placeholder={"Minimum Bid"}
+          />
+        )}
         <PrimaryButton title={"Save"} />
       </ScrollView>
     </SafeAreaView>

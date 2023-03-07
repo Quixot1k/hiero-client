@@ -25,12 +25,6 @@ export default function LoginScreen({ navigation }) {
   const handleSignUp = () => {
     console.log("goto InfoScreen and clear navigation stack");
     navigation.navigate("InfoScreen");
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [{ name: "InfoScreen" }],
-    //   })
-    // );
   };
   return (
     <SafeAreaView style={styles.container}>
