@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     height: 40,
     textAlign: "center",
-    fontSize: 15,
+    fontSize: 16,
   },
   textInputGroup: {
     flexDirection: "row",

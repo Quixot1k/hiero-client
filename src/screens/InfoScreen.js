@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 260,
     marginTop: 25,
-    paddingLeft: 12,
-    fontSize: 15,
+    paddingLeft: 10,
+    fontSize: 17,
   },
 });

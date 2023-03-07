@@ -19,7 +19,6 @@ const initialState = {
   zip: "",
   distance: 20,
   avatar: null,
-  // only for customer
   online: false,
   home: false,
   gym: false,
@@ -94,7 +93,6 @@ const userSlice = createSlice({
     avatarChanged: (state, action) => {
       state.avatar = action.payload;
     },
-    // only for customer
     onlineChanged: (state, action) => {
       state.online = !state.online;
     },

@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 260,
     marginTop: 5,
-    paddingLeft: 8,
+    paddingLeft: 10,
     fontSize: 17,
   },
 });

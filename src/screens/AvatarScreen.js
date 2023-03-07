@@ -15,7 +15,7 @@ import { avatarChanged } from "../features/userSlice";
 export default function AvatarScreen({ navigation }) {
   const dispatch = useDispatch();
   const { avatar } = useSelector((state) => state.user);
-  const openImageLibrary = async () => {
+  const openMediaLibrary = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.granted === false) {
       alert("Please go to settings and allow this app to access your library!");
@@ -31,7 +31,6 @@ export default function AvatarScreen({ navigation }) {
       dispatch(avatarChanged(result.assets[0].uri));
     }
   };
-
   const openCamera = async () => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
     if (permission.granted === false) {
@@ -65,7 +64,7 @@ export default function AvatarScreen({ navigation }) {
           <SecondaryButton
             title={"Choose from library"}
             fontWeight={500}
-            onPress={openImageLibrary}
+            onPress={openMediaLibrary}
           />
           <SecondaryButton
             title={"Open camera"}

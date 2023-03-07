@@ -48,21 +48,33 @@ export default function ProfileScreen({ navigation }) {
     gym,
     avatar,
   } = useSelector((state) => state.user);
-
+  const { role } = useSelector((state) => state.general);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
-        {avatar ? (
-          <Image
-            source={{ uri: avatar }}
-            style={{ width: 120, height: 120, borderRadius: 60 }}
-          />
-        ) : (
-          <View style={styles.circle}></View>
-        )}
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          {avatar ? (
+            <Image
+              source={{ uri: avatar }}
+              style={{ width: 120, height: 120, borderRadius: 60 }}
+            />
+          ) : (
+            <View style={styles.circle}></View>
+          )}
+          <View
+            style={{
+              height: 104,
+              width: 140,
+              borderWidth: 0.5,
+              marginHorizontal: 20,
+            }}
+          >
+            <Text>Bio</Text>
+          </View>
+        </View>
         <PrimaryButton
           title={"Update profile picture"}
           fontSize={12}
@@ -176,9 +188,9 @@ export default function ProfileScreen({ navigation }) {
           />
         </View>
         <TextInput
-          value={distance ? String(distance) : "0"}
+          value={distance ? String(distance) : ""}
           style={styles.textInput}
-          placeholder={"Maximum Travel Distance"}
+          placeholder={"Maximum Travel Distance: 0"}
           onChangeText={(text) => {
             if (text) {
               dispatch(distanceChanged(parseInt(text)));
@@ -187,20 +199,35 @@ export default function ProfileScreen({ navigation }) {
             }
           }}
         />
+        {role == "customer" ? (
+          <View>
+            <TextInput
+              value={`Willing to train at zoom: ${online ? "Yes" : "No"}`}
+              style={styles.textInput}
+              placeholder={"Willing to train over Zoom? "}
+            />
+            <TextInput
+              value={`Willing to train at home: ${home ? "Yes" : "No"}`}
+              style={styles.textInput}
+              placeholder={"Willing to train at home?"}
+            />
+          </View>
+        ) : (
+          <View style={{ flexDirection: "row" }}>
+            <TextInput
+              value={`Home session: ${online ? "Yes" : "No"}`}
+              style={[styles.textInput, { width: 154 }]}
+            ></TextInput>
+            <TextInput
+              value={`Zoom session: ${online ? "Yes" : "No"}`}
+              style={[styles.textInput, { width: 154 }]}
+            ></TextInput>
+          </View>
+        )}
         <TextInput
-          value={`Willing to train at zoom: ${online ? "Yes" : "No"}`}
-          style={styles.textInput}
-          placeholder={"Willing to train over Zoom? "}
-        />
-        <TextInput
-          value={`Willing to train at home: ${home ? "Yes" : "No"}`}
-          style={styles.textInput}
-          placeholder={"Willing to train at home?"}
-        />
-        <TextInput
-          value={`Willing to train at gym: ${gym ? "Yes" : "No"}`}
-          style={styles.textInput}
-          placeholder={"Willing to train at home?"}
+          value={""}
+          style={[styles.textInput, { width: 160 }]}
+          placeholder={"Minimum Bid"}
         />
         <PrimaryButton title={"Save"} />
       </ScrollView>
@@ -233,6 +260,7 @@ const styles = StyleSheet.create({
     height: 46,
     width: 320,
     marginHorizontal: 6,
-    marginVertical: 4,
+    marginVertical: 5,
+    fontSize: 16,
   },
 });
