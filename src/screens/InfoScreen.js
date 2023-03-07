@@ -13,12 +13,12 @@ import {
   genderChanged,
   lastNameChanged,
   mobileChanged,
-} from "../features/customerSlice";
+} from "../features/userSlice";
 
 export default function InfoScreen({ navigation }) {
   const dispatch = useDispatch();
   const { firstName, lastName, birth, gender, mobile } = useSelector(
-    (state) => state.customer
+    (state) => state.user
   );
   const handleNext = () => {
     console.log("goto IntSpecScreen");

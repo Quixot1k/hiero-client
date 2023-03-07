@@ -15,12 +15,12 @@ import {
   emailChanged,
   password2Changed,
   passwordChanged,
-} from "../features/customerSlice";
+} from "../features/userSlice";
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
   const role = useSelector((state) => state.general.role);
-  const { email, password, password2 } = useSelector((state) => state.customer);
+  const { email, password, password2 } = useSelector((state) => state.user);
 
   const handleSignUp = () => {
     console.log("goto InfoScreen and clear navigation stack");

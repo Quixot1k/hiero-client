@@ -23,8 +23,8 @@ const initialState = {
   avatar: null,
 };
 
-const customerSlice = createSlice({
-  name: "customer",
+const userSlice = createSlice({
+  name: "user",
   initialState,
   reducers: {
     emailChanged: (state, action) => {
@@ -90,6 +90,9 @@ const customerSlice = createSlice({
     },
     distanceChanged: (state, action) => {
       state.distance = action.payload;
+      console.log("====================================");
+      console.log(state);
+      console.log("====================================");
     },
     avatarChanged: (state, action) => {
       state.avatar = action.payload;
@@ -118,6 +121,6 @@ export const {
   zipChanged,
   distanceChanged,
   avatarChanged,
-} = customerSlice.actions;
+} = userSlice.actions;
 
-export default customerSlice.reducer;
+export default userSlice.reducer;

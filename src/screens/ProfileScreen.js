@@ -10,7 +10,11 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-import { firstNameChanged, lastNameChanged } from "../features/customerSlice";
+import {
+  distanceChanged,
+  firstNameChanged,
+  lastNameChanged,
+} from "../features/userSlice";
 
 export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -32,7 +36,8 @@ export default function ProfileScreen({ navigation }) {
     online,
     gym,
     avatar,
-  } = useSelector((state) => state.customer);
+  } = useSelector((state) => state.user);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -160,11 +165,11 @@ export default function ProfileScreen({ navigation }) {
           />
         </View>
         <TextInput
-          value={distance}
+          value={String(distance)}
           style={styles.textInput}
           placeholder={"Maximum Travel Distance"}
           onChangeText={(text) => {
-            dispatch(distance(text));
+            dispatch(distanceChanged(parseInt(text)));
           }}
         />
         <TextInput

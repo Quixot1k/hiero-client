@@ -16,12 +16,12 @@ import {
   distanceChanged,
   stateChanged,
   zipChanged,
-} from "../features/customerSlice";
+} from "../features/userSlice";
 
 export default function LocationScreen({ navigation }) {
   const dispatch = useDispatch();
   const { addr1, addr2, city, state, zip, distance } = useSelector(
-    (state) => state.customer
+    (state) => state.user
   );
   const handleNext = () => {
     console.log("goto AvatarScreen");

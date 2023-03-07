@@ -10,11 +10,11 @@ import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-import { avatarChanged } from "../features/customerSlice";
+import { avatarChanged } from "../features/userSlice";
 
 export default function AvatarScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { avatar } = useSelector((state) => state.customer);
+  const { avatar } = useSelector((state) => state.user);
   const openImageLibrary = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.granted === false) {

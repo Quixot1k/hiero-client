@@ -2,11 +2,11 @@ import { View, SafeAreaView, ScrollView, Text, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import PrimarySlider from "../components/PrimarySlider";
-import { shareChanged } from "../features/customerSlice";
+import { shareChanged } from "../features/userSlice";
 
 export default function CapacityScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { share } = useSelector((state) => state.customer);
+  const { share } = useSelector((state) => state.user);
 
   const handleNext = () => {
     console.log("goto LocationScreen");

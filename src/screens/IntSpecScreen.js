@@ -8,7 +8,7 @@ import {
   onlineChanged,
   homeChanged,
   gymChanged,
-} from "../features/customerSlice";
+} from "../features/userSlice";
 
 const typeList = [
   "Nutrition",
@@ -33,9 +33,7 @@ const typeList = [
 
 export default function IntSpecScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { interest, online, home, gym } = useSelector(
-    (state) => state.customer
-  );
+  const { interest, online, home, gym } = useSelector((state) => state.user);
 
   const handleNext = () => {
     console.log("goto CapacityScreen");
