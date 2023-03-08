@@ -34,7 +34,7 @@ export default function Home() {
   );
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerBackTitleVisible: false }}>
       {/* General */}
       <Stack.Screen
         name="LoginScreen"
