@@ -26,8 +26,13 @@ export default function LocationScreen({ navigation }) {
   const { role } = useSelector((state) => state.general);
 
   const handleNext = () => {
-    console.log("goto AvatarScreen");
-    navigation.navigate("AvatarScreen");
+    if (role == "customer") {
+      console.log("goto AvatarScreen");
+      navigation.navigate("AvatarScreen");
+    } else {
+      console.log("goto BioScreen");
+      navigation.navigate("BioScreen");
+    }
   };
   return (
     <SafeAreaView style={styles.container}>

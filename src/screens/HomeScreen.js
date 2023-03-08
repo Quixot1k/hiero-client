@@ -11,6 +11,8 @@ import LocationScreen from "./LocationScreen";
 import AvatarScreen from "./AvatarScreen";
 import ProfileScreen from "./ProfileScreen";
 import CertificationScreen from "./CertificationScreen";
+import BioScreen from "./BioScreen";
+import PriceScreen from "./PriceScreen";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -90,6 +92,16 @@ export default function Home() {
         name="CertificationScreen"
         component={CertificationScreen}
         options={{ title: "Certification", headerRight: headRightButton }}
+      />
+      <Stack.Screen
+        name="BioScreen"
+        component={BioScreen}
+        options={{ title: "Bio", headerRight: headRightButton }}
+      />
+      <Stack.Screen
+        name="PriceScreen"
+        component={PriceScreen}
+        options={{ title: "Set your terms", headerRight: headRightButton }}
       />
     </Stack.Navigator>
   );

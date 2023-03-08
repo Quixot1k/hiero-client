@@ -27,7 +27,7 @@ const initialState = {
   certification: [], //{type: , number:, }
   trainingSpot: [],
   bio: "",
-  minBid: "",
+  price: "",
 };
 
 const userSlice = createSlice({
@@ -113,6 +113,13 @@ const userSlice = createSlice({
       const index = state.certification.indexOf(action.payload);
       state.certification.splice(index, 1);
     },
+    bioChanged: (state, action) => {
+      state.bio = action.payload;
+    },
+    priceChanged: (state, action) => {
+      state.price = action.payload;
+      console.log(state);
+    },
   },
 });
 
@@ -138,6 +145,10 @@ export const {
   distanceChanged,
   avatarChanged,
   businessChanged,
+  certificationAdded,
+  certificationRemoved,
+  bioChanged,
+  priceChanged,
 } = userSlice.actions;
 
 export default userSlice.reducer;

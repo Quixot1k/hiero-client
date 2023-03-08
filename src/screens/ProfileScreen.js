@@ -25,6 +25,8 @@ import {
   stateChanged,
   zipChanged,
   distanceChanged,
+  bioChanged,
+  priceChanged,
 } from "../features/userSlice";
 
 export default function ProfileScreen({ navigation }) {
@@ -47,6 +49,8 @@ export default function ProfileScreen({ navigation }) {
     online,
     gym,
     avatar,
+    bio,
+    price,
   } = useSelector((state) => state.user);
   const { role } = useSelector((state) => state.general);
   return (
@@ -65,16 +69,20 @@ export default function ProfileScreen({ navigation }) {
             <View style={styles.circle}></View>
           )}
           {role == "provider" && (
-            <View
+            <TextInput
               style={{
                 height: 104,
                 width: 140,
                 borderWidth: 0.5,
                 marginHorizontal: 20,
+                paddingHorizontal: 6,
+                paddingVertical: 6,
               }}
-            >
-              <Text>Bio</Text>
-            </View>
+              value={bio}
+              onChangeText={(text) => {
+                dispatch(bioChanged(text));
+              }}
+            ></TextInput>
           )}
         </View>
         <PrimaryButton
@@ -229,9 +237,12 @@ export default function ProfileScreen({ navigation }) {
 
         {role == "provider" && (
           <TextInput
-            value={""}
+            value={String(price)}
             style={[styles.textInput, { width: 160 }]}
             placeholder={"Minimum Bid"}
+            onChangeText={(text) => {
+              dispatch(priceChanged(parseInt(text)));
+            }}
           />
         )}
         <PrimaryButton title={"Save"} />
