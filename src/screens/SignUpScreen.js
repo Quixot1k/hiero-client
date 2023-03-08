@@ -4,6 +4,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  TouchableOpacity,
   StyleSheet,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -109,6 +110,26 @@ export default function LoginScreen({ navigation }) {
           />
         </View>
         <PrimaryButton title={"Sign Up"} onPress={handleSignUp} />
+        <TouchableOpacity
+          onPress={() => {
+            console.log("goto LoginScreen and clear navigation stack");
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: "LoginScreen" }],
+              })
+            );
+          }}
+        >
+          <Text
+            style={[
+              styles.text,
+              { marginTop: 10, textDecorationLine: "underline" },
+            ]}
+          >
+            Already on Kairos?
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -123,7 +144,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 60,
+    marginTop: 50,
   },
   header: {
     fontSize: 32,

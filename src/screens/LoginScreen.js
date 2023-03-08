@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState } from "react";
+import { CommonActions } from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
 
 export default function LoginScreen({ navigation }) {
@@ -63,8 +64,13 @@ export default function LoginScreen({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("SignUpScreen");
-            console.log("goto SignUpScreen");
+            console.log("goto SignUpScreen and clear navigation stack");
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: "SignUpScreen" }],
+              })
+            );
           }}
         >
           <Text
