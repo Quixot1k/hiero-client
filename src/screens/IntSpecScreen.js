@@ -1,7 +1,7 @@
 import { View, SafeAreaView, Text, StyleSheet, ScrollView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
-import Card from "../components/Card";
+import Grid from "../components/Grid";
 import { CheckBox } from "@rneui/themed";
 import {
   intSpecChanged,
@@ -37,8 +37,13 @@ export default function IntSpecScreen({ navigation }) {
   const { role } = useSelector((state) => state.general);
 
   const handleNext = () => {
-    console.log("goto CapacityScreen");
-    navigation.navigate("CapacityScreen");
+    if (role == "customer") {
+      console.log("goto CapacityScreen");
+      navigation.navigate("CapacityScreen");
+    } else {
+      console.log("goto CertificationScreen");
+      navigation.navigate("CertificationScreen");
+    }
   };
 
   return (
@@ -55,9 +60,9 @@ export default function IntSpecScreen({ navigation }) {
             ? "What are your interests"
             : "What are your specialities"}
         </Text>
-        <View style={styles.cardGroup}>
+        <View style={styles.grids}>
           {typeList.map((type) => (
-            <Card
+            <Grid
               key={type}
               type={type}
               add={() => {
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     marginBottom: 30,
   },
-  cardGroup: {
+  grids: {
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",

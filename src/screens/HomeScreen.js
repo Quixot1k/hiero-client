@@ -10,6 +10,7 @@ import CapacityScreen from "./CapacityScreen";
 import LocationScreen from "./LocationScreen";
 import AvatarScreen from "./AvatarScreen";
 import ProfileScreen from "./ProfileScreen";
+import CertificationScreen from "./CertificationScreen";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -85,6 +86,11 @@ export default function Home() {
         options={{ title: "Your profile", headerRight: headRightButton }}
       />
       {/* Only for provider */}
+      <Stack.Screen
+        name="CertificationScreen"
+        component={CertificationScreen}
+        options={{ title: "Certification", headerRight: headRightButton }}
+      />
     </Stack.Navigator>
   );
 }

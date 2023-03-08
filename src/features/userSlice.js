@@ -24,7 +24,7 @@ const initialState = {
   gym: false,
   // only for provider
   business: "",
-  certification: [],
+  certification: [], //{type: , number:, }
   trainingSpot: [],
   bio: "",
   minBid: "",
@@ -105,6 +105,13 @@ const userSlice = createSlice({
     // only for provider
     businessChanged: (state, action) => {
       state.business = action.payload;
+    },
+    certificationAdded: (state, action) => {
+      state.certification.push(action.payload);
+    },
+    certificationRemoved: (state, action) => {
+      const index = state.certification.indexOf(action.payload);
+      state.certification.splice(index, 1);
     },
   },
 });

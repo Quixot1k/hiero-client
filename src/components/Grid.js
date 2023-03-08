@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useState } from "react";
-export default function Card({ type, add }) {
+export default function Grid({ type, add }) {
   const [pressed, setPressed] = useState(false);
   return (
     <TouchableOpacity
