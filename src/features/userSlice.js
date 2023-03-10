@@ -61,7 +61,7 @@ const userSlice = createSlice({
     },
     intSpecChanged: (state, action) => {
       if (state.intSpec.includes(action.payload)) {
-        newintSpec = state.intSpec.filter(function (value) {
+        const newintSpec = state.intSpec.filter(function (value) {
           return value != action.payload;
         });
         state.intSpec = newintSpec;

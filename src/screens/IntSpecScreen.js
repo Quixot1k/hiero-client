@@ -65,7 +65,7 @@ export default function IntSpecScreen({ navigation }) {
             <Grid
               key={type}
               type={type}
-              add={() => {
+              toggle={() => {
                 dispatch(intSpecChanged(type));
               }}
             />

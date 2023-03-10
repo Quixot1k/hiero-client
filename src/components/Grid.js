@@ -1,11 +1,11 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useState } from "react";
-export default function Grid({ type, add }) {
+export default function Grid({ type, toggle }) {
   const [pressed, setPressed] = useState(false);
   return (
     <TouchableOpacity
       onPress={() => {
-        add();
+        toggle();
         setPressed(!pressed);
       }}
     >
@@ -25,7 +25,7 @@ export default function Grid({ type, add }) {
   );
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     borderWidth: 1.2,
     borderRadius: 4,
