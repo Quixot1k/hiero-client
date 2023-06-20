@@ -1,17 +1,20 @@
 import { Slider } from "@rneui/themed";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function PrimarySlider({
   value,
   minimumValue,
   maximumValue,
   onValueChange,
+  annotation = true,
 }) {
   return (
     <View style={styles.container}>
-      <Text style={{ marginRight: 6, fontSize: 18, fontWeight: 400 }}>
-        {minimumValue}
-      </Text>
+      {annotation && (
+        <Text style={{ marginRight: 6, fontSize: 18, fontWeight: 400 }}>
+          {minimumValue}
+        </Text>
+      )}
       <Slider
         value={value}
         minimumValue={minimumValue}
@@ -24,9 +27,11 @@ export default function PrimarySlider({
         step={1}
         onValueChange={onValueChange}
       />
-      <Text style={{ marginLeft: 6, fontSize: 18, fontWeight: 400 }}>
-        {`${maximumValue}+`}
-      </Text>
+      {annotation && (
+        <Text style={{ marginLeft: 6, fontSize: 18, fontWeight: 400 }}>
+          {`${maximumValue}+`}
+        </Text>
+      )}
     </View>
   );
 }

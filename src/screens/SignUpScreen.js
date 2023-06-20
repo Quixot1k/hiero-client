@@ -1,15 +1,15 @@
+import { CommonActions } from "@react-navigation/native";
+import { CheckBox } from "@rneui/themed";
 import {
-  View,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
+  View,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { CommonActions } from "@react-navigation/native";
-import { CheckBox } from "@rneui/themed";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import { roleChanged } from "../features/generalSlice";
 import {
@@ -29,24 +29,23 @@ export default function LoginScreen({ navigation }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={
-          role == "customer"
-            ? styles.scrollView
-            : [styles.scrollView, { marginTop: 113 }]
-        }
-      >
-        {role == "customer" ? (
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        {role == "client" ? (
           <View>
             <Text style={styles.header}>Get Connected</Text>
-            <Text style={[styles.header, { marginBottom: 20 }]}>
+            <Text style={[styles.header, { marginBottom: 14 }]}>
               With The Best!
             </Text>
           </View>
         ) : (
-          <Text style={[styles.header, { marginBottom: 20 }]}>
-            Optimize your time
-          </Text>
+          <View>
+            <Text style={styles.header}>Optimize your</Text>
+            <Text
+              style={[styles.header, { marginBottom: 14, textAlign: "center" }]}
+            >
+              TIME!
+            </Text>
+          </View>
         )}
 
         <View style={styles.textInputGroup}>
@@ -84,28 +83,28 @@ export default function LoginScreen({ navigation }) {
         </View>
         <View>
           <CheckBox
-            title={"I'm a customer"}
+            title={"I'm a client"}
             size={24}
             textStyle={{ fontSize: 18, fontWeight: 500, color: "#000" }}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
-            checked={role == "customer" ? true : false}
+            checked={role == "client" ? true : false}
             checkedColor="#000"
             onPress={() => {
-              dispatch(roleChanged("customer"));
+              dispatch(roleChanged("client"));
             }}
           />
           <CheckBox
-            title={"I'm a provider"}
+            title={"I'm a trainer"}
             size={24}
             textStyle={{ fontSize: 18, fontWeight: 500, color: "#000" }}
             wrapperStyle={{ marginTop: -10 }}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
-            checked={role == "provider" ? true : false}
+            checked={role == "trainer" ? true : false}
             checkedColor="#000"
             onPress={() => {
-              dispatch(roleChanged("provider"));
+              dispatch(roleChanged("trainer"));
             }}
           />
         </View>
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 40,
   },
   header: {
     fontSize: 32,
@@ -157,17 +156,21 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    marginLeft: 3,
+    marginHorizontal: 10,
     fontWeight: 500,
   },
   textInput: {
-    borderWidth: 2,
-    borderColor: "#000",
-    borderRadius: 4,
+    backgroundColor: "#fefefe",
+    borderRadius: 10,
     height: 50,
     width: 260,
     marginTop: 5,
     paddingLeft: 10,
     fontSize: 16,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 2,
+    marginHorizontal: 10,
   },
 });

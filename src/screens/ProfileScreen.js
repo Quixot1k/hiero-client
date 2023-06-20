@@ -1,58 +1,216 @@
 import {
-  View,
+  Image,
   SafeAreaView,
   ScrollView,
-  Text,
-  TextInput,
   StyleSheet,
-  Image,
+  TextInput,
+  View,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import * as fs from "expo-file-system";
+import { useDispatch, useSelector } from "react-redux";
+import { CommonActions } from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
 import {
-  firstNameChanged,
-  lastNameChanged,
-  birthChanged,
-  genderChanged,
-  emailChanged,
-  passwordChanged,
-  password2Changed,
-  mobileChanged,
   addr1Changed,
-  addr2Chnaged,
+  addr2Changed,
+  bioChanged,
+  birthChanged,
   cityChanged,
+  distanceChanged,
+  emailChanged,
+  firstNameChanged,
+  genderChanged,
+  lastNameChanged,
+  mobileChanged,
+  password2Changed,
+  passwordChanged,
+  bidChanged,
   stateChanged,
   zipChanged,
-  distanceChanged,
-  bioChanged,
-  priceChanged,
 } from "../features/userSlice";
+import axios from "axios";
+import FormData from "form-data";
 
 export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const {
-    firstName,
-    lastName,
-    age,
-    gender,
+    // for both
     email,
     password,
+    firstName,
+    lastName,
+    birth,
+    gender,
     mobile,
+    intSpecs,
+    capacity,
     addr1,
     addr2,
     city,
     state,
     zip,
+    // latitude: 37.78825,
+    // longitude: -122.4324,
     distance,
-    home,
-    online,
-    gym,
     avatar,
+    zoom,
+    home,
+    // gym, not ready yet
+    // only for trainer
+    business,
+    certifications, // {certificationId: "", certificationType: "", certificationNumber: ""},
+    trainerLocations, // {  locationId: "", name: "", addr1: "", addr2: "", city: "", state: "", zipcode: "", locationType: 0, latitude: -1.0, longitude: -1.0 },
     bio,
-    price,
+    bid,
   } = useSelector((state) => state.user);
-  const { role } = useSelector((state) => state.general);
+
+  const { role, loggedIn, message } = useSelector((state) => state.general);
+
+  const handleClientSignUp = async () => {
+    const formData = new FormData();
+    const userData = {
+      clientProfile: {
+        clientId: "",
+        name: lastName + "," + firstName,
+        emailAddress: "test@email.com",
+        password: "password",
+        phone: mobile,
+        age: parseInt(birth), // int
+        address: addr1 + "," + addr2,
+        city: city,
+        state: state,
+        zipcode: zip,
+        maxTravelDistance: parseInt(distance), // int
+        gender: gender, // 0:Male, 1:Female, 2:Other
+        homeSession: home, // boolean
+        zoomSession: zoom, // boolean
+        maxOtherClientsToShareWith: parseInt(capacity),
+        maxSessionsPerWeekByClient: 1,
+      },
+      clientCategories: {
+        // clientId: "",
+        // categories: intSpecs,
+      },
+      clientLocations: {
+        //   clientId: "",
+        //   locations: [
+        //     {
+        //       locationId: 1,
+        //       locationType: "Home/Gym/Zoom/Other",
+        //       city: "",
+        //       state: "",
+        //       zipcode: "",
+        //       address: "",
+        //       latitude: 1.1,
+        //       longitude: 1.1,
+        //     },
+        //   ],
+      },
+    };
+    const avatarResponse = await fetch(avatar);
+    const avatarBlob = await avatarResponse.blob();
+    const avatarFile = new File([avatarBlob], "avatar.jpg", {
+      type: "image/jpeg",
+    });
+    formData.append("image", avatarFile);
+    formData.append("clientInfoEntity", JSON.stringify(userData));
+
+    try {
+      console.log(formData);
+      await axios
+        .post("http://localhost:10001/client", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the content type to 'multipart/form-data'
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            console.log("Registration Success");
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: "TabNavigatorScreen" }],
+              })
+            );
+          } else {
+            dispatch(messageChanged("Registration failed, please try again"));
+            console.log("Registration failed");
+            console.log(res);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleTrainerSignUp = async () => {
+    const formData = new FormData();
+    const userData = {
+      trainerProfile: {
+        trainerId: "",
+        name: lastName + "," + firstName,
+        emailAddress: email,
+        password: password,
+        phone: mobile,
+        age: parseInt(birth), // int
+        maxTravelDistance: parseInt(distance), // int
+        // address: addr1 + "," + addr2,
+        // city: city,
+        // state: state,
+        // zipcode: zip,
+        gender: gender, // 0:Male, 1:Female, 2:Other
+        imageName: "",
+        minimumBid: parseInt(bid),
+        bio: bio,
+        maxClientsPerSession: parseInt(capacity),
+        clientsHomeSession: home, // boolean
+        zoomSession: zoom, // boolean
+      },
+      providerCategories: {
+        providerId: "",
+        certificateName: "",
+        categories: intSpecs,
+      },
+      trainerLocations: {
+        trainerId: "",
+        locations: trainerLocations,
+      },
+    };
+    const avatarResponse = await fetch(avatar);
+    const avatarBlob = await avatarResponse.blob();
+    const avatarFile = new File([avatarBlob], "avatar.jpg", {
+      type: "image/jpeg",
+    });
+    formData.append("image", avatarFile);
+    formData.append("certificate", avatarFile);
+    formData.append("trainerInfoEntity", JSON.stringify(userData));
+
+    try {
+      console.log(userData);
+      await axios
+        .post("http://localhost:10001/trainer", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the content type to 'multipart/form-data'
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            console.log("Registration Success");
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: "TabNavigatorScreen" }],
+              })
+            );
+          } else {
+            dispatch(messageChanged("Registration failed, please try again"));
+            console.log("Registration failed");
+            console.log(JSON.stringify(res));
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -68,15 +226,20 @@ export default function ProfileScreen({ navigation }) {
           ) : (
             <View style={styles.circle}></View>
           )}
-          {role == "provider" && (
+          {role == "trainer" && (
             <TextInput
               style={{
-                height: 104,
+                height: 100,
                 width: 140,
-                borderWidth: 0.5,
+                borderRadius: 10,
                 marginHorizontal: 20,
                 paddingHorizontal: 6,
                 paddingVertical: 6,
+                backgroundColor: "#fcfcfc",
+                shadowColor: "black",
+                shadowOpacity: 0.35,
+                shadowOffset: { width: 2, height: 2 },
+                shadowRadius: 3,
               }}
               value={bio}
               onChangeText={(text) => {
@@ -90,14 +253,14 @@ export default function ProfileScreen({ navigation }) {
           fontSize={12}
           fontWeight={500}
           marginTop={10}
-          marginBotton={14}
+          marginBottom={14}
           paddingVertical={4}
           paddingHorizontal={14}
         />
         <View style={{ flexDirection: "row" }}>
           <TextInput
             value={firstName}
-            style={[styles.textInput, { width: 154 }]}
+            style={[styles.textInput, { width: 159 }]}
             placeholder={"First Name"}
             onChangeText={(text) => {
               dispatch(firstNameChanged(text));
@@ -105,7 +268,7 @@ export default function ProfileScreen({ navigation }) {
           />
           <TextInput
             value={lastName}
-            style={[styles.textInput, { width: 154 }]}
+            style={[styles.textInput, { width: 159 }]}
             placeholder={"Last Name"}
             onChangeText={(text) => {
               dispatch(lastNameChanged(text));
@@ -114,8 +277,8 @@ export default function ProfileScreen({ navigation }) {
         </View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
-            value={age}
-            style={[styles.textInput, { width: 70.6 }]}
+            value={birth}
+            style={[styles.textInput, { width: 73 }]}
             placeholder={"Birth"}
             onChangeText={(text) => {
               dispatch(birthChanged(text));
@@ -123,7 +286,7 @@ export default function ProfileScreen({ navigation }) {
           />
           <TextInput
             value={gender}
-            style={[styles.textInput, { width: 70.6 }]}
+            style={[styles.textInput, { width: 73 }]}
             placeholder={"Gender"}
             onChangeText={(text) => {
               dispatch(genderChanged(text));
@@ -131,7 +294,7 @@ export default function ProfileScreen({ navigation }) {
           />
           <TextInput
             value={email}
-            style={[styles.textInput, { width: 154.6 }]}
+            style={[styles.textInput, { width: 160 }]}
             placeholder={"Email Address"}
             onChangeText={(text) => {
               dispatch(emailChanged(text));
@@ -168,13 +331,13 @@ export default function ProfileScreen({ navigation }) {
           style={styles.textInput}
           placeholder={"Address 2"}
           onChangeText={(text) => {
-            dispatch(addr2Chnaged(text));
+            dispatch(addr2Changed(text));
           }}
         />
         <View style={{ flexDirection: "row" }}>
           <TextInput
             value={city}
-            style={[styles.textInput, { width: 90.6 }]}
+            style={[styles.textInput, { width: 122 }]}
             placeholder={"City"}
             onChangeText={(text) => {
               dispatch(cityChanged(text));
@@ -182,7 +345,7 @@ export default function ProfileScreen({ navigation }) {
           />
           <TextInput
             value={state}
-            style={[styles.textInput, { width: 85.6 }]}
+            style={[styles.textInput, { width: 92 }]}
             placeholder={"State"}
             onChangeText={(text) => {
               dispatch(stateChanged(text));
@@ -190,7 +353,7 @@ export default function ProfileScreen({ navigation }) {
           />
           <TextInput
             value={zip}
-            style={[styles.textInput, { width: 120.6 }]}
+            style={[styles.textInput, { width: 92 }]}
             placeholder={"Zip Code"}
             onChangeText={(text) => {
               dispatch(zipChanged(text));
@@ -209,10 +372,10 @@ export default function ProfileScreen({ navigation }) {
             }
           }}
         />
-        {role == "customer" ? (
+        {role == "client" ? (
           <View>
             <TextInput
-              value={`Willing to train at zoom: ${online ? "Yes" : "No"}`}
+              value={`Willing to train at zoom: ${zoom ? "Yes" : "No"}`}
               style={styles.textInput}
               placeholder={"Willing to train over Zoom? "}
             />
@@ -225,27 +388,30 @@ export default function ProfileScreen({ navigation }) {
         ) : (
           <View style={{ flexDirection: "row" }}>
             <TextInput
-              value={`Home session: ${online ? "Yes" : "No"}`}
+              value={`Home session: ${zoom ? "Yes" : "No"}`}
               style={[styles.textInput, { width: 154 }]}
             ></TextInput>
             <TextInput
-              value={`Zoom session: ${online ? "Yes" : "No"}`}
+              value={`Zoom session: ${zoom ? "Yes" : "No"}`}
               style={[styles.textInput, { width: 154 }]}
             ></TextInput>
           </View>
         )}
 
-        {role == "provider" && (
+        {role == "trainer" && (
           <TextInput
-            value={String(price)}
+            value={String(bid)}
             style={[styles.textInput, { width: 160 }]}
             placeholder={"Minimum Bid"}
             onChangeText={(text) => {
-              dispatch(priceChanged(parseInt(text)));
+              dispatch(bidChanged(parseInt(text)));
             }}
           />
         )}
-        <PrimaryButton title={"Save"} />
+        <PrimaryButton
+          title={"Save"}
+          onPress={role == "client" ? handleClientSignUp : handleTrainerSignUp}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -270,13 +436,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
   },
   textInput: {
-    borderWidth: 1.8,
-    borderRadius: 4,
+    borderRadius: 10,
     textAlign: "center",
     height: 46,
-    width: 320,
+    width: 330,
     marginHorizontal: 6,
     marginVertical: 5,
     fontSize: 16,
+    backgroundColor: "#fefefe",
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 2,
   },
 });

@@ -1,7 +1,19 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useState } from "react";
-export default function Grid({ type, toggle }) {
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
+
+export default function Grid({ name, toggle }) {
   const [pressed, setPressed] = useState(false);
+  const { intSpecs } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    for (let item of intSpecs) {
+      if (name == item.categoryName) {
+        setPressed(true);
+      }
+    }
+  }, []);
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -12,13 +24,15 @@ export default function Grid({ type, toggle }) {
       <View
         style={[
           styles.container,
-          pressed ? { backgroundColor: "#000" } : { backgroundColor: "#fff" },
+          pressed
+            ? { backgroundColor: "#000" }
+            : { backgroundColor: "#fcfcfc" },
         ]}
       >
         <Text
           style={[styles.text, pressed ? { color: "#fff" } : { color: "#000" }]}
         >
-          {type}
+          {name}
         </Text>
       </View>
     </TouchableOpacity>
@@ -27,16 +41,19 @@ export default function Grid({ type, toggle }) {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1.2,
-    borderRadius: 4,
+    borderRadius: 6,
     fontSize: 30,
     width: 102,
     height: 48,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
     marginVertical: 6,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 2,
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1.5, height: 1.5 },
+    shadowRadius: 1.5,
   },
   text: {
     fontSize: 11,

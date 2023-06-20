@@ -1,43 +1,143 @@
-import { View, SafeAreaView, Text, StyleSheet, ScrollView } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import PrimaryButton from "../components/PrimaryButton";
-import Grid from "../components/Grid";
 import { CheckBox } from "@rneui/themed";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import Grid from "../components/Grid";
+import PrimaryButton from "../components/PrimaryButton";
 import {
-  intSpecChanged,
-  onlineChanged,
+  // gymChanged,
   homeChanged,
-  gymChanged,
+  intSpecsChanged,
+  zoomChanged,
 } from "../features/userSlice";
 
-const typeList = [
-  "Nutrition",
-  "Health Coach",
-  "Corrective Exercise",
-  "Medical Fitness",
-  "Youth Fitness ",
-  "Group Fitness",
-  "Weight Loss Transformation",
-  "Strength and Conditioning",
-  "Yoga",
-  "Senior Fitness",
-  "Biomechanics",
-  "Calisthenics",
-  "Bodybuilding and Physique",
-  "Stretching and Flexibility",
-  "Women's Fitness",
-  "Sports",
-  "Online",
-  "Other",
+const categoryList = [
+  {
+    categoryId: 1,
+    providerType: "Gym",
+    categoryName: "Nutrition",
+  },
+  {
+    categoryId: 2,
+    providerType: "Gym",
+    categoryName: "Health Coach",
+  },
+  {
+    categoryId: 3,
+    providerType: "Gym",
+    categoryName: "Medical Fitness",
+  },
+  {
+    categoryId: 4,
+    providerType: "Gym",
+    categoryName: "Yoga",
+  },
+  {
+    categoryId: 5,
+    providerType: "Gym",
+    categoryName: "Corrective Exercise",
+  },
+  {
+    categoryId: 6,
+    providerType: "Gym",
+    categoryName: "Youth Fitness",
+  },
+  {
+    categoryId: 7,
+    providerType: "Gym",
+    categoryName: "Group Fitness",
+  },
+  {
+    categoryId: 8,
+    providerType: "Gym",
+    categoryName: "Weight Loss Transformation",
+  },
+  {
+    categoryId: 9,
+    providerType: "Gym",
+    categoryName: "Strength and Conditioning",
+  },
+  {
+    categoryId: 10,
+    providerType: "Gym",
+    categoryName: "Senior Fitness",
+  },
+  {
+    categoryId: 11,
+    providerType: "Gym",
+    categoryName: "Biomechanics",
+  },
+  {
+    categoryId: 12,
+    providerType: "Gym",
+    categoryName: "Calisthenics",
+  },
+  {
+    categoryId: 13,
+    providerType: "Gym",
+    categoryName: "Bodybuilding and Physique",
+  },
+  {
+    categoryId: 14,
+    providerType: "Gym",
+    categoryName: "Stretching and Flexibility",
+  },
+  {
+    categoryId: 15,
+    providerType: "Gym",
+    categoryName: "Women's Fitness",
+  },
+  {
+    categoryId: 16,
+    providerType: "Gym",
+    categoryName: "Sports",
+  },
+  {
+    categoryId: 17,
+    providerType: "Gym",
+    categoryName: "Online",
+  },
+  {
+    categoryId: 18,
+    providerType: "Gym",
+    categoryName: "Other",
+  },
 ];
 
 export default function IntSpecScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { online, home, gym } = useSelector((state) => state.user);
-  const { role } = useSelector((state) => state.general);
+  const { userId, intSpecs, zoom, home, gym } = useSelector(
+    (state) => state.user
+  );
+  const { role, loggedIn } = useSelector((state) => state.general);
 
+  const handleSave = async () => {
+    if (role == "client") {
+      // save to client interests
+    } else {
+      // save to trainer specialities
+      try {
+        await axios.put(
+          "http://127.0.0.1:10001/trainer/categories",
+          {
+            providerCategories: {
+              providerId: userId,
+              categories: intSpecs,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   const handleNext = () => {
-    if (role == "customer") {
+    if (role == "client") {
       console.log("goto CapacityScreen");
       navigation.navigate("CapacityScreen");
     } else {
@@ -48,40 +148,34 @@ export default function IntSpecScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={
-          role == "customer"
-            ? styles.scrollView
-            : [styles.scrollView, { marginTop: 102 }]
-        }
-      >
+      <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>
-          {role == "customer"
+          {role == "client"
             ? "What are your interests"
             : "What are your specialities"}
         </Text>
         <View style={styles.grids}>
-          {typeList.map((type) => (
+          {categoryList.map((category) => (
             <Grid
-              key={type}
-              type={type}
+              key={category.categoryId}
+              name={category.categoryName}
               toggle={() => {
-                dispatch(intSpecChanged(type));
+                dispatch(intSpecsChanged(category));
               }}
             />
           ))}
         </View>
-        {role == "customer" && (
+        {!loggedIn && (
           <View style={{ marginTop: -10 }}>
             <CheckBox
               size={22}
-              checked={online == true ? true : false}
+              checked={zoom == true ? true : false}
               checkedColor="#000"
               title={"Online session possible?"}
               textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
               wrapperStyle={{ marginBottom: -20 }}
               onPress={() => {
-                dispatch(onlineChanged());
+                dispatch(zoomChanged());
               }}
             />
             <CheckBox
@@ -90,12 +184,12 @@ export default function IntSpecScreen({ navigation }) {
               checkedColor="#000"
               title={"Home session possible?"}
               textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-              wrapperStyle={{ marginBottom: -20 }}
+              // wrapperStyle={{ marginBottom: -20 }}
               onPress={() => {
                 dispatch(homeChanged());
               }}
             />
-            <CheckBox
+            {/* <CheckBox
               size={22}
               checked={gym == true ? true : false}
               checkedColor="#000"
@@ -104,10 +198,14 @@ export default function IntSpecScreen({ navigation }) {
               onPress={() => {
                 dispatch(gymChanged());
               }}
-            />
+            /> */}
           </View>
         )}
-        <PrimaryButton title="Next" marginTop={12} onPress={handleNext} />
+        {loggedIn ? (
+          <PrimaryButton title="Save" marginTop={30} onPress={handleSave} />
+        ) : (
+          <PrimaryButton title="Next" marginTop={30} onPress={handleNext} />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

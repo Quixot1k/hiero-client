@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  role: "customer",
+  role: "client",
+  loggedIn: false,
+  message: "",
 };
 
 const generalSlice = createSlice({
@@ -11,9 +13,16 @@ const generalSlice = createSlice({
     roleChanged: (state, action) => {
       state.role = action.payload;
     },
+    loggedInChanged: (state, action) => {
+      state.loggedIn = action.payload;
+    },
+    messageChanged: (state, action) => {
+      state.message = action.payload;
+    },
   },
 });
 
-export const { roleChanged } = generalSlice.actions;
+export const { roleChanged, MessageChanged, loggedInChanged } =
+  generalSlice.actions;
 
 export default generalSlice.reducer;

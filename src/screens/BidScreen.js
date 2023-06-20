@@ -1,36 +1,35 @@
 import {
   SafeAreaView,
   ScrollView,
-  Text,
   StyleSheet,
+  Text,
   TextInput,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { bioChanged } from "../features/userSlice";
 import PrimaryButton from "../components/PrimaryButton";
-import { priceChanged } from "../features/userSlice";
+import { bidChanged } from "../features/userSlice";
 
-export default function PriceScreen({ navigation }) {
-  const { price } = useSelector((state) => state.user);
+export default function BidScreen({ navigation }) {
+  const { bid } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleNext = () => {
     console.log("goto AvatarScreen");
     navigation.navigate("AvatarScreen");
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.header}>Starting price per hour</Text>
+        <Text style={styles.header}>Starting bid per hour</Text>
         <Text style={styles.subHeader}>
-          The minimum price you're willing to work for
+          The minimum bid you're willing to work for
         </Text>
         <TextInput
           placeholder={"$0.00"}
-          value={String(price)}
+          value={bid ? String(bid) : ""}
           style={styles.textInput}
           multiline={true}
           onChangeText={(text) => {
-            dispatch(priceChanged(parseInt(text)));
+            dispatch(bidChanged(parseInt(text)));
           }}
         />
         <PrimaryButton title="Next" onPress={handleNext} />
@@ -42,9 +41,8 @@ export default function PriceScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     alignItems: "center",
-    justifyContent: "center",
   },
   scrollView: {
     alignItems: "center",
@@ -63,12 +61,16 @@ const styles = StyleSheet.create({
   textInput: {
     width: 260,
     height: 140,
-    borderWidth: 1.2,
     borderRadius: 30,
     marginBottom: 12,
     paddingHorizontal: 12,
     fontSize: 60,
     textAlign: "center",
     paddingTop: 35,
+    backgroundColor: "#fcfcfc",
+    shadowColor: "black",
+    shadowOpacity: 0.35,
+    shadowOffset: { width: 3, height: 4 },
+    shadowRadius: 4,
   },
 });

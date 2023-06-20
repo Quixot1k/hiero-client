@@ -1,5 +1,5 @@
-import { View, SafeAreaView, ScrollView, Text, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import PrimarySlider from "../components/PrimarySlider";
 import { capacityChanged } from "../features/userSlice";
@@ -9,27 +9,32 @@ export default function CapacityScreen({ navigation }) {
   const { capacity } = useSelector((state) => state.user);
   const { role } = useSelector((state) => state.general);
   const handleNext = () => {
-    console.log("goto LocationScreen");
-    navigation.navigate("LocationScreen");
+    if (role == "client") {
+      console.log("goto LocationScreen");
+      navigation.navigate("LocationScreen");
+    } else {
+      console.log("goto TrainerLocationScreen");
+      navigation.navigate("TrainerLocationScreen");
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={
-          role == "customer"
+          role == "client"
             ? styles.scrollView
             : [styles.scrollView, { marginTop: 200 }]
         }
       >
         <Text style={styles.text}>
-          {role == "customer"
+          {role == "client"
             ? "Sharing a session with other people allows you to split the cost. How many people would you be willing to capacity with?"
             : "Doing sessions with multiple clients creates more opportunity for growth."}
         </Text>
         <PrimarySlider
           value={capacity}
           minimumValue={0}
-          maximumValue={role == "customer" ? 4 : 5}
+          maximumValue={role == "client" ? 4 : 5}
           onValueChange={(value) => dispatch(capacityChanged(value))}
         />
         <PrimaryButton title="Next" onPress={handleNext} />
@@ -52,7 +57,7 @@ const styles = StyleSheet.create({
   text: {
     width: 300,
     fontSize: 18,
-    fontWeight: "semibold",
+    fontWeight: 400,
     textAlign: "center",
     lineHeight: 30,
   },

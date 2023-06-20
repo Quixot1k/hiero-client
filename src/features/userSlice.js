@@ -1,39 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  // unique
+  userId: null,
   // for both
   email: "",
   password: "",
   password2: "",
   firstName: "",
   lastName: "",
-  birth: "",
-  gender: "",
+  birth: null,
+  gender: null,
   mobile: "",
-  intSpec: [],
-  capacity: 1,
+  intSpecs: [], // { categoryId: "", providerType: "",categoryName: "" },
+  capacity: 3,
   addr1: "",
   addr2: "",
   city: "",
   state: "",
   zip: "",
+  latitude: 37.78825,
+  longitude: -122.4324,
   distance: 20,
-  avatar: null,
-  online: false,
+  avatar: "",
+  zoom: false,
   home: false,
-  gym: false,
-  // only for provider
+  // gym: false,
+
+  // only for trainer
   business: "",
-  certification: [], //{type: , number:, }
-  trainingSpot: [],
+  certifications: [], // { certificationId: "", certificationType: "", certificationNumber: "" },
+  trainerLocations: [], //{  locationId: "", "address": "", city: "", state: "", zipcode: "", locationType: Gym/Home, latitude: -1.0, longitude: -1.0 },
   bio: "",
-  price: "",
+  bid: 0,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // unique
+    userIdChanged: (state, action) => {
+      state.userId = action.payload;
+    },
     // for both
     emailChanged: (state, action) => {
       state.email = action.payload;
@@ -59,15 +68,27 @@ const userSlice = createSlice({
     mobileChanged: (state, action) => {
       state.mobile = action.payload;
     },
-    intSpecChanged: (state, action) => {
-      if (state.intSpec.includes(action.payload)) {
-        const newintSpec = state.intSpec.filter(function (value) {
-          return value != action.payload;
-        });
-        state.intSpec = newintSpec;
-      } else {
-        state.intSpec.push(action.payload);
+    intSpecsInited: (state, action) => {
+      state.intSpecs = action.payload;
+    },
+    intSpecsChanged: (state, action) => {
+      let flag = false;
+      let index = 0;
+      const payload = action.payload;
+      const id = payload.categoryId;
+      for (let item of state.intSpecs) {
+        if (item.categoryId == id) {
+          flag = true;
+          break;
+        }
+        index += 1;
       }
+      if (flag) {
+        state.intSpecs.splice(index, 1);
+      } else {
+        state.intSpecs.push(action.payload);
+      }
+      console.log(state.intSpecs);
     },
     capacityChanged: (state, action) => {
       state.capacity = action.payload;
@@ -75,7 +96,7 @@ const userSlice = createSlice({
     addr1Changed: (state, action) => {
       state.addr1 = action.payload;
     },
-    addr2Chnaged: (state, action) => {
+    addr2Changed: (state, action) => {
       state.addr2 = action.payload;
     },
     cityChanged: (state, action) => {
@@ -87,43 +108,83 @@ const userSlice = createSlice({
     zipChanged: (state, action) => {
       state.zip = action.payload;
     },
+    latitudeChanged: (state, action) => {
+      state.latitude = action.payload;
+    },
+    longitudeChanged: (state, action) => {
+      state.longitude = action.payload;
+    },
     distanceChanged: (state, action) => {
       state.distance = action.payload;
     },
     avatarChanged: (state, action) => {
       state.avatar = action.payload;
     },
-    onlineChanged: (state, action) => {
-      state.online = !state.online;
+    zoomInited: (state, action) => {
+      state.zoom = action.payload;
     },
-    homeChanged: (state, action) => {
+    zoomChanged: (state) => {
+      state.zoom = !state.zoom;
+    },
+    homeInited: (state, action) => {
+      state.home = action.payload;
+    },
+    homeChanged: (state) => {
       state.home = !state.home;
     },
-    gymChanged: (state, action) => {
-      state.gym = !state.gym;
-    },
-    // only for provider
+    // gymChanged: (state) => {
+    //   state.gym = !state.gym;
+    // },
+
+    // only for trainer
     businessChanged: (state, action) => {
       state.business = action.payload;
     },
-    certificationAdded: (state, action) => {
-      state.certification.push(action.payload);
+    certificationsInited: (state, action) => {
+      state.certifications = action.payload;
     },
-    certificationRemoved: (state, action) => {
-      const index = state.certification.indexOf(action.payload);
-      state.certification.splice(index, 1);
+    certificationsAdded: (state, action) => {
+      state.certifications.unshift(action.payload);
+    },
+    certificationsRemoved: (state, action) => {
+      const id = action.payload;
+      let index = 0;
+      for (const item of state.certifications) {
+        if (item.certificationId == id) {
+          state.certifications.splice(index, 1);
+          break;
+        }
+        index += 1;
+      }
+    },
+    trainerLocationsInited: (state, action) => {
+      state.trainerLocations = action.payload;
+    },
+    trainerLocationsAdded: (state, action) => {
+      state.trainerLocations.unshift(action.payload);
+    },
+    trainerLocationsRemoved: (state, action) => {
+      const id = action.payload;
+      let index = 0;
+      for (const item of state.trainerLocations) {
+        if (item.locationId == id) {
+          state.trainerLocations.splice(index, 1);
+          break;
+        }
+        index += 1;
+      }
     },
     bioChanged: (state, action) => {
       state.bio = action.payload;
     },
-    priceChanged: (state, action) => {
-      state.price = action.payload;
-      console.log(state);
+    bidChanged: (state, action) => {
+      state.bid = action.payload;
     },
   },
 });
 
 export const {
+  userIdChanged,
   emailChanged,
   passwordChanged,
   password2Changed,
@@ -132,23 +193,32 @@ export const {
   birthChanged,
   genderChanged,
   mobileChanged,
-  intSpecChanged,
-  onlineChanged,
+  intSpecsInited,
+  intSpecsChanged,
+  zoomInited,
+  zoomChanged,
+  homeInited,
   homeChanged,
   gymChanged,
   capacityChanged,
   addr1Changed,
-  addr2Chnaged,
+  addr2Changed,
   cityChanged,
   stateChanged,
   zipChanged,
+  trainerLocationsInited,
+  trainerLocationsAdded,
+  trainerLocationsRemoved,
+  latitudeChanged,
+  longitudeChanged,
   distanceChanged,
   avatarChanged,
   businessChanged,
-  certificationAdded,
-  certificationRemoved,
+  certificationsInited,
+  certificationsAdded,
+  certificationsRemoved,
   bioChanged,
-  priceChanged,
+  bidChanged,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,23 +1,25 @@
 import {
   SafeAreaView,
   ScrollView,
-  Text,
   StyleSheet,
+  Text,
   TextInput,
+  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { bioChanged } from "../features/userSlice";
 import PrimaryButton from "../components/PrimaryButton";
+import { bioChanged } from "../features/userSlice";
 
+const { width: screenWidth } = Dimensions.get("window");
 export default function BioScreen({ navigation }) {
   const { bio } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleNext = () => {
-    console.log("goto PriceScreen");
-    navigation.navigate("PriceScreen");
+    console.log("goto BidScreen");
+    navigation.navigate("BidScreen");
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>Build your brand</Text>
         <TextInput
@@ -47,6 +49,7 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     marginTop: 100,
+    width: screenWidth,
   },
   header: {
     fontSize: 30,
@@ -54,12 +57,16 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   textInput: {
-    width: 260,
+    width: 300,
     height: 300,
-    borderWidth: 1.2,
-    borderRadius: 4,
-    marginBottom: 12,
-    paddingHorizontal: 12,
+    borderRadius: 12,
+    marginBottom: 24,
+    paddingHorizontal: 16,
     fontSize: 17,
+    backgroundColor: "#fcfcfc",
+    shadowColor: "black",
+    shadowOpacity: 0.35,
+    shadowOffset: { width: 3, height: 4 },
+    shadowRadius: 4,
   },
 });

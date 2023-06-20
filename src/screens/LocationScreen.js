@@ -1,50 +1,82 @@
+import { Slider } from "@rneui/themed";
 import {
-  View,
   SafeAreaView,
-  Text,
-  TextInput,
   ScrollView,
   StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Dimensions,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { Slider } from "@rneui/themed";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
+import MapView, { Marker, Circle } from "react-native-maps";
+import * as Location from "expo-location";
 import {
   addr1Changed,
-  addr2Chnaged,
+  addr2Changed,
   cityChanged,
-  distanceChanged,
   stateChanged,
   zipChanged,
+  distanceChanged,
+  latitudeChanged,
+  longitudeChanged,
 } from "../features/userSlice";
 
+const { width: windowWidth } = Dimensions.get("window");
 export default function LocationScreen({ navigation }) {
+  const [lat, setLat] = useState(37.78825);
+  const [lon, setLon] = useState(-122.4324);
   const dispatch = useDispatch();
   const { addr1, addr2, city, state, zip, distance } = useSelector(
     (state) => state.user
   );
   const { role } = useSelector((state) => state.general);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return;
+      }
+      let { coords } = await Location.getCurrentPositionAsync();
+      let { latitude, longitude } = coords;
+      let address = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+      setLat(latitude);
+      setLon(longitude);
+      dispatch(addr1Changed(address[0].name));
+      dispatch(addr2Changed(address[0].street));
+      dispatch(cityChanged(address[0].city));
+      dispatch(stateChanged(address[0].region));
+      dispatch(zipChanged(address[0].postalCode));
+      dispatch(latitudeChanged(latitude));
+      dispatch(longitudeChanged(longitude));
+    })();
+  }, []);
 
   const handleNext = () => {
-    if (role == "customer") {
+    if (role == "client") {
       console.log("goto AvatarScreen");
       navigation.navigate("AvatarScreen");
     } else {
-      console.log("goto BioScreen");
-      navigation.navigate("BioScreen");
+      console.log("goto TrainerLocationScreen");
+      navigation.navigate("TrainerLocationScreen");
     }
   };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>
-          {role == "customer" ? "What's your location" : "Residential Address"}
+          {role == "client" ? "What's your location" : "Residential Address"}
         </Text>
         <View>
           <TextInput
             value={addr1}
             placeholder="Address 1"
-            style={[styles.textInput, { width: 270 }]}
+            style={[styles.textInput, { width: 300 }]}
             onChangeText={(text) => {
               dispatch(addr1Changed(text));
             }}
@@ -52,16 +84,16 @@ export default function LocationScreen({ navigation }) {
           <TextInput
             value={addr2}
             placeholder="Address 2"
-            style={[styles.textInput, { width: 270, marginVertical: 8 }]}
+            style={[styles.textInput, { width: 300, marginVertical: 8 }]}
             onChangeText={(text) => {
-              dispatch(addr2Chnaged(text));
+              dispatch(addr2Changed(text));
             }}
           />
           <View style={styles.textInputGroup}>
             <TextInput
               value={city}
               placeholder="City"
-              style={[styles.textInput, { width: 85 }]}
+              style={[styles.textInput, { width: 125 }]}
               onChangeText={(text) => {
                 dispatch(cityChanged(text));
               }}
@@ -69,7 +101,7 @@ export default function LocationScreen({ navigation }) {
             <TextInput
               value={state}
               placeholder="State"
-              style={[styles.textInput, { marginHorizontal: 6, width: 85 }]}
+              style={[styles.textInput, { marginHorizontal: 6, width: 81 }]}
               onChangeText={(text) => {
                 dispatch(stateChanged(text));
               }}
@@ -77,16 +109,39 @@ export default function LocationScreen({ navigation }) {
             <TextInput
               value={zip}
               placeholder="Zip Code"
-              style={[styles.textInput, { width: 88 }]}
+              style={[styles.textInput, { width: 81 }]}
               onChangeText={(text) => {
                 dispatch(zipChanged(text));
               }}
             />
           </View>
         </View>
-        <View style={styles.map}></View>
-        <Text style={{ fontSize: 16, marginBottom: 10, fontWeight: 500 }}>
-          {role == "customer"
+        <View style={styles.mapWrapper}>
+          <MapView
+            style={{ width: "100%", height: "100%", borderRadius: 20 }}
+            initialRegion={{
+              latitude: lat,
+              longitude: lon,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+            region={{
+              latitude: lat,
+              longitude: lon,
+              latitudeDelta: distance / 30,
+              longitudeDelta: distance / 30,
+            }}
+          >
+            <Marker coordinate={{ latitude: lat, longitude: lon }} />
+            <Circle
+              center={{ latitude: lat, longitude: lon }}
+              radius={1609 * distance}
+              fillColor={"rgba(255,255,255,0.3)"}
+            />
+          </MapView>
+        </View>
+        <Text style={{ fontSize: 16, marginBottom: 6, fontWeight: 500 }}>
+          {role == "client"
             ? "How far are you willing to go for service?"
             : "How far are you willing to travel to clients?"}
         </Text>
@@ -108,7 +163,7 @@ export default function LocationScreen({ navigation }) {
           style={{
             fontSize: 16,
             marginBottom: 6,
-            marginTop: 10,
+            marginTop: 6,
             fontWeight: 500,
           }}
         >
@@ -135,6 +190,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginTop: 30,
+    width: windowWidth,
     alignItems: "center",
   },
   header: {
@@ -143,22 +199,29 @@ const styles = StyleSheet.create({
     marginBottom: 26,
   },
   textInput: {
-    borderWidth: 1.8,
-    borderRadius: 4,
+    borderRadius: 10,
     height: 40,
     textAlign: "center",
     fontSize: 16,
+    backgroundColor: "#fefefe",
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 2,
   },
   textInputGroup: {
     flexDirection: "row",
   },
-  map: {
-    borderWidth: 1.4,
-    borderRadius: 30,
-    height: 250,
-    width: 266,
+  mapWrapper: {
+    borderRadius: 20,
+    height: 240,
+    width: 300,
     marginTop: 20,
     marginBottom: 22,
-    backgroundColor: "#ccc",
+    backgroundColor: "#fefefe",
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 3,
   },
 });

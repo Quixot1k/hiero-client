@@ -1,11 +1,11 @@
 import {
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
-  StyleSheet,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../components/PrimaryButton";
 import {
   birthChanged,
@@ -18,7 +18,7 @@ import {
 
 export default function InfoScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { firstName, lastName, birth, gender, mobile } = useSelector(
+  const { firstName, lastName, birth, business, gender, mobile } = useSelector(
     (state) => state.user
   );
   const { role } = useSelector((state) => state.general);
@@ -30,9 +30,9 @@ export default function InfoScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={
-          role == "customer"
+          role == "client"
             ? styles.scrollView
-            : [styles.scrollView, { marginTop: 70 }]
+            : [styles.scrollView, { marginTop: 50 }]
         }
       >
         <Text style={styles.header}>Tell us more</Text>
@@ -61,9 +61,9 @@ export default function InfoScreen({ navigation }) {
             dispatch(birthChanged(text));
           }}
         />
-        {role == "provider" && (
+        {role == "trainer" && (
           <TextInput
-            value={birth}
+            value={business}
             placeholder="Business name (if applicable)"
             style={styles.textInput}
             onChangeText={(text) => {
@@ -87,7 +87,7 @@ export default function InfoScreen({ navigation }) {
             dispatch(mobileChanged(text));
           }}
         />
-        <PrimaryButton title="Next" onPress={handleNext} />
+        <PrimaryButton title="Next" onPress={handleNext} marginTop={40} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -98,11 +98,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 100,
+    marginTop: 80,
   },
   header: {
     fontSize: 30,
@@ -110,13 +109,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   textInput: {
-    borderWidth: 2,
-    borderColor: "#000",
-    borderRadius: 4,
+    borderRadius: 10,
     height: 50,
     width: 260,
     marginTop: 25,
     paddingLeft: 10,
     fontSize: 17,
+    backgroundColor: "#fefefe",
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 2,
+    marginHorizontal: 10,
   },
 });
