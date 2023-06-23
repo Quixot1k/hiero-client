@@ -1,39 +1,30 @@
-import { CommonActions } from "@react-navigation/native";
-import { CheckBox } from "@rneui/themed";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import {CommonActions} from "@react-navigation/native";
+import {CheckBox} from "@rneui/themed";
+import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
-import { roleChanged } from "../features/generalSlice";
-import {
-  emailChanged,
-  password2Changed,
-  passwordChanged,
-} from "../features/userSlice";
+import {useStore} from '../store'
 
-export default function LoginScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const role = useSelector((state) => state.general.role);
-  const { email, password, password2 } = useSelector((state) => state.user);
-
+export default function LoginScreen({navigation}) {
+  const role = useStore((state) => state.role);
+  const updateRole = useStore((state) => state.updateRole);
+  const email = useStore((state) => state.email);
+  const updateEmail = useStore((state) => state.updateEmail);
+  const password = useStore((state) => state.password);
+  const updatePassword = useStore((state) => state.updatePassword);
+  const password2 = useStore((state) => state.password2);
+  const updatePassword2 = useStore((state) => state.updatePassword2);
   const handleSignUp = () => {
     console.log("goto InfoScreen and clear navigation stack");
     navigation.navigate("InfoScreen");
   };
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {role == "client" ? (
+        {role === "client" ? (
           <View>
             <Text style={styles.header}>Get Connected</Text>
-            <Text style={[styles.header, { marginBottom: 14 }]}>
+            <Text style={[styles.header, {marginBottom: 14}]}>
               With The Best!
             </Text>
           </View>
@@ -41,7 +32,7 @@ export default function LoginScreen({ navigation }) {
           <View>
             <Text style={styles.header}>Optimize your</Text>
             <Text
-              style={[styles.header, { marginBottom: 14, textAlign: "center" }]}
+              style={[styles.header, {marginBottom: 14, textAlign: "center"}]}
             >
               TIME!
             </Text>
@@ -55,7 +46,7 @@ export default function LoginScreen({ navigation }) {
             placeholder="Email"
             style={styles.textInput}
             onChangeText={(text) => {
-              dispatch(emailChanged(text));
+              updateEmail(text)
             }}
           />
         </View>
@@ -66,18 +57,18 @@ export default function LoginScreen({ navigation }) {
             placeholder="Password (8 or more characters)"
             style={styles.textInput}
             onChangeText={(text) => {
-              dispatch(passwordChanged(text));
+              updatePassword(text);
             }}
           />
         </View>
-        <View style={[styles.textInputGroup, { marginBottom: 20 }]}>
+        <View style={[styles.textInputGroup, {marginBottom: 20}]}>
           <Text style={styles.text}>Password</Text>
           <TextInput
             value={password2}
             placeholder="Password Again"
             style={styles.textInput}
             onChangeText={(text) => {
-              dispatch(password2Changed(text));
+              updatePassword2(text);
             }}
           />
         </View>
@@ -85,37 +76,37 @@ export default function LoginScreen({ navigation }) {
           <CheckBox
             title={"I'm a client"}
             size={24}
-            textStyle={{ fontSize: 18, fontWeight: 500, color: "#000" }}
+            textStyle={{fontSize: 18, fontWeight: 500, color: "#000"}}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
-            checked={role == "client" ? true : false}
+            checked={role === "client"}
             checkedColor="#000"
             onPress={() => {
-              dispatch(roleChanged("client"));
+              updateRole("client");
             }}
           />
           <CheckBox
             title={"I'm a trainer"}
             size={24}
-            textStyle={{ fontSize: 18, fontWeight: 500, color: "#000" }}
-            wrapperStyle={{ marginTop: -10 }}
+            textStyle={{fontSize: 18, fontWeight: 500, color: "#000"}}
+            wrapperStyle={{marginTop: -10}}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
-            checked={role == "trainer" ? true : false}
+            checked={role === "trainer"}
             checkedColor="#000"
             onPress={() => {
-              dispatch(roleChanged("trainer"));
+              updateRole("trainer");
             }}
           />
         </View>
-        <PrimaryButton title={"Sign Up"} onPress={handleSignUp} />
+        <PrimaryButton title={"Sign Up"} onPress={handleSignUp}/>
         <TouchableOpacity
           onPress={() => {
             console.log("goto LoginScreen and clear navigation stack");
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
-                routes: [{ name: "LoginScreen" }],
+                routes: [{name: "LoginScreen"}],
               })
             );
           }}
@@ -123,7 +114,7 @@ export default function LoginScreen({ navigation }) {
           <Text
             style={[
               styles.text,
-              { marginTop: 10, textDecorationLine: "underline" },
+              {marginTop: 10, textDecorationLine: "underline"},
             ]}
           >
             Already on Kairos?
@@ -147,7 +138,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 10,
   },
   textInputGroup: {
@@ -157,7 +148,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginHorizontal: 10,
-    fontWeight: 500,
+    fontWeight: "500",
   },
   textInput: {
     backgroundColor: "#fefefe",
@@ -169,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
     marginHorizontal: 10,
   },

@@ -1,17 +1,11 @@
-import { CheckBox } from "@rneui/themed";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import {CheckBox} from "@rneui/themed";
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import axios from "axios";
 import Grid from "../components/Grid";
 import PrimaryButton from "../components/PrimaryButton";
-import {
-  // gymChanged,
-  homeChanged,
-  intSpecsChanged,
-  zoomChanged,
-} from "../features/userSlice";
+import {useStore} from "../store";
 
-const categoryList = [
+const intSpecList = [
   {
     categoryId: 1,
     providerType: "Gym",
@@ -104,15 +98,12 @@ const categoryList = [
   },
 ];
 
-export default function IntSpecScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const { userId, intSpecs, zoom, home, gym } = useSelector(
-    (state) => state.user
-  );
-  const { role, loggedIn } = useSelector((state) => state.general);
-
+export default function IntSpecScreen({navigation}) {
+  const {role, isLogged} = useStore((state) => state);
+  const {userId, intSpecs, zoom, home} = useStore((state) => state);
+  const {addOrRemoveIntSpec, updateHome, updateZoom} = useStore((state) => state);
   const handleSave = async () => {
-    if (role == "client") {
+    if (role === "client") {
       // save to client interests
     } else {
       // save to trainer specialities
@@ -137,7 +128,7 @@ export default function IntSpecScreen({ navigation }) {
     }
   };
   const handleNext = () => {
-    if (role == "client") {
+    if (role === "client") {
       console.log("goto CapacityScreen");
       navigation.navigate("CapacityScreen");
     } else {
@@ -150,61 +141,51 @@ export default function IntSpecScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>
-          {role == "client"
+          {role === "client"
             ? "What are your interests"
             : "What are your specialities"}
         </Text>
         <View style={styles.grids}>
-          {categoryList.map((category) => (
+          {intSpecList.map((intSpecObj) => (
             <Grid
-              key={category.categoryId}
-              name={category.categoryName}
+              key={intSpecObj.categoryId}
+              name={intSpecObj.categoryName}
               toggle={() => {
-                dispatch(intSpecsChanged(category));
+                addOrRemoveIntSpec(intSpecObj);
               }}
             />
           ))}
         </View>
-        {!loggedIn && (
-          <View style={{ marginTop: -10 }}>
+        {!isLogged && (
+          <View style={{marginTop: -10}}>
             <CheckBox
               size={22}
-              checked={zoom == true ? true : false}
+              checked={zoom === true}
               checkedColor="#000"
               title={"Online session possible?"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-              wrapperStyle={{ marginBottom: -20 }}
+              textStyle={{fontSize: 16, fontWeight: 500, color: "#000"}}
+              wrapperStyle={{marginBottom: -20}}
               onPress={() => {
-                dispatch(zoomChanged());
+                updateZoom();
               }}
             />
             <CheckBox
               size={22}
-              checked={home == true ? true : false}
+              checked={home === true}
               checkedColor="#000"
               title={"Home session possible?"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
+              textStyle={{fontSize: 16, fontWeight: 500, color: "#000"}}
               // wrapperStyle={{ marginBottom: -20 }}
               onPress={() => {
-                dispatch(homeChanged());
+                updateHome();
               }}
             />
-            {/* <CheckBox
-              size={22}
-              checked={gym == true ? true : false}
-              checkedColor="#000"
-              title={"Gym session possible?"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-              onPress={() => {
-                dispatch(gymChanged());
-              }}
-            /> */}
           </View>
         )}
-        {loggedIn ? (
-          <PrimaryButton title="Save" marginTop={30} onPress={handleSave} />
+        {isLogged ? (
+          <PrimaryButton title="Save" marginTop={30} onPress={handleSave}/>
         ) : (
-          <PrimaryButton title="Next" marginTop={30} onPress={handleNext} />
+          <PrimaryButton title="Next" marginTop={30} onPress={handleNext}/>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -224,7 +205,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 26,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 30,
   },
   grids: {

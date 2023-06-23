@@ -1,42 +1,30 @@
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  Dimensions,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput,} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
-import { bioChanged } from "../features/userSlice";
+import {useStore} from "../store";
 
-const { width: screenWidth } = Dimensions.get("window");
-export default function BioScreen({ navigation }) {
-  const { bio } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+const {width: screenWidth} = Dimensions.get("window");
+export default function BioScreen({navigation}) {
+  const bio = useStore((state) => state.bio);
+  const updateBio = useStore((state) => state.updateBio);
   const handleNext = () => {
     console.log("goto BidScreen");
     navigation.navigate("BidScreen");
   };
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.header}>Build your brand</Text>
-        <TextInput
-          placeholder={
-            "Personal bio:" + "Tell clients about yourself and " + "what you do"
-          }
-          value={bio}
-          style={styles.textInput}
-          multiline={true}
-          onChangeText={(text) => {
-            dispatch(bioChanged(text));
-          }}
-        />
-        <PrimaryButton title="Next" onPress={handleNext} />
-      </ScrollView>
-    </SafeAreaView>
-  );
+  return (<SafeAreaView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      <Text style={styles.header}>Build your brand</Text>
+      <TextInput
+        placeholder={"Personal bio:" + "Tell clients about yourself and " + "what you do"}
+        value={bio}
+        style={styles.textInput}
+        multiline={true}
+        onChangeText={(text) => {
+          updateBio(text);
+        }}
+      />
+      <PrimaryButton title="Next" onPress={handleNext}/>
+    </ScrollView>
+  </SafeAreaView>);
 }
 
 const styles = StyleSheet.create({
@@ -53,7 +41,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 30,
   },
   textInput: {
@@ -66,7 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
   },
 });

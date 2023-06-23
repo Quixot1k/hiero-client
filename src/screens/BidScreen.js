@@ -1,17 +1,10 @@
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
-import { bidChanged } from "../features/userSlice";
+import {useStore} from "../store";
 
-export default function BidScreen({ navigation }) {
-  const { bid } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+export default function BidScreen({navigation}) {
+  const bid = useStore((state) => state.bid);
+  const updateBid = useStore((state) => state.updateBid);
   const handleNext = () => {
     console.log("goto AvatarScreen");
     navigation.navigate("AvatarScreen");
@@ -29,10 +22,10 @@ export default function BidScreen({ navigation }) {
           style={styles.textInput}
           multiline={true}
           onChangeText={(text) => {
-            dispatch(bidChanged(parseInt(text)));
+            updateBid(parseInt(text));
           }}
         />
-        <PrimaryButton title="Next" onPress={handleNext} />
+        <PrimaryButton title="Next" onPress={handleNext}/>
       </ScrollView>
     </SafeAreaView>
   );
@@ -50,12 +43,12 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 6,
   },
   subHeader: {
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: "400",
     marginBottom: 30,
   },
   textInput: {
@@ -70,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
   },
 });

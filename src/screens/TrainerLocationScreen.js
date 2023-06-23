@@ -1,33 +1,20 @@
-import { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Dimensions,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import {useState} from "react";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
 import axios from "axios";
-import { v4 as uuid } from "uuid";
-import { CheckBox } from "@rneui/base";
+import {v4 as uuid} from "uuid";
+import {CheckBox} from "@rneui/base";
 import LocationCard from "../components/LocationCard";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-import {
-  trainerLocationsAdded,
-  trainerLocationsRemoved,
-} from "../features/userSlice";
+import {useStore} from "../store";
 
-const { width: screenWidth } = Dimensions.get("window");
-export default function TrainerLocationScreen({ navigation }) {
+const {width: screenWidth} = Dimensions.get("window");
+export default function TrainerLocationScreen({navigation}) {
   // global state
-  const dispatch = useDispatch();
-  const { userId, trainerLocations } = useSelector((state) => state.user);
-  const { loggedIn } = useSelector((state) => state.general);
+  const {isLogged, userId, trainerLocations} = useStore((state) => state);
+  const {addTrainerLocation, removeTrainerLocation} = useStore((state) => state);
   // local state
-  initialLocation = {
+  const initialLocation = {
     locationId: "",
     name: "",
     address: "",
@@ -64,7 +51,7 @@ export default function TrainerLocationScreen({ navigation }) {
   };
 
   const handleAdd = () => {
-    const nextLocation = {
+    const locationObj = {
       locationId: parseInt(uuid()),
       address: location.name + "," + location.addr1 + "," + location.addr2,
       city: location.city,
@@ -74,13 +61,13 @@ export default function TrainerLocationScreen({ navigation }) {
       latitude: Math.random(),
       longitude: Math.random(),
     };
-    dispatch(trainerLocationsAdded(nextLocation));
+    addTrainerLocation(locationObj);
     setLocation(initialLocation);
   };
 
   const handleRemove = (locationId) => {
     console.log(trainerLocations);
-    dispatch(trainerLocationsRemoved(locationId));
+    removeTrainerLocation(locationId);
   };
 
   const handleNext = () => {
@@ -91,17 +78,17 @@ export default function TrainerLocationScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        contentContainerStyle={[styles.scrollView, { marginTop: 20 }]}
+        contentContainerStyle={[styles.scrollView, {marginTop: 20}]}
       >
         {/* Input Section */}
         <Text style={styles.header}>Add training locations</Text>
-        <View style={[styles.inputSectionWrapper, { width: screenWidth - 30 }]}>
+        <View style={[styles.inputSectionWrapper, {width: screenWidth - 30}]}>
           <TextInput
             value={location.name}
             placeholder="Training Location Name"
             style={styles.textInput}
             onChangeText={(text) => {
-              setLocation({ ...location, name: text });
+              setLocation({...location, name: text});
             }}
           />
           <TextInput
@@ -109,7 +96,7 @@ export default function TrainerLocationScreen({ navigation }) {
             placeholder="Address 1"
             style={styles.textInput}
             onChangeText={(text) => {
-              setLocation({ ...location, addr1: text });
+              setLocation({...location, addr1: text});
             }}
           />
           <TextInput
@@ -117,45 +104,45 @@ export default function TrainerLocationScreen({ navigation }) {
             placeholder="Address 2"
             style={styles.textInput}
             onChangeText={(text) => {
-              setLocation({ ...location, addr2: text });
+              setLocation({...location, addr2: text});
             }}
           />
           <View style={styles.textInputGroup}>
             <TextInput
               value={location.city}
               placeholder="City"
-              style={[styles.textInput, { width: 95 }]}
+              style={[styles.textInput, {width: 95}]}
               onChangeText={(text) => {
-                setLocation({ ...location, city: text });
+                setLocation({...location, city: text});
               }}
             />
             <TextInput
               value={location.state}
               placeholder="State"
-              style={[styles.textInput, { marginHorizontal: 6, width: 96 }]}
+              style={[styles.textInput, {marginHorizontal: 6, width: 96}]}
               onChangeText={(text) => {
-                setLocation({ ...location, state: text });
+                setLocation({...location, state: text});
               }}
             />
             <TextInput
               value={location.zipcode}
               placeholder="Zip Code"
-              style={[styles.textInput, { width: 97 }]}
+              style={[styles.textInput, {width: 97}]}
               onChangeText={(text) => {
-                setLocation({ ...location, zipcode: text });
+                setLocation({...location, zipcode: text});
               }}
             />
           </View>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{flexDirection: "row", justifyContent: "space-around"}}
           >
             <CheckBox
               size={22}
-              checked={location.locationType == "Gym" ? true : false}
+              checked={location.locationType === "Gym"}
               checkedColor="#000"
               title={"Gym"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-              wrapperStyle={{ marginBottom: -10 }}
+              textStyle={{fontSize: 16, fontWeight: "500", color: "#000"}}
+              wrapperStyle={{marginBottom: -10}}
               onPress={() =>
                 setLocation((prevLocation) => ({
                   ...prevLocation,
@@ -165,11 +152,11 @@ export default function TrainerLocationScreen({ navigation }) {
             />
             <CheckBox
               size={22}
-              checked={location.locationType == "Home" ? true : false}
+              checked={location.locationType === "Home"}
               checkedColor="#000"
               title={"Residential"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000" }}
-              wrapperStyle={{ marginBottom: -10 }}
+              textStyle={{fontSize: 16, fontWeight: "500", color: "#000"}}
+              wrapperStyle={{marginBottom: -10}}
               onPress={() =>
                 setLocation((prevLocation) => ({
                   ...prevLocation,
@@ -202,7 +189,7 @@ export default function TrainerLocationScreen({ navigation }) {
             <ScrollView
               contentContainerStyle={[
                 styles.scrollView,
-                { width: screenWidth - 30 },
+                {width: screenWidth - 30},
               ]}
             >
               {trainerLocations.map((obj, index) => (
@@ -222,11 +209,11 @@ export default function TrainerLocationScreen({ navigation }) {
             </ScrollView>
           </View>
         )}
-        <View style={{ paddingBottom: 30 }}>
-          {loggedIn ? (
-            <PrimaryButton title="Save" onPress={handleSave} />
+        <View style={{paddingBottom: 30}}>
+          {isLogged ? (
+            <PrimaryButton title="Save" onPress={handleSave}/>
           ) : (
-            <PrimaryButton title="Next" onPress={handleNext} />
+            <PrimaryButton title="Next" onPress={handleNext}/>
           )}
         </View>
       </ScrollView>
@@ -246,7 +233,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 26,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 10,
   },
   inputSectionWrapper: {
@@ -255,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
     paddingTop: 14,
     marginBottom: 20,
@@ -270,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
   textInputGroup: {
@@ -285,7 +272,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
   },
 });

@@ -1,64 +1,49 @@
-import { Slider } from "@rneui/themed";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Dimensions,
-} from "react-native";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {Slider} from "@rneui/themed";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
+import {useEffect} from "react";
 import PrimaryButton from "../components/PrimaryButton";
-import MapView, { Marker, Circle } from "react-native-maps";
+import MapView, {Circle, Marker} from "react-native-maps";
 import * as Location from "expo-location";
-import {
-  addr1Changed,
-  addr2Changed,
-  cityChanged,
-  stateChanged,
-  zipChanged,
-  distanceChanged,
-  latitudeChanged,
-  longitudeChanged,
-} from "../features/userSlice";
+import {useStore} from "../store";
 
-const { width: windowWidth } = Dimensions.get("window");
-export default function LocationScreen({ navigation }) {
-  const [lat, setLat] = useState(37.78825);
-  const [lon, setLon] = useState(-122.4324);
-  const dispatch = useDispatch();
-  const { addr1, addr2, city, state, zip, distance } = useSelector(
-    (state) => state.user
-  );
-  const { role } = useSelector((state) => state.general);
+const {width: windowWidth} = Dimensions.get("window");
+export default function LocationScreen({navigation}) {
+  const {role, addr1, addr2, city, state, zip, distance, latitude, longitude} = useStore((state) => state);
+  const {
+    updateAddr1,
+    updateAddr2,
+    updateCity,
+    updateState,
+    updateZip,
+    updateDistance,
+    updateLatitude,
+    updateLongitude
+  } = useStore((state) => state);
+
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      const {status} = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         return;
       }
-      let { coords } = await Location.getCurrentPositionAsync();
-      let { latitude, longitude } = coords;
-      let address = await Location.reverseGeocodeAsync({
+      const {coords} = await Location.getCurrentPositionAsync();
+      const {latitude, longitude} = coords;
+      const address = await Location.reverseGeocodeAsync({
         latitude,
         longitude,
       });
-      setLat(latitude);
-      setLon(longitude);
-      dispatch(addr1Changed(address[0].name));
-      dispatch(addr2Changed(address[0].street));
-      dispatch(cityChanged(address[0].city));
-      dispatch(stateChanged(address[0].region));
-      dispatch(zipChanged(address[0].postalCode));
-      dispatch(latitudeChanged(latitude));
-      dispatch(longitudeChanged(longitude));
+      updateAddr1(address[0].name);
+      updateAddr2(address[0].street);
+      updateCity(address[0].city);
+      updateState(address[0].region);
+      updateZip(address[0].postalCode);
+      updateLatitude(latitude);
+      updateLongitude(longitude);
     })();
   }, []);
 
   const handleNext = () => {
-    if (role == "client") {
+    if (role === "client") {
       console.log("goto AvatarScreen");
       navigation.navigate("AvatarScreen");
     } else {
@@ -70,78 +55,78 @@ export default function LocationScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>
-          {role == "client" ? "What's your location" : "Residential Address"}
+          {role === "client" ? "What's your location" : "Residential Address"}
         </Text>
         <View>
           <TextInput
             value={addr1}
             placeholder="Address 1"
-            style={[styles.textInput, { width: 300 }]}
+            style={[styles.textInput, {width: 300}]}
             onChangeText={(text) => {
-              dispatch(addr1Changed(text));
+              updateAddr1(text);
             }}
           />
           <TextInput
             value={addr2}
             placeholder="Address 2"
-            style={[styles.textInput, { width: 300, marginVertical: 8 }]}
+            style={[styles.textInput, {width: 300, marginVertical: 8}]}
             onChangeText={(text) => {
-              dispatch(addr2Changed(text));
+              updateAddr2(text);
             }}
           />
           <View style={styles.textInputGroup}>
             <TextInput
               value={city}
               placeholder="City"
-              style={[styles.textInput, { width: 125 }]}
+              style={[styles.textInput, {width: 125}]}
               onChangeText={(text) => {
-                dispatch(cityChanged(text));
+                updateCity(text);
               }}
             />
             <TextInput
               value={state}
               placeholder="State"
-              style={[styles.textInput, { marginHorizontal: 6, width: 81 }]}
+              style={[styles.textInput, {marginHorizontal: 6, width: 81}]}
               onChangeText={(text) => {
-                dispatch(stateChanged(text));
+                updateState(text);
               }}
             />
             <TextInput
               value={zip}
               placeholder="Zip Code"
-              style={[styles.textInput, { width: 81 }]}
+              style={[styles.textInput, {width: 81}]}
               onChangeText={(text) => {
-                dispatch(zipChanged(text));
+                updateZip(text);
               }}
             />
           </View>
         </View>
         <View style={styles.mapWrapper}>
           <MapView
-            style={{ width: "100%", height: "100%", borderRadius: 20 }}
+            style={{width: "100%", height: "100%", borderRadius: 20}}
             initialRegion={{
-              latitude: lat,
-              longitude: lon,
+              latitude: 37.78825,
+              longitude: -122.4324,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
             region={{
-              latitude: lat,
-              longitude: lon,
+              latitude: latitude,
+              longitude: longitude,
               latitudeDelta: distance / 30,
               longitudeDelta: distance / 30,
             }}
           >
-            <Marker coordinate={{ latitude: lat, longitude: lon }} />
+            <Marker coordinate={{latitude: latitude, longitude: longitude}}/>
             <Circle
-              center={{ latitude: lat, longitude: lon }}
+              center={{latitude: latitude, longitude: longitude}}
               radius={1609 * distance}
               fillColor={"rgba(255,255,255,0.3)"}
             />
           </MapView>
         </View>
-        <Text style={{ fontSize: 16, marginBottom: 6, fontWeight: 500 }}>
-          {role == "client"
+        <Text style={{fontSize: 16, marginBottom: 6, fontWeight: "500"}}>
+          {role === "client"
             ? "How far are you willing to go for service?"
             : "How far are you willing to travel to clients?"}
         </Text>
@@ -152,11 +137,11 @@ export default function LocationScreen({ navigation }) {
           minimumTrackTintColor="#000"
           maximumTrackTintColor="#ccc"
           allowTouchTrack={true}
-          thumbStyle={{ height: 20, width: 20, backgroundColor: "#000" }}
-          trackStyle={{ height: 6, width: 250, borderRadius: 10 }}
+          thumbStyle={{height: 20, width: 20, backgroundColor: "#000"}}
+          trackStyle={{height: 6, width: 250, borderRadius: 10}}
           step={1}
           onValueChange={(value) => {
-            dispatch(distanceChanged(value));
+            updateDistance(value);
           }}
         />
         <Text
@@ -164,18 +149,18 @@ export default function LocationScreen({ navigation }) {
             fontSize: 16,
             marginBottom: 6,
             marginTop: 6,
-            fontWeight: 500,
+            fontWeight: "500",
           }}
         >
           Distance
-          <Text style={{ fontSize: 18, fontStyle: "italic", fontWeight: 800 }}>
+          <Text style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}>
             {" "}
             {distance < 90 ? distance : 90}
             {distance >= 90 ? "+ " : " "}
           </Text>
           miles
         </Text>
-        <PrimaryButton title="Next" onPress={handleNext} />
+        <PrimaryButton title="Next" onPress={handleNext}/>
       </ScrollView>
     </SafeAreaView>
   );
@@ -195,7 +180,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 26,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 26,
   },
   textInput: {
@@ -206,7 +191,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
   textInputGroup: {
@@ -221,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.5,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 3,
   },
 });

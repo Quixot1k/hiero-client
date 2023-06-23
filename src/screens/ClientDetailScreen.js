@@ -1,26 +1,17 @@
-import React, { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  TextInput,
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { format } from "date-fns";
+import React, {useState} from "react";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {format} from "date-fns";
 import DatePicker from "react-native-date-picker";
-import { MaterialIcons } from "@expo/vector-icons";
+import {MaterialIcons} from "@expo/vector-icons";
 import axios from "axios";
 import Schedule from "../components/Schedule";
 import PrimaryButton from "../components/PrimaryButton";
+import {useStore} from "../store";
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-export default function ClientDetailScreen({ navigation, route }) {
-  const { clientObj } = route.params;
-  const { userId } = useSelector((state) => state.user);
+const {width: screenWidth} = Dimensions.get("window");
+export default function ClientDetailScreen({route}) {
+  const {clientObj} = route.params;
+  const userId = useStore((state) => state.userId);
   const [mode, setMode] = useState({
     calendarVisible: true,
     adhocVisible: true,
@@ -60,7 +51,7 @@ export default function ClientDetailScreen({ navigation, route }) {
           },
         })
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
             console.log("Has been added!");
           }
         });
@@ -86,16 +77,16 @@ export default function ClientDetailScreen({ navigation, route }) {
           <View style={styles.sectionBtn}>
             <TouchableOpacity
               onPress={() => {
-                if (mode.calendarVisible == true) {
-                  setMode({ ...mode, calendarVisible: false });
+                if (mode.calendarVisible === true) {
+                  setMode({...mode, calendarVisible: false});
                 } else {
-                  setMode({ ...mode, calendarVisible: true });
+                  setMode({...mode, calendarVisible: true});
                 }
               }}
             >
               <View
                 style={
-                  mode.calendarVisible && { transform: [{ rotate: "90deg" }] }
+                  mode.calendarVisible && {transform: [{rotate: "90deg"}]}
                 }
               >
                 <MaterialIcons
@@ -108,32 +99,32 @@ export default function ClientDetailScreen({ navigation, route }) {
             <Text
               style={{
                 fontSize: 16,
-                fontWeight: 600,
+                fontWeight: "600",
               }}
             >
               Upcoming Sessions:
             </Text>
           </View>
-          <View style={{ alignItems: "center" }}>
-            {mode.calendarVisible && <Schedule />}
+          <View style={{alignItems: "center"}}>
+            {mode.calendarVisible && <Schedule/>}
           </View>
         </View>
         {/* adhoc */}
-        <View style={{ paddingBottom: 50 }}>
+        <View style={{paddingBottom: 50}}>
           <View style={styles.section}>
             <View style={styles.sectionBtn}>
               <TouchableOpacity
                 onPress={() => {
-                  if (mode.adhocVisible == true) {
-                    setMode({ ...mode, adhocVisible: false });
+                  if (mode.adhocVisible === true) {
+                    setMode({...mode, adhocVisible: false});
                   } else {
-                    setMode({ ...mode, adhocVisible: true });
+                    setMode({...mode, adhocVisible: true});
                   }
                 }}
               >
                 <View
                   style={
-                    mode.adhocVisible && { transform: [{ rotate: "90deg" }] }
+                    mode.adhocVisible && {transform: [{rotate: "90deg"}]}
                   }
                 >
                   <MaterialIcons
@@ -146,13 +137,13 @@ export default function ClientDetailScreen({ navigation, route }) {
               <Text
                 style={{
                   fontSize: 16,
-                  fontWeight: 600,
+                  fontWeight: "600",
                 }}
               >
                 Adhoc
               </Text>
             </View>
-            <View style={{ alignItems: "center" }}>
+            <View style={{alignItems: "center"}}>
               {mode.adhocVisible && (
                 <>
                   <View
@@ -163,16 +154,16 @@ export default function ClientDetailScreen({ navigation, route }) {
                       marginBottom: -25,
                     }}
                   >
-                    <Text style={{ fontSize: 16 }}>Start:</Text>
+                    <Text style={{fontSize: 16}}>Start:</Text>
                     <DatePicker
                       date={adhoc.startDatetime}
                       onDateChange={(date) =>
-                        setAdhoc({ ...adhoc, startDatetime: date })
+                        setAdhoc({...adhoc, startDatetime: date})
                       }
                       style={{
                         height: 100,
                         marginLeft: -15,
-                        transform: [{ scale: 0.75 }],
+                        transform: [{scale: 0.75}],
                       }}
                     />
                   </View>
@@ -183,16 +174,16 @@ export default function ClientDetailScreen({ navigation, route }) {
                       marginLeft: 40,
                     }}
                   >
-                    <Text style={{ fontSize: 16 }}>End:</Text>
+                    <Text style={{fontSize: 16}}>End:</Text>
                     <DatePicker
                       date={adhoc.endDatetime}
                       onDateChange={(date) => {
-                        setAdhoc({ ...adhoc, endDatetime: date });
+                        setAdhoc({...adhoc, endDatetime: date});
                       }}
                       style={{
                         height: 100,
                         marginLeft: -15,
-                        transform: [{ scale: 0.75 }],
+                        transform: [{scale: 0.75}],
                       }}
                     />
                   </View>
@@ -205,25 +196,25 @@ export default function ClientDetailScreen({ navigation, route }) {
                     }}
                   >
                     <View
-                      style={{ flexDirection: "row", alignItems: "center" }}
+                      style={{flexDirection: "row", alignItems: "center"}}
                     >
-                      <Text style={{ fontSize: 15 }}>Capacity: </Text>
+                      <Text style={{fontSize: 15}}>Capacity: </Text>
                       <TextInput
                         value={adhoc.capacity ? String(adhoc.capacity) : ""}
                         onChangeText={(text) =>
-                          setAdhoc({ ...adhoc, capacity: parseInt(text) })
+                          setAdhoc({...adhoc, capacity: parseInt(text)})
                         }
                         style={styles.textInput}
                       />
                     </View>
                     <View
-                      style={{ flexDirection: "row", alignItems: "center" }}
+                      style={{flexDirection: "row", alignItems: "center"}}
                     >
-                      <Text style={{ fontSize: 15 }}>Price: </Text>
+                      <Text style={{fontSize: 15}}>Price: </Text>
                       <TextInput
                         value={adhoc.price ? String(adhoc.price) : ""}
                         onChangeText={(text) =>
-                          setAdhoc({ ...adhoc, price: parseInt(text) })
+                          setAdhoc({...adhoc, price: parseInt(text)})
                         }
                         style={styles.textInput}
                       />
@@ -271,7 +262,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
   image: {
@@ -282,18 +273,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 500,
+    fontWeight: "500",
     textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,
     marginHorizontal: 30,
   },
   info: {
     fontSize: 12,
-    fontWeight: 400,
+    fontWeight: "400",
     fontStyle: "italic",
     textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,
     marginVertical: 2,
   },
@@ -307,7 +298,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
   },
   sectionBtn: {
@@ -326,7 +317,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
 });

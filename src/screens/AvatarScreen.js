@@ -1,20 +1,12 @@
 import * as ImagePicker from "expo-image-picker";
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import {Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-import { avatarChanged } from "../features/userSlice";
+import {useStore} from "../store";
 
-export default function AvatarScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const { avatar } = useSelector((state) => state.user);
+export default function AvatarScreen({navigation}) {
+  const avatar = useStore((state) => state.avatar)
+  const updateAvatar = useStore((state) => state.updateAvatar)
   const openMediaLibrary = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.granted === false) {
@@ -28,8 +20,8 @@ export default function AvatarScreen({ navigation }) {
       quality: 1,
     });
     if (!result.canceled) {
-      console.log(result.assets[0].uri);
-      dispatch(avatarChanged(result.assets[0].uri));
+      // console.log(result.assets[0].uri);
+      updateAvatar(result.assets[0].uri);
     }
   };
   const openCamera = async () => {
@@ -45,7 +37,7 @@ export default function AvatarScreen({ navigation }) {
       quality: 1,
     });
     if (!result.canceled) {
-      dispatch(avatarChanged(result.assets[0].uri));
+      updateAvatar(result.assets[0].uri);
     }
   };
 
@@ -55,13 +47,13 @@ export default function AvatarScreen({ navigation }) {
         <Text style={styles.header}>Show the world who you are</Text>
         {avatar ? (
           <Image
-            source={{ uri: avatar }}
-            style={{ width: 240, height: 240, borderRadius: 120 }}
+            source={{uri: avatar}}
+            style={{width: 240, height: 240, borderRadius: 120}}
           />
         ) : (
           <View style={styles.circle}></View>
         )}
-        <View style={{ marginTop: 6 }}>
+        <View style={{marginTop: 6}}>
           <SecondaryButton
             title={"Choose from library"}
             fontWeight={500}
@@ -100,7 +92,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 40,
   },
   circle: {

@@ -1,42 +1,40 @@
-import { CommonActions, useNavigation } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import {CommonActions, useNavigation} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import ScreenHeaderBtn from "../components/ScreenHeaderBtn";
-import AvatarScreen from "./AvatarScreen";
-import BioScreen from "./BioScreen";
-import CapacityScreen from "./CapacityScreen";
-import CertificationScreen from "./CertificationScreen";
-import InfoScreen from "./InfoScreen";
-import IntSpecScreen from "./IntSpecScreen";
-import LocationScreen from "./LocationScreen";
-import TrainerLocationScreen from "./TrainerLocationScreen";
-import LoginScreen from "./LoginScreen";
-import BidScreen from "./BidScreen";
-import ProfileScreen from "./ProfileScreen";
-import SignUpScreen from "./SignUpScreen";
-import TabNavigatorScreen from "./TabNavigatorScreen";
-import ProfileUpdateScreen from "./ProfileUpdateScreen";
-import GymListScreen from "./GymListScreen";
-import TrainerListScreen from "./TrainerListScreen";
-import ClientListScreen from "./ClientListScreen";
-import ScheduleScreen from "./ScheduleScreen";
-import ClientDetailScreen from "./ClientDetailScreen";
-import TrainerDetailScreen from "./TrainerDetailScreen";
+import AvatarScreen from "../screens/AvatarScreen";
+import BioScreen from "../screens/BioScreen";
+import CapacityScreen from "../screens/CapacityScreen";
+import CertificationScreen from "../screens/CertificationScreen";
+import InfoScreen from "../screens/InfoScreen";
+import IntSpecScreen from "../screens/IntSpecScreen";
+import LocationScreen from "../screens/LocationScreen";
+import TrainerLocationScreen from "../screens/TrainerLocationScreen";
+import LoginScreen from "../screens/LoginScreen";
+import BidScreen from "../screens/BidScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import SignUpScreen from "../screens/SignUpScreen";
+import TabNavigator from "./TabNavigator";
+import ProfileUpdateScreen from "../screens/ProfileUpdateScreen";
+import GymListScreen from "../screens/GymListScreen";
+import TrainerListScreen from "../screens/TrainerListScreen";
+import ClientListScreen from "../screens/ClientListScreen";
+import ScheduleScreen from "../screens/ScheduleScreen";
+import ClientDetailScreen from "../screens/ClientDetailScreen";
+import TrainerDetailScreen from "../screens/TrainerDetailScreen";
+import {useStore} from "../store";
 
-export default function StackNavigatorScreen() {
+export default function StackNavigator() {
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
-  const { role, loggedIn } = useSelector((state) => state.general);
-
+  const {role, isLogged} = useStore((state) => state);
   const headRightButton = () => (
     <ScreenHeaderBtn
       handlePress={() => {
-        console.log("goto StackNavigatorScreen and claer navigation stack");
+        console.log("goto StackNavigator and clear navigation stack");
         navigation.dispatch(
           CommonActions.reset({
             index: 1,
-            routes: [{ name: "LoginScreen" }],
+            routes: [{name: "LoginScreen"}],
           })
         );
       }}
@@ -44,12 +42,12 @@ export default function StackNavigatorScreen() {
   );
 
   return (
-    <Stack.Navigator screenOptions={{ headerBackTitleVisible: false }}>
+    <Stack.Navigator screenOptions={{headerBackTitleVisible: false}}>
       {/* General */}
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        options={{ title: "Home" }}
+        options={{title: "Home"}}
       />
       <Stack.Screen
         name="SignUpScreen"
@@ -61,35 +59,35 @@ export default function StackNavigatorScreen() {
       <Stack.Screen
         name="InfoScreen"
         component={InfoScreen}
-        options={{ title: "Information", headerRight: headRightButton }}
+        options={{title: "Information", headerRight: headRightButton}}
       />
       <Stack.Screen
         name="IntSpecScreen"
         component={IntSpecScreen}
         options={{
-          title: role == "client" ? "Interest" : "Speciality",
-          headerRight: loggedIn ? null : headRightButton,
+          title: role === "client" ? "Interest" : "Speciality",
+          headerRight: isLogged ? null : headRightButton,
         }}
       />
       <Stack.Screen
         name="CapacityScreen"
         component={CapacityScreen}
         options={{
-          title: role == "client" ? "Split the cost" : "Grow your clientele",
+          title: role === "client" ? "Split the cost" : "Grow your clientele",
           headerRight: headRightButton,
         }}
       />
       <Stack.Screen
         name="LocationScreen"
         component={LocationScreen}
-        options={{ title: "Location", headerRight: headRightButton }}
+        options={{title: "Location", headerRight: headRightButton}}
       />
       <Stack.Screen
         name="TrainerLocationScreen"
         component={TrainerLocationScreen}
         options={{
           title: "Training Location",
-          headerRight: loggedIn ? null : headRightButton,
+          headerRight: isLogged ? null : headRightButton,
         }}
       />
       <Stack.Screen
@@ -103,49 +101,49 @@ export default function StackNavigatorScreen() {
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ title: "Your profile", headerRight: headRightButton }}
+        options={{title: "Your profile", headerRight: headRightButton}}
       />
       {/* Only for trainer */}
       <Stack.Screen
         name="CertificationScreen"
         component={CertificationScreen}
-        options={{ title: "Certification", headerRight: headRightButton }}
+        options={{title: "Certification", headerRight: headRightButton}}
       />
       <Stack.Screen
         name="BioScreen"
         component={BioScreen}
-        options={{ title: "Bio", headerRight: headRightButton }}
+        options={{title: "Bio", headerRight: headRightButton}}
       />
       <Stack.Screen
         name="BidScreen"
         component={BidScreen}
-        options={{ title: "Set your terms", headerRight: headRightButton }}
+        options={{title: "Set your terms", headerRight: headRightButton}}
       />
       {/* Successfully sign in */}
       <Stack.Screen
         name="TabNavigatorScreen"
-        component={TabNavigatorScreen}
-        options={{ headerShown: false }}
+        component={TabNavigator}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="GymListScreen"
         component={GymListScreen}
-        options={{ headerTitle: "Gym" }}
+        options={{headerTitle: "Gym"}}
       />
       <Stack.Screen
         name="TrainerListScreen"
         component={TrainerListScreen}
-        options={{ headerTitle: "Trainer" }}
+        options={{headerTitle: "Trainer"}}
       />
       <Stack.Screen
         name="ClientListScreen"
         component={ClientListScreen}
-        options={{ headerTitle: "Client" }}
+        options={{headerTitle: "Client"}}
       />
       <Stack.Screen
         name="ScheduleScreen"
         component={ScheduleScreen}
-        options={{ headerTitle: "Schedule" }}
+        options={{headerTitle: "Schedule"}}
       />
       <Stack.Screen
         name="ProfileUpdateScreen"
@@ -157,12 +155,12 @@ export default function StackNavigatorScreen() {
       <Stack.Screen
         name="ClientDetailScreen"
         component={ClientDetailScreen}
-        options={{ headerTitle: "Client Detail" }}
+        options={{headerTitle: "Client Detail"}}
       ></Stack.Screen>
       <Stack.Screen
         name="TrainerDetailScreen"
         component={TrainerDetailScreen}
-        options={{ headerTitle: "Trainer Detail" }}
+        options={{headerTitle: "Trainer Detail"}}
       ></Stack.Screen>
     </Stack.Navigator>
   );

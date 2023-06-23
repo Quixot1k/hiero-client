@@ -1,40 +1,15 @@
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
-import * as fs from "expo-file-system";
-import { useDispatch, useSelector } from "react-redux";
-import { CommonActions } from "@react-navigation/native";
+import {Image, SafeAreaView, ScrollView, StyleSheet, TextInput, View,} from "react-native";
+import {CommonActions} from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
-import {
-  addr1Changed,
-  addr2Changed,
-  bioChanged,
-  birthChanged,
-  cityChanged,
-  distanceChanged,
-  emailChanged,
-  firstNameChanged,
-  genderChanged,
-  lastNameChanged,
-  mobileChanged,
-  password2Changed,
-  passwordChanged,
-  bidChanged,
-  stateChanged,
-  zipChanged,
-} from "../features/userSlice";
 import axios from "axios";
 import FormData from "form-data";
+import {useStore} from "../store";
 
-export default function ProfileScreen({ navigation }) {
-  const dispatch = useDispatch();
+export default function ProfileScreen({navigation}) {
   const {
-    // for both
+    role,
+    // isLogged,
+    // message,
     email,
     password,
     firstName,
@@ -44,6 +19,10 @@ export default function ProfileScreen({ navigation }) {
     mobile,
     intSpecs,
     capacity,
+    avatar,
+    zoom,
+    home,
+    /* only for client */
     addr1,
     addr2,
     city,
@@ -52,22 +31,37 @@ export default function ProfileScreen({ navigation }) {
     // latitude: 37.78825,
     // longitude: -122.4324,
     distance,
-    avatar,
-    zoom,
-    home,
-    // gym, not ready yet
-    // only for trainer
+    /* only for trainer */
     business,
     certifications, // {certificationId: "", certificationType: "", certificationNumber: ""},
     trainerLocations, // {  locationId: "", name: "", addr1: "", addr2: "", city: "", state: "", zipcode: "", locationType: 0, latitude: -1.0, longitude: -1.0 },
     bio,
     bid,
-  } = useSelector((state) => state.user);
-
-  const { role, loggedIn, message } = useSelector((state) => state.general);
-
+  } = useStore((state) => state)
+  const {
+    updateMessage,
+    updateBio,
+    updateFirstName,
+    updateLastName,
+    updateBirth,
+    updateGender,
+    updateEmail,
+    updatePassword,
+    updatePassword2,
+    updateMobile,
+    updateAddr1,
+    updateAddr2,
+    updateCity,
+    updateState,
+    updateZip,
+    updateDistance,
+    updateBid,
+  } = useStore((state) => state)
+  const globalState = useStore((state) => state);
   const handleClientSignUp = async () => {
-    const formData = new FormData();
+    console.log("globalState: ", globalState);
+    /*
+        const formData = new FormData();
     const userData = {
       clientProfile: {
         clientId: "",
@@ -114,9 +108,7 @@ export default function ProfileScreen({ navigation }) {
     });
     formData.append("image", avatarFile);
     formData.append("clientInfoEntity", JSON.stringify(userData));
-
     try {
-      console.log(formData);
       await axios
         .post("http://localhost:10001/client", formData, {
           headers: {
@@ -124,16 +116,16 @@ export default function ProfileScreen({ navigation }) {
           },
         })
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
             console.log("Registration Success");
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
-                routes: [{ name: "TabNavigatorScreen" }],
+                routes: [{name: "TabNavigator"}],
               })
             );
           } else {
-            dispatch(messageChanged("Registration failed, please try again"));
+            updateMessage("Registration failed, please try again");
             console.log("Registration failed");
             console.log(res);
           }
@@ -141,6 +133,7 @@ export default function ProfileScreen({ navigation }) {
     } catch (error) {
       console.log(error);
     }
+    */
   };
   const handleTrainerSignUp = async () => {
     const formData = new FormData();
@@ -153,16 +146,12 @@ export default function ProfileScreen({ navigation }) {
         phone: mobile,
         age: parseInt(birth), // int
         maxTravelDistance: parseInt(distance), // int
-        // address: addr1 + "," + addr2,
-        // city: city,
-        // state: state,
-        // zipcode: zip,
         gender: gender, // 0:Male, 1:Female, 2:Other
         imageName: "",
         minimumBid: parseInt(bid),
         bio: bio,
         maxClientsPerSession: parseInt(capacity),
-        clientsHomeSession: home, // boolean
+        homeSession: home, // boolean
         zoomSession: zoom, // boolean
       },
       providerCategories: {
@@ -193,16 +182,16 @@ export default function ProfileScreen({ navigation }) {
           },
         })
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
             console.log("Registration Success");
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
-                routes: [{ name: "TabNavigatorScreen" }],
+                routes: [{name: "TabNavigator"}],
               })
             );
           } else {
-            dispatch(messageChanged("Registration failed, please try again"));
+            updateMessage("Registration failed, please try again");
             console.log("Registration failed");
             console.log(JSON.stringify(res));
           }
@@ -217,16 +206,16 @@ export default function ProfileScreen({ navigation }) {
         contentContainerStyle={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={{flexDirection: "row", alignItems: "center"}}>
           {avatar ? (
             <Image
-              source={{ uri: avatar }}
-              style={{ width: 120, height: 120, borderRadius: 60 }}
+              source={{uri: avatar}}
+              style={{width: 120, height: 120, borderRadius: 60}}
             />
           ) : (
             <View style={styles.circle}></View>
           )}
-          {role == "trainer" && (
+          {role === "trainer" && (
             <TextInput
               style={{
                 height: 100,
@@ -238,12 +227,12 @@ export default function ProfileScreen({ navigation }) {
                 backgroundColor: "#fcfcfc",
                 shadowColor: "black",
                 shadowOpacity: 0.35,
-                shadowOffset: { width: 2, height: 2 },
+                shadowOffset: {width: 2, height: 2},
                 shadowRadius: 3,
               }}
               value={bio}
               onChangeText={(text) => {
-                dispatch(bioChanged(text));
+                updateBio(text);
               }}
             ></TextInput>
           )}
@@ -257,47 +246,47 @@ export default function ProfileScreen({ navigation }) {
           paddingVertical={4}
           paddingHorizontal={14}
         />
-        <View style={{ flexDirection: "row" }}>
+        <View style={{flexDirection: "row"}}>
           <TextInput
             value={firstName}
-            style={[styles.textInput, { width: 159 }]}
+            style={[styles.textInput, {width: 159}]}
             placeholder={"First Name"}
             onChangeText={(text) => {
-              dispatch(firstNameChanged(text));
+              updateFirstName(text);
             }}
           />
           <TextInput
             value={lastName}
-            style={[styles.textInput, { width: 159 }]}
+            style={[styles.textInput, {width: 159}]}
             placeholder={"Last Name"}
             onChangeText={(text) => {
-              dispatch(lastNameChanged(text));
+              updateLastName(text);
             }}
           />
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{flexDirection: "row"}}>
           <TextInput
             value={birth}
-            style={[styles.textInput, { width: 73 }]}
+            style={[styles.textInput, {width: 73}]}
             placeholder={"Birth"}
             onChangeText={(text) => {
-              dispatch(birthChanged(text));
+              updateBirth(text);
             }}
           />
           <TextInput
             value={gender}
-            style={[styles.textInput, { width: 73 }]}
+            style={[styles.textInput, {width: 73}]}
             placeholder={"Gender"}
             onChangeText={(text) => {
-              dispatch(genderChanged(text));
+              updateGender(text);
             }}
           />
           <TextInput
             value={email}
-            style={[styles.textInput, { width: 160 }]}
+            style={[styles.textInput, {width: 160}]}
             placeholder={"Email Address"}
             onChangeText={(text) => {
-              dispatch(emailChanged(text));
+              updateEmail(text);
             }}
           />
         </View>
@@ -306,8 +295,8 @@ export default function ProfileScreen({ navigation }) {
           style={styles.textInput}
           placeholder={"Password"}
           onChangeText={(text) => {
-            dispatch(passwordChanged(text));
-            dispatch(password2Changed(text));
+            updatePassword(text);
+            updatePassword2(text);
           }}
         />
         <TextInput
@@ -315,7 +304,7 @@ export default function ProfileScreen({ navigation }) {
           style={styles.textInput}
           placeholder={"Phone Number"}
           onChangeText={(text) => {
-            dispatch(mobileChanged(text));
+            updateMobile(text);
           }}
         />
         <TextInput
@@ -323,7 +312,7 @@ export default function ProfileScreen({ navigation }) {
           style={styles.textInput}
           placeholder={"Address 1"}
           onChangeText={(text) => {
-            dispatch(addr1Changed(text));
+            updateAddr1(text);
           }}
         />
         <TextInput
@@ -331,32 +320,32 @@ export default function ProfileScreen({ navigation }) {
           style={styles.textInput}
           placeholder={"Address 2"}
           onChangeText={(text) => {
-            dispatch(addr2Changed(text));
+            updateAddr2(text);
           }}
         />
-        <View style={{ flexDirection: "row" }}>
+        <View style={{flexDirection: "row"}}>
           <TextInput
             value={city}
-            style={[styles.textInput, { width: 122 }]}
+            style={[styles.textInput, {width: 122}]}
             placeholder={"City"}
             onChangeText={(text) => {
-              dispatch(cityChanged(text));
+              updateCity(text);
             }}
           />
           <TextInput
             value={state}
-            style={[styles.textInput, { width: 92 }]}
+            style={[styles.textInput, {width: 92}]}
             placeholder={"State"}
             onChangeText={(text) => {
-              dispatch(stateChanged(text));
+              updateState(text);
             }}
           />
           <TextInput
             value={zip}
-            style={[styles.textInput, { width: 92 }]}
+            style={[styles.textInput, {width: 92}]}
             placeholder={"Zip Code"}
             onChangeText={(text) => {
-              dispatch(zipChanged(text));
+              updateZip(text);
             }}
           />
         </View>
@@ -366,13 +355,13 @@ export default function ProfileScreen({ navigation }) {
           placeholder={"Maximum Travel Distance: 0"}
           onChangeText={(text) => {
             if (text) {
-              dispatch(distanceChanged(parseInt(text)));
+              updateDistance(parseInt(text));
             } else {
-              dispatch(distanceChanged(0));
+              updateDistance(0);
             }
           }}
         />
-        {role == "client" ? (
+        {role === "client" ? (
           <View>
             <TextInput
               value={`Willing to train at zoom: ${zoom ? "Yes" : "No"}`}
@@ -386,32 +375,34 @@ export default function ProfileScreen({ navigation }) {
             />
           </View>
         ) : (
-          <View style={{ flexDirection: "row" }}>
+          <View style={{flexDirection: "row"}}>
             <TextInput
               value={`Home session: ${zoom ? "Yes" : "No"}`}
-              style={[styles.textInput, { width: 154 }]}
+              style={[styles.textInput, {width: 154}]}
             ></TextInput>
             <TextInput
               value={`Zoom session: ${zoom ? "Yes" : "No"}`}
-              style={[styles.textInput, { width: 154 }]}
+              style={[styles.textInput, {width: 154}]}
             ></TextInput>
           </View>
         )}
 
-        {role == "trainer" && (
+        {role === "trainer" && (
           <TextInput
             value={String(bid)}
-            style={[styles.textInput, { width: 160 }]}
+            style={[styles.textInput, {width: 160}]}
             placeholder={"Minimum Bid"}
             onChangeText={(text) => {
-              dispatch(bidChanged(parseInt(text)));
+              updateBid(parseInt(text));
             }}
           />
         )}
-        <PrimaryButton
-          title={"Save"}
-          onPress={role == "client" ? handleClientSignUp : handleTrainerSignUp}
-        />
+        <View style={{paddingBottom: 30}}>
+          <PrimaryButton
+            title={"Save"}
+            onPress={role === "client" ? handleClientSignUp : handleTrainerSignUp}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -446,7 +437,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
 });

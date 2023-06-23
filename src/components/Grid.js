@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useSelector } from "react-redux";
+import {useEffect, useState} from "react";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {useStore} from "../store";
 
-export default function Grid({ name, toggle }) {
+export default function Grid({name, toggle}) {
   const [pressed, setPressed] = useState(false);
-  const { intSpecs } = useSelector((state) => state.user);
-
+  const intSpecs = useStore((state) => state.intSpecs);
   useEffect(() => {
     for (let item of intSpecs) {
-      if (name == item.categoryName) {
+      if (name === item.categoryName) {
         setPressed(true);
       }
     }
@@ -25,12 +24,12 @@ export default function Grid({ name, toggle }) {
         style={[
           styles.container,
           pressed
-            ? { backgroundColor: "#000" }
-            : { backgroundColor: "#fcfcfc" },
+            ? {backgroundColor: "#000000"}
+            : {backgroundColor: "#fcfcfc"},
         ]}
       >
         <Text
-          style={[styles.text, pressed ? { color: "#fff" } : { color: "#000" }]}
+          style={[styles.text, pressed ? {color: "#ffffff"} : {color: "#000000"}]}
         >
           {name}
         </Text>
@@ -52,11 +51,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     shadowColor: "black",
     shadowOpacity: 0.5,
-    shadowOffset: { width: 1.5, height: 1.5 },
+    shadowOffset: {width: 1.5, height: 1.5},
     shadowRadius: 1.5,
   },
   text: {
     fontSize: 11,
-    fontWeight: 600,
+    fontWeight: "600",
   },
 });

@@ -1,60 +1,18 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  Modal,
-} from "react-native";
-import React, { useState, useEffect, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {Dimensions, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import React, {useEffect, useMemo, useState} from "react";
 import DatePicker from "react-native-date-picker";
 import WeekView from "react-native-week-view";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { MaterialIcons } from "@expo/vector-icons";
+import {MaterialIcons} from "@expo/vector-icons";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
-import { add, format } from "date-fns";
+import {add, format} from "date-fns";
+import {useStore} from "../store";
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+const {width: screenWidth} = Dimensions.get("window");
 export default function ScheduleScreen() {
-  const dispatch = useDispatch();
-  const { userId } = useSelector((state) => state.user);
-  const [weeklyEvent, setWeeklyEvent] = useState([
-    // {
-    //   id: 0,
-    //   startDate: new Date(2023, 4, 30, 10, 0),
-    //   endDate: new Date(2023, 4, 30, 12, 0),
-    //   description: "With Client A",
-    //   color: "#005A9C",
-    //   resolveOverlap: "stack",
-    // },
-    // {
-    //   id: 1,
-    //   startDate: new Date(2023, 4, 31, 13, 0),
-    //   endDate: new Date(2023, 4, 31, 15, 0),
-    //   description: "With Client B",
-    //   color: "#005A9C",
-    //   resolveOverlap: "stack",
-    // },
-    // {
-    //   id: 2,
-    //   startDate: new Date(2023, 5, 3, 8, 0),
-    //   endDate: new Date(2023, 5, 3, 11, 0),
-    //   description: "With Client C",
-    //   color: "#005A9C",
-    //   resolveOverlap: "stack",
-    // },
-    // {
-    //   id: 3,
-    //   startDate: new Date(2023, 5, 8, 9, 0),
-    //   endDate: new Date(2023, 5, 8, 11, 0),
-    //   description: "With Client D",
-    //   color: "#005A9C",
-    //   resolveOverlap: "stack",
-    // },
-  ]);
+  const userId = useStore((state) => state.userId);
+  const [weeklyEvent, setWeeklyEvent] = useState([]);
   const [event, setEvent] = useState();
   const [startDatetime, setStartDatetime] = useState(new Date());
   const [endDatetime, setEndDatetime] = useState(new Date());
@@ -63,21 +21,21 @@ export default function ScheduleScreen() {
   const snapPoints = useMemo(() => ["10%", "50%"], []);
   let eventId = 0;
 
-  const TodayHeaderComponent = ({ formattedDate, textStyle }) => (
+  const TodayHeaderComponent = ({formattedDate, textStyle}) => (
     <Text
-      style={[textStyle, { fontWeight: "900", fontSize: 14, color: "darkred" }]}
+      style={[textStyle, {fontWeight: "900", fontSize: 14, color: "darkred"}]}
     >
       {formattedDate}
     </Text>
   );
 
-  const EventComponent = ({ event, position }) => {
+  const EventComponent = ({event, position}) => {
     return (
       <>
         <Text
           style={{
             color: "#eee",
-            fontWeight: 700,
+            fontWeight: "700",
             marginTop: position.height / 2.25,
             textAlign: "center",
           }}
@@ -93,7 +51,7 @@ export default function ScheduleScreen() {
       await axios
         .get(`http://127.0.0.1:10001/schedule/trainer?id=${userId}&week=0`)
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
             let eventList = [];
             // convert raw events to weekly events
             for (const item of res.data) {
@@ -117,8 +75,8 @@ export default function ScheduleScreen() {
                 endDate: endDate,
                 clientId: item.clientId,
                 description:
-                  item.clientId == 0 ? "Block" : "client" + item.clientId,
-                color: item.clientId == 0 ? "#000000" : "#005A9C",
+                  item.clientId === 0 ? "Block" : "client" + item.clientId,
+                color: item.clientId === 0 ? "#000000" : "#005A9C",
                 resolveOverlap: "stack",
               });
               eventId += 1;
@@ -149,9 +107,11 @@ export default function ScheduleScreen() {
           },
         })
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
             console.log("Has been blocked!");
-            getTrainerSessions();
+            getTrainerSessions().catch((err) => {
+              console.log(err);
+            });
           }
         });
     } catch (error) {
@@ -172,17 +132,25 @@ export default function ScheduleScreen() {
           data: sessionObj,
         })
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
             console.log("Has been removed!");
-            getTrainerSessions();
+            getTrainerSessions().catch((err) => {
+              console.log(err);
+            });
           }
         });
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleAddSession = () => {
+  };
+  
   useEffect(() => {
-    getTrainerSessions();
+    getTrainerSessions().catch((err) => {
+      console.log(err);
+    });
     return () => {
       setWeeklyEvent([]);
     };
@@ -200,7 +168,7 @@ export default function ScheduleScreen() {
           showTitle={true} // if true, shows this month and year
           numberOfDays={5}
           formatDateHeader="D ddd" // display short name days, e.g. Mon, Tue, etc
-          pageStartAt={{ weekday: 1 }} // start week on mondays
+          pageStartAt={{left: 0, weekday: 1}} // start week on mondays
           // head
           headerStyle={{
             justifyContent: "center",
@@ -209,20 +177,20 @@ export default function ScheduleScreen() {
           }}
           headerTextStyle={{
             fontSize: 12,
-            fontWeight: 500,
+            fontWeight: "500",
             color: "#000",
           }}
           // left hours
           hourTextStyle={{
             fontSize: 12,
-            fontWeight: 500,
+            fontWeight: "500",
           }}
           // selected grid
           eventContainerStyle={{
             borderRadius: 6,
             shadowColor: "black",
             shadowOpacity: 0.5,
-            shadowOffset: { width: 2, height: 2 },
+            shadowOffset: {width: 2, height: 2},
             shadowRadius: 2,
           }}
           beginAgendaAt={8 * 60}
@@ -255,9 +223,9 @@ export default function ScheduleScreen() {
                 alignItems: "center",
               }}
             >
-              <Text style={{ fontSize: 20, fontWeight: 600 }}>Detail</Text>
+              <Text style={{fontSize: 20, fontWeight: "600"}}>Detail</Text>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <MaterialIcons name="cancel" size={24} color="darkred" />
+                <MaterialIcons name="cancel" size={24} color="darkred"/>
               </TouchableOpacity>
             </View>
             <Text style={styles.modalText}>
@@ -269,7 +237,7 @@ export default function ScheduleScreen() {
             <Text style={styles.modalText}>Training Location: </Text>
             <Text style={styles.modalText}>Trainer: </Text>
             <Text style={styles.modalText}>Trainee: </Text>
-            <View style={{ alignItems: "center" }}>
+            <View style={{alignItems: "center"}}>
               <PrimaryButton
                 fontSize={16}
                 paddingHorizontal={14}
@@ -291,32 +259,32 @@ export default function ScheduleScreen() {
       <BottomSheet
         index={bottomSheetVisible}
         snapPoints={snapPoints}
-        style={{ paddingHorizontal: 20 }}
+        style={{paddingHorizontal: 20}}
         backgroundStyle={styles.bottomSheet}
         onChange={(index) => {
           setBottomSheetVisible(index);
         }}
       >
-        <View style={{ marginBottom: 15, marginHorizontal: 10 }}>
-          <Text style={{ fontWeight: 700, fontSize: 24, marginBottom: 15 }}>
+        <View style={{marginBottom: 15, marginHorizontal: 10}}>
+          <Text style={{fontWeight: "700", fontSize: 24, marginBottom: 15}}>
             Add/Block
           </Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={{ fontSize: 18 }}>Start:</Text>
+          <View style={{flexDirection: "row", alignItems: "center"}}>
+            <Text style={{fontSize: 18}}>Start:</Text>
             <DatePicker
               date={startDatetime}
               onDateChange={(date) => setStartDatetime(date)}
-              style={{ height: 100, transform: [{ scale: 0.875 }] }}
+              style={{height: 100, transform: [{scale: 0.875}]}}
             />
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={{ fontSize: 18 }}>End:</Text>
+          <View style={{flexDirection: "row", alignItems: "center"}}>
+            <Text style={{fontSize: 18}}>End:</Text>
             <DatePicker
               date={endDatetime}
               onDateChange={(date) => {
                 setEndDatetime(date);
               }}
-              style={{ height: 100, transform: [{ scale: 0.875 }] }}
+              style={{height: 100, transform: [{scale: 0.875}]}}
             />
           </View>
           <View
@@ -364,14 +332,14 @@ const styles = StyleSheet.create({
   },
   weekview: {
     marginTop: -40,
-    transform: [{ scale: 0.85 }],
+    transform: [{scale: 0.85}],
     borderColor: "rgba(0,0,0,0)",
     borderRadius: 16,
     height: 800,
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
   },
   panelWrapper: {
@@ -400,7 +368,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
     paddingVertical: 14,
     paddingHorizontal: 30,
@@ -410,7 +378,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginVertical: 6,
     textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 2,
   },
   datePickerGroup: {
@@ -431,7 +399,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
   },
   datePickerWrapper: {},

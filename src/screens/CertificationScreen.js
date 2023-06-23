@@ -1,51 +1,38 @@
-import { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Dimensions,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuid } from "uuid";
-import { Dropdown } from "react-native-element-dropdown";
-import {
-  certificationsAdded,
-  certificationsRemoved,
-} from "../features/userSlice";
+import {useState} from "react";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {v4 as uuid} from "uuid";
+import {Dropdown} from "react-native-element-dropdown";
 import CertificationCard from "../components/CertificationCard";
 import PrimaryButton from "../components/PrimaryButton";
+import {useStore} from "../store";
 
 const selections = [
-  { label: "Company", type: "Company" },
-  { label: "XXX", type: "XXX" },
-  { label: "YYY", type: "YYY" },
+  {label: "Company", type: "Company"},
+  {label: "XXX", type: "XXX"},
+  {label: "YYY", type: "YYY"},
 ];
 
-const { width: screenWidth } = Dimensions.get("window");
-export default function CertificationScreen({ navigation }) {
+const {width: screenWidth} = Dimensions.get("window");
+export default function CertificationScreen({navigation}) {
   // global state
-  const dispatch = useDispatch();
-  const { certifications } = useSelector((state) => state.user);
-  // local certification state
+  const certifications = useStore((state) => state.certifications);
+  const {addCertification, removeCertification} = useStore((state) => state);
+  // local state
   const [type, setType] = useState("Company");
-  const [number, setNumber] = useState();
+  const [number, setNumber] = useState("");
 
   const handleAdd = () => {
     // if (!type || !number) return;
     const certificationId = uuid();
-    const newCertification = {
+    const certificationObj = {
       certificationId: certificationId,
       certificationType: type,
       certificationNumber: number,
     };
-    dispatch(certificationsAdded(newCertification));
+    addCertification(certificationObj)
   };
   const handleRemove = (certificationId) => {
-    dispatch(certificationsRemoved(certificationId));
+    removeCertification(certificationId);
   };
   const handleNext = () => {
     console.log("goto Capacity");
@@ -77,38 +64,37 @@ export default function CertificationScreen({ navigation }) {
           <TextInput
             value={number}
             placeholder={"Certification Number"}
-            style={[styles.textInput, { marginBottom: 10 }]}
+            style={[styles.textInput, {marginBottom: 10}]}
             onChangeText={(text) => {
               setNumber(text);
             }}
           />
-          <TouchableOpacity style={{ marginTop: 8 }} onPress={handleAdd}>
-            <Text style={{ fontSize: 18, fontWeight: 600 }}>
+          <TouchableOpacity style={{marginTop: 8}} onPress={handleAdd}>
+            <Text style={{fontSize: 18, fontWeight: "600"}}>
               Add a certification +
             </Text>
           </TouchableOpacity>
         </View>
         <ScrollView
           style={{
-            width: 300,
             height: 230,
             marginBottom: 20,
             marginTop: 10,
             width: screenWidth,
           }}
-          contentContainerStyle={{ alignItems: "center" }}
+          contentContainerStyle={{alignItems: "center"}}
         >
-          {certifications.map((obj) => (
+          {certifications.map((certificationObj) => (
             <CertificationCard
-              key={obj.certificationId}
-              CertificationId={obj.certificationId}
-              type={obj.certificationType}
-              number={obj.certificationNumber}
+              key={certificationObj.certificationId}
+              CertificationId={certificationObj.certificationId}
+              type={certificationObj.certificationType}
+              number={certificationObj.certificationNumber}
               handleRemove={handleRemove}
             />
           ))}
         </ScrollView>
-        <PrimaryButton title="Next" onPress={handleNext} />
+        <PrimaryButton title="Next" onPress={handleNext}/>
       </ScrollView>
     </SafeAreaView>
   );
@@ -128,7 +114,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 34,
   },
   pannelWrapper: {
@@ -141,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
   },
   dropdown: {

@@ -1,29 +1,24 @@
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-} from "react-native";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
+import {useEffect, useState} from "react";
 import ClientItem from "../components/ClientItem";
+import axios from "axios";
 
-export default function ClientListScreen({ navigation }) {
-  const { userId } = useSelector((state) => state.user);
+export default function ClientListScreen({navigation}) {
   const [clientList, setClientList] = useState([]);
   const [filterClientList, setFilterClientList] = useState([]);
   const [search, setSearch] = useState("");
 
   const getClients = async () => {
-    await axios
-      .get(`http://localhost:10001/client/getall/${11}`)
-      .then((res) => {
-        setClientList(res.data);
-        setFilterClientList(res.data);
-      });
+    try {
+      await axios
+        .get(`http://localhost:10001/client/getall/${11}`)
+        .then((res) => {
+          setClientList(res.data);
+          setFilterClientList(res.data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleFilter = () => {
@@ -34,7 +29,9 @@ export default function ClientListScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getClients();
+    getClients().catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   return (
@@ -53,19 +50,19 @@ export default function ClientListScreen({ navigation }) {
           }}
         />
         <View style={styles.listWrapper}>
-          <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+          <ScrollView contentContainerStyle={{alignItems: "center"}}>
             {filterClientList.length ? (
               filterClientList.map((clientObj, index) => (
                 <ClientItem
                   key={index}
                   name={clientObj.name}
                   onPress={() =>
-                    navigation.navigate("ClientDetailScreen", { clientObj })
+                    navigation.navigate("ClientDetailScreen", {clientObj})
                   }
                 />
               ))
             ) : (
-              <Text style={{ marginTop: 150, fontSize: 20 }}>No Clients</Text>
+              <Text style={{marginTop: 150, fontSize: 20}}>No Clients</Text>
             )}
           </ScrollView>
         </View>
@@ -95,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
   listWrapper: {
@@ -106,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
     marginHorizontal: 10,
   },

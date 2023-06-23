@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  Dimensions,
-  KeyboardAvoidingView,
-} from "react-native";
+import React, {useEffect, useMemo, useState} from "react";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View,} from "react-native";
 import axios from "axios";
-import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import TrainerItem from "../components/TrainerItem";
 import PrimaryButton from "../components/PrimaryButton";
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-export default function TrainerListScreen({ navigation, route }) {
-  const { gymObj } = route.params;
+const {width: screenWidth} = Dimensions.get("window");
+export default function TrainerListScreen({navigation, route}) {
+  const {gymObj} = route.params;
   const [filter, setFilter] = useState({
     name: "",
     price: Infinity,
@@ -29,7 +20,7 @@ export default function TrainerListScreen({ navigation, route }) {
     // 4 -> gymObj.locationId
     await axios.get("http://127.0.0.1:10001/trainers/gym/4").then((res) => {
       let tmpTrainerList = [];
-      for (trainer of res.data) {
+      for (const trainer of res.data) {
         tmpTrainerList.push({
           trainerProfile: trainer.trainerProfile,
           trainerLocations: trainer.trainerLocations,
@@ -44,15 +35,15 @@ export default function TrainerListScreen({ navigation, route }) {
   const handleSearch = () => {
     let tmpTrainerList = [];
     // if name is empty
-    if (filter.name * 1 == 0) {
-      for (trainer of trainerList) {
+    if (filter.name * 1 === 0) {
+      for (const trainer of trainerList) {
         if (trainer.trainerProfile.minimumBid <= filter.price) {
           tmpTrainerList.push(trainer);
         }
       }
       setFilterTrainerList(tmpTrainerList);
     } else {
-      for (trainer of trainerList) {
+      for (const trainer of trainerList) {
         if (
           trainer.trainerProfile.name
             .toLowerCase()
@@ -67,7 +58,9 @@ export default function TrainerListScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    getTrainersFromGym();
+    getTrainersFromGym().catch((err) => {
+      console.log(err);
+    });
     return () => {
       setTrainerList([]);
     };
@@ -77,14 +70,14 @@ export default function TrainerListScreen({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.listWrapper}>
-          <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+          <ScrollView contentContainerStyle={{alignItems: "center"}}>
             {filterTrainerList.map((trainerObj) => {
               return (
                 <TrainerItem
                   key={trainerObj.trainerId}
                   trainer={trainerObj}
                   onPress={() => {
-                    navigation.navigate("TrainerDetailScreen", { trainerObj });
+                    navigation.navigate("TrainerDetailScreen", {trainerObj});
                   }}
                 />
               );
@@ -93,13 +86,13 @@ export default function TrainerListScreen({ navigation, route }) {
         </View>
       </ScrollView>
       <BottomSheet
-        style={{ paddingHorizontal: 30 }}
+        style={{paddingHorizontal: 30}}
         backgroundStyle={styles.bottomSheet}
         index={0}
         snapPoints={snapPoints}
       >
         <View>
-          <Text style={{ fontWeight: 700, fontSize: 24, marginBottom: 6 }}>
+          <Text style={{fontWeight: "700", fontSize: 24, marginBottom: 6}}>
             Filter
           </Text>
           <View>
@@ -111,12 +104,12 @@ export default function TrainerListScreen({ navigation, route }) {
                 marginVertical: 6,
               }}
             >
-              <Text style={{ fontWeight: 500, fontSize: 18 }}>Name: </Text>
+              <Text style={{fontWeight: "500", fontSize: 18}}>Name: </Text>
               <BottomSheetTextInput
                 value={filter.name}
                 style={styles.textInput}
                 placeholder="Name"
-                onChangeText={(text) => setFilter({ ...filter, name: text })}
+                onChangeText={(text) => setFilter({...filter, name: text})}
               />
             </View>
             <View
@@ -127,22 +120,22 @@ export default function TrainerListScreen({ navigation, route }) {
                 marginVertical: 6,
               }}
             >
-              <Text style={{ fontWeight: 500, fontSize: 18 }}>Price: </Text>
+              <Text style={{fontWeight: "500", fontSize: 18}}>Price: </Text>
               <BottomSheetTextInput
-                value={filter.price == Infinity ? "" : String(filter.price)}
+                value={filter.price === Infinity ? "" : String(filter.price)}
                 style={styles.textInput}
                 placeholder="Price"
                 onChangeText={(text) => {
-                  if (text == "") {
-                    setFilter({ ...filter, price: Infinity });
+                  if (text === "") {
+                    setFilter({...filter, price: Infinity});
                   } else {
-                    setFilter({ ...filter, price: parseInt(text) });
+                    setFilter({...filter, price: parseInt(text)});
                   }
                 }}
               />
             </View>
             <View
-              style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+              style={{flexDirection: "row", justifyContent: "space-evenly"}}
             >
               <PrimaryButton
                 title={"Search"}
@@ -186,19 +179,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: screenWidth,
   },
-  textInput: {
-    height: 38,
-    fontSize: 18,
-    borderRadius: 20,
-    paddingHorizontal: 24,
-    marginBottom: 20,
-    backgroundColor: "#ffffff",
-    shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 2 },
-    shadowRadius: 2,
-    textAlign: "center",
-  },
   listWrapper: {
     height: 625,
     width: 360,
@@ -207,14 +187,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
   },
   bottomSheet: {
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
   },
   textInput: {
@@ -227,7 +207,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
     marginHorizontal: 10,
   },

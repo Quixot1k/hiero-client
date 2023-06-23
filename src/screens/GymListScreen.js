@@ -1,23 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  FlatList,
-  StyleSheet,
-} from "react-native";
-import { Slider } from "@rneui/themed";
+import React, {useEffect, useMemo, useState} from "react";
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Slider} from "@rneui/themed";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import GymItem from "../components/GymItem";
-import PrimaryButton from "../components/PrimaryButton";
+import {useStore} from "../store";
 
-export default function GymListScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const { latitude, longitude } = useSelector((state) => state.user);
+export default function GymListScreen({navigation}) {
+  const {latitude, longitude} = useStore((state) => state);
   const [radius, setRadius] = useState(50);
   const [gymList, setGymList] = useState([]);
   const [filterGymList, setFilterGymList] = useState([]);
@@ -32,7 +22,6 @@ export default function GymListScreen({ navigation }) {
         )
         .then((res) => {
           if ((res.status = 200)) {
-            // console.log(res.data);
             setGymList(res.data);
             setFilterGymList(res.data);
           } else {
@@ -45,7 +34,7 @@ export default function GymListScreen({ navigation }) {
   };
   const handleAddressFilter = (text) => {
     // console.log(text);
-    if (addressFilter * 1 == 0) {
+    if (addressFilter * 1 === 0) {
       setFilterGymList(gymList);
     }
     setFilterGymList(
@@ -64,7 +53,7 @@ export default function GymListScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* List */}
         <View style={styles.listWrapper}>
-          <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+          <ScrollView contentContainerStyle={{alignItems: "center"}}>
             {filterGymList.map((gymObj, key) => {
               // {{url}}/trainers/gym/3
               return (
@@ -72,7 +61,7 @@ export default function GymListScreen({ navigation }) {
                   key={key}
                   gym={gymObj}
                   onPress={() =>
-                    navigation.navigate("TrainerListScreen", { gymObj })
+                    navigation.navigate("TrainerListScreen", {gymObj})
                   }
                 />
               );
@@ -83,7 +72,7 @@ export default function GymListScreen({ navigation }) {
       <BottomSheet
         index={0}
         snapPoints={snapPoints}
-        style={{ paddingHorizontal: 30 }}
+        style={{paddingHorizontal: 30}}
         backgroundStyle={styles.bottomSheet}
       >
         <View>
@@ -96,8 +85,8 @@ export default function GymListScreen({ navigation }) {
               minimumTrackTintColor="#000"
               maximumTrackTintColor="#ccc"
               allowTouchTrack={true}
-              thumbStyle={{ height: 20, width: 20, backgroundColor: "#000" }}
-              trackStyle={{ height: 6, width: 175, borderRadius: 10 }}
+              thumbStyle={{height: 20, width: 20, backgroundColor: "#000"}}
+              trackStyle={{height: 6, width: 175, borderRadius: 10}}
               step={1}
               onValueChange={(value) => {
                 setRadius(value);
@@ -106,7 +95,7 @@ export default function GymListScreen({ navigation }) {
             <Text style={styles.sliderText}>Radius:{radius}</Text>
           </View>
           {/* TextInput */}
-          <View style={{ paddingHorizontal: 10 }}>
+          <View style={{paddingHorizontal: 10}}>
             <BottomSheetTextInput
               value={addressFilter}
               onChangeText={(text) => {
@@ -141,7 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 3, height: 4 },
+    shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
     paddingVertical: 10,
   },
@@ -149,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
   },
   sliderWrapper: {
@@ -164,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
   sliderText: {
@@ -175,12 +164,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 43,
-    // width: 180,
     borderRadius: 8,
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
     paddingHorizontal: 10,
     fontSize: 17,

@@ -1,47 +1,25 @@
 import React from "react";
-import { Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import MapView, { Marker, Circle } from "react-native-maps";
-import { Slider, CheckBox } from "@rneui/themed";
-import axios from "axios";
-
 import {
-  View,
+  Dimensions,
+  Image,
   SafeAreaView,
   ScrollView,
-  Text,
-  TouchableOpacity,
-  TextInput,
   StyleSheet,
-  Dimensions,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
-import {
-  addr1Changed,
-  addr2Changed,
-  bioChanged,
-  birthChanged,
-  cityChanged,
-  distanceChanged,
-  emailChanged,
-  firstNameChanged,
-  genderChanged,
-  lastNameChanged,
-  mobileChanged,
-  password2Changed,
-  passwordChanged,
-  bidChanged,
-  stateChanged,
-  zipChanged,
-  latitudeChanged,
-  longitudeChanged,
-  zoomChanged,
-  homeChanged,
-} from "../features/userSlice";
+import MapView, {Circle, Marker} from "react-native-maps";
+import {CheckBox, Slider} from "@rneui/themed";
+import axios from "axios";
 import PrimaryButton from "../components/PrimaryButton";
+import {useStore} from "../store";
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-export default function Profile({ navigation }) {
+const {width: screenWidth} = Dimensions.get("window");
+export default function Profile({navigation}) {
   const {
+    role,
     userId,
     firstName,
     lastName,
@@ -50,12 +28,11 @@ export default function Profile({ navigation }) {
     mobile,
     birth,
     gender,
-    certifications,
-    intSpecs,
     capacity,
-    bio,
-    bid,
     avatar,
+    zoom,
+    home,
+    /* only for client */
     addr1,
     addr2,
     city,
@@ -64,12 +41,32 @@ export default function Profile({ navigation }) {
     latitude,
     longitude,
     distance,
-    zoom,
-    home,
-  } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const { role } = useSelector((state) => state.general);
-
+    /* only for trainer */
+    // business,
+    bio,
+    bid,
+  } = useStore((state) => state)
+  const {
+    // updateMessage,
+    updateBio,
+    updateFirstName,
+    updateLastName,
+    updateBirth,
+    updateGender,
+    updateEmail,
+    // updatePassword,
+    // updatePassword2,
+    updateMobile,
+    updateAddr1,
+    updateAddr2,
+    updateCity,
+    updateState,
+    updateZip,
+    updateDistance,
+    updateBid,
+    updateZoom,
+    updateHome,
+  } = useStore((state) => state)
   const handleTrainerSave = async () => {
     const trainerProfile = {
       trainerId: userId,
@@ -91,7 +88,7 @@ export default function Profile({ navigation }) {
       await axios
         .put(
           "http://127.0.0.1:10001/trainer/profile",
-          { trainerProfile },
+          {trainerProfile},
           {
             headers: {
               "Content-Type": "application/json",
@@ -99,7 +96,7 @@ export default function Profile({ navigation }) {
           }
         )
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
             console.log("Update Successfully");
           } else {
             console.log(JSON.stringify(res));
@@ -114,16 +111,16 @@ export default function Profile({ navigation }) {
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* Header */}
         <View style={styles.headerSection}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{flexDirection: "row", alignItems: "center"}}>
             {avatar ? (
               <Image
-                source={{ uri: avatar }}
-                style={{ width: 120, height: 120, borderRadius: 60 }}
+                source={{uri: avatar}}
+                style={{width: 120, height: 120, borderRadius: 60}}
               />
             ) : (
               <View style={styles.profileCircle}></View>
             )}
-            {role == "trainer" && (
+            {role === "trainer" && (
               <TextInput
                 style={{
                   height: 104,
@@ -135,7 +132,7 @@ export default function Profile({ navigation }) {
                 }}
                 value={bio}
                 onChangeText={(text) => {
-                  dispatch(bioChanged(text));
+                  updateBio(text);
                 }}
               ></TextInput>
             )}
@@ -158,7 +155,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={firstName}
               onChangeText={(text) => {
-                dispatch(firstNameChanged(text));
+                updateFirstName(text);
               }}
             />
           </View>
@@ -168,7 +165,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={lastName}
               onChangeText={(text) => {
-                dispatch(lastNameChanged(text));
+                updateLastName(text);
               }}
             />
           </View>
@@ -178,7 +175,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={email}
               onChangeText={(text) => {
-                dispatch(emailChanged(text));
+                updateEmail(text);
               }}
             />
           </View>
@@ -188,7 +185,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={mobile}
               onChangeText={(text) => {
-                dispatch(mobileChanged(text));
+                updateMobile(text);
               }}
             />
           </View>
@@ -198,7 +195,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={String(birth)}
               onChangeText={(text) => {
-                dispatch(birthChanged(parseInt(text)));
+                updateBirth(parseInt(text));
               }}
             />
           </View>
@@ -208,21 +205,21 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={gender}
               onChangeText={(text) => {
-                dispatch(genderChanged(text));
+                updateGender(text);
               }}
             />
           </View>
-          {role == "trainer" && (
+          {role === "trainer" && (
             <View style={styles.inputWrapper}>
               <Text style={styles.text}>Certification</Text>
               <TouchableOpacity
-                style={{ alignItems: "center", width: 300 }}
+                style={{alignItems: "center", width: 300}}
                 onPress={() => navigation.navigate("CertificationScreen")}
               >
                 <Text
                   style={{
                     fontSize: 18,
-                    fontWeight: 500,
+                    fontWeight: "500",
                     textDecorationLine: "underline",
                   }}
                 >
@@ -231,14 +228,14 @@ export default function Profile({ navigation }) {
               </TouchableOpacity>
             </View>
           )}
-          {role == "trainer" && (
+          {role === "trainer" && (
             <View style={styles.inputWrapper}>
               <Text style={styles.text}>Bid</Text>
               <TextInput
                 style={styles.textInput}
                 value={String(bid)}
                 onChangeText={(text) => {
-                  dispatch(bidChanged(parseInt(text)));
+                  updateBid(parseInt(text));
                 }}
               />
             </View>
@@ -249,7 +246,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={addr1}
               onChangeText={(text) => {
-                dispatch(addr1Changed(text));
+                updateAddr1(text);
               }}
             />
           </View>
@@ -259,7 +256,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={addr2}
               onChangeText={(text) => {
-                dispatch(addr2Changed(text));
+                updateAddr2(text);
               }}
             />
           </View>
@@ -269,7 +266,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={city}
               onChangeText={(text) => {
-                dispatch(cityChanged(text));
+                updateCity(text);
               }}
             />
           </View>
@@ -279,7 +276,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={state}
               onChangeText={(text) => {
-                dispatch(stateChanged(text));
+                updateState(text);
               }}
             />
           </View>
@@ -289,7 +286,7 @@ export default function Profile({ navigation }) {
               style={styles.textInput}
               value={zip}
               onChangeText={(text) => {
-                dispatch(zipChanged(text));
+                updateZip(text);
               }}
             />
           </View>
@@ -297,7 +294,7 @@ export default function Profile({ navigation }) {
         {/* Map */}
         <View style={styles.mapWrapper}>
           <MapView
-            style={{ width: "100%", height: "100%", borderRadius: 20 }}
+            style={{width: "100%", height: "100%", borderRadius: 20}}
             initialRegion={{
               latitude: latitude,
               longitude: longitude,
@@ -311,9 +308,9 @@ export default function Profile({ navigation }) {
               longitudeDelta: distance / 30,
             }}
           >
-            <Marker coordinate={{ latitude: latitude, longitude: longitude }} />
+            <Marker coordinate={{latitude: latitude, longitude: longitude}}/>
             <Circle
-              center={{ latitude: latitude, longitude: longitude }}
+              center={{latitude: latitude, longitude: longitude}}
               radius={1609 * distance}
               fillColor={"rgba(255,255,255,0.3)"}
             />
@@ -321,8 +318,8 @@ export default function Profile({ navigation }) {
         </View>
         {/* CheckBox & Radio */}
         <View style={styles.textInputSection}>
-          <Text style={{ fontSize: 16, marginBottom: 6, fontWeight: 500 }}>
-            {role == "client"
+          <Text style={{fontSize: 16, marginBottom: 6, fontWeight: "500"}}>
+            {role === "client"
               ? "How far are you willing to go for service?"
               : "How far are you willing to travel to clients?"}
           </Text>
@@ -333,11 +330,11 @@ export default function Profile({ navigation }) {
             minimumTrackTintColor="#000"
             maximumTrackTintColor="#ccc"
             allowTouchTrack={true}
-            thumbStyle={{ height: 20, width: 20, backgroundColor: "#000" }}
-            trackStyle={{ height: 6, width: 250, borderRadius: 10 }}
+            thumbStyle={{height: 20, width: 20, backgroundColor: "#000"}}
+            trackStyle={{height: 6, width: 250, borderRadius: 10}}
             step={1}
             onValueChange={(value) => {
-              dispatch(distanceChanged(value));
+              updateDistance(value);
             }}
           />
           <Text
@@ -345,12 +342,12 @@ export default function Profile({ navigation }) {
               fontSize: 16,
               marginBottom: 6,
               marginTop: 6,
-              fontWeight: 500,
+              fontWeight: "500",
             }}
           >
             Distance
             <Text
-              style={{ fontSize: 18, fontStyle: "italic", fontWeight: 800 }}
+              style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}
             >
               {" "}
               {distance < 90 ? distance : 90}
@@ -361,24 +358,24 @@ export default function Profile({ navigation }) {
           <View>
             <CheckBox
               size={22}
-              checked={zoom == true ? true : false}
+              checked={zoom === true}
               checkedColor="#000"
               title={"Online session possible?"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000000" }}
-              containerStyle={{ marginBottom: -15, backgroundColor: "#fcfcfc" }}
+              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
+              containerStyle={{marginBottom: -15, backgroundColor: "#fcfcfc"}}
               onPress={() => {
-                dispatch(zoomChanged());
+                updateZoom();
               }}
             />
             <CheckBox
               size={22}
-              checked={home == true ? true : false}
+              checked={home === true}
               checkedColor="#000"
               title={"Home session possible?"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000000" }}
-              containerStyle={{ backgroundColor: "#fcfcfc" }}
+              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
+              containerStyle={{backgroundColor: "#fcfcfc"}}
               onPress={() => {
-                dispatch(homeChanged());
+                updateHome();
               }}
             />
           </View>
@@ -389,7 +386,9 @@ export default function Profile({ navigation }) {
           fontWeight={500}
           paddingVertical={8}
           onPress={() => {
-            handleTrainerSave();
+            handleTrainerSave().catch((err) => {
+              console.log(err);
+            });
           }}
         />
       </ScrollView>
@@ -418,7 +417,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
   profileCircle: {
@@ -439,7 +438,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
   },
   inputWrapper: {
@@ -453,7 +452,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontWeight: 500,
+    fontWeight: "500",
   },
   textInput: {
     width: 200,
@@ -464,7 +463,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     shadowColor: "rgba(0,0,0,0.75)",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: {width: 1, height: 1},
     shadowRadius: 5,
   },
   mapWrapper: {
@@ -475,7 +474,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.5,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 3,
   },
 });

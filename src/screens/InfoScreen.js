@@ -1,27 +1,16 @@
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
-import {
-  birthChanged,
-  businessChanged,
-  firstNameChanged,
-  genderChanged,
-  lastNameChanged,
-  mobileChanged,
-} from "../features/userSlice";
+import {useStore} from "../store";
 
-export default function InfoScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const { firstName, lastName, birth, business, gender, mobile } = useSelector(
-    (state) => state.user
-  );
-  const { role } = useSelector((state) => state.general);
+export default function InfoScreen({navigation}) {
+  const {role, firstName, lastName, birth, gender, mobile, business} = useStore(
+    (state) => state
+  )
+  const {updateFirstName, updateLastName, updateBirth, updateGender, updateMobile, updateBusiness} = useStore(
+    (state) => state
+  )
+
+
   const handleNext = () => {
     console.log("goto IntSpecScreen");
     navigation.navigate("IntSpecScreen");
@@ -30,9 +19,9 @@ export default function InfoScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={
-          role == "client"
+          role === "client"
             ? styles.scrollView
-            : [styles.scrollView, { marginTop: 50 }]
+            : [styles.scrollView, {marginTop: 50}]
         }
       >
         <Text style={styles.header}>Tell us more</Text>
@@ -41,7 +30,7 @@ export default function InfoScreen({ navigation }) {
           placeholder="First Name"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch(firstNameChanged(text));
+            updateFirstName(text)
           }}
         />
         <TextInput
@@ -49,7 +38,7 @@ export default function InfoScreen({ navigation }) {
           placeholder="Last Name"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch(lastNameChanged(text));
+            updateLastName(text)
           }}
         />
 
@@ -58,16 +47,16 @@ export default function InfoScreen({ navigation }) {
           placeholder="Birth"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch(birthChanged(text));
+            updateBirth(text)
           }}
         />
-        {role == "trainer" && (
+        {role === "trainer" && (
           <TextInput
             value={business}
             placeholder="Business name (if applicable)"
             style={styles.textInput}
             onChangeText={(text) => {
-              dispatch(businessChanged(text));
+              updateBusiness(text)
             }}
           />
         )}
@@ -76,18 +65,18 @@ export default function InfoScreen({ navigation }) {
           placeholder="Gender"
           style={styles.textInput}
           onChangeText={(text) => {
-            dispatch(genderChanged(text));
+            updateGender(text)
           }}
         />
         <TextInput
           value={mobile}
           placeholder="Mobile"
-          style={[styles.textInput, { marginBottom: 10 }]}
+          style={[styles.textInput, {marginBottom: 10}]}
           onChangeText={(text) => {
-            dispatch(mobileChanged(text));
+            updateMobile(text)
           }}
         />
-        <PrimaryButton title="Next" onPress={handleNext} marginTop={40} />
+        <PrimaryButton title="Next" onPress={handleNext} marginTop={40}/>
       </ScrollView>
     </SafeAreaView>
   );
@@ -105,7 +94,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    fontWeight: 500,
+    fontWeight: "500",
     marginBottom: 10,
   },
   textInput: {
@@ -118,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 2,
     marginHorizontal: 10,
   },
