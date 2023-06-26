@@ -1,14 +1,19 @@
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
+import validator from "validator";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function BidScreen({navigation}) {
   const bid = useStore((state) => state.bid);
   const updateBid = useStore((state) => state.updateBid);
   const handleNext = () => {
-    console.log("goto AvatarScreen");
-    navigation.navigate("AvatarScreen");
+    if (bid === 0 || !validator.isNumeric(String(bid))) {
+      console.log("invalid bid");
+    } else {
+      console.log("goto AvatarScreen");
+      navigation.navigate("AvatarScreen");
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -18,13 +23,19 @@ export default function BidScreen({navigation}) {
           The minimum bid you're willing to work for
         </Text>
         <TextInput
-          placeholder={"$0.00"}
-          keyboardType={"decimal-pad"}
+          placeholder={"$50"}
+          maxLength={5}
+          keyboardType={"number-pad"}
           value={bid ? String(bid) : ""}
           style={styles.textInput}
-          multiline={true}
           onChangeText={(text) => {
-            updateBid(parseInt(text));
+            if (text === "") {
+              updateBid(0);
+            } else if (validator.isNumeric(text)) {
+              updateBid(parseInt(text));
+            } else {
+              console.log("invalid bid");
+            }
           }}
         />
         <PrimaryButton title="Next" onPress={handleNext}/>
@@ -60,9 +71,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginBottom: 12,
     paddingHorizontal: 12,
-    fontSize: 60,
+    fontSize: 70,
+    fontWeight: "500",
     textAlign: "center",
-    paddingTop: 35,
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,

@@ -218,11 +218,11 @@ export default function LoginScreen({navigation}) {
                 updatePassword(text);
               }}
             />
-            <TouchableOpacity onPress={() => {
+            {password && <TouchableOpacity onPress={() => {
               setHidden(!hidden);
             }}>
               <Text style={{fontWeight: "500"}}>{hidden ? "Show" : "Hide"}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
         </View>
         <View>

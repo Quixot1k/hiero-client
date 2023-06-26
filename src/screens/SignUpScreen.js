@@ -88,11 +88,11 @@ export default function LoginScreen({navigation}) {
                 updatePassword(text);
               }}
             />
-            <TouchableOpacity onPress={() => {
+            {password && <TouchableOpacity onPress={() => {
               setHidden({...hidden, password: !hidden.password});
             }}>
               <Text style={{fontWeight: "500"}}>{hidden.password ? "Show" : "Hide"}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
         </View>
         <View style={[styles.textInputGroup, {marginBottom: 20}]}>
@@ -105,8 +105,8 @@ export default function LoginScreen({navigation}) {
               paddingRight: 14,
             }]}>
             <TextInput
-              value={password}
-              placeholder="Enter your passowrd again"
+              value={password2}
+              placeholder="Your passowrd again"
               style={{width: 180, fontSize: 17, marginLeft: 10}}
               maxLength={16}
               textContentType={"password"}
@@ -115,11 +115,11 @@ export default function LoginScreen({navigation}) {
                 updatePassword2(text);
               }}
             />
-            <TouchableOpacity onPress={() => {
+            {password2 && <TouchableOpacity onPress={() => {
               setHidden({...hidden, password2: !hidden.password2});
             }}>
               <Text style={{fontWeight: "500"}}>{hidden.password2 ? "Show" : "Hide"}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
         </View>
         <View>

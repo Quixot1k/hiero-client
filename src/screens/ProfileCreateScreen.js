@@ -4,6 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import FormData from "form-data";
 import {useStore} from "../store";
+import {format} from "date-fns";
 
 const {width: screenWidth} = Dimensions.get("window");
 
@@ -70,7 +71,7 @@ export default function ProfileCreateScreen({navigation}) {
         emailAddress: "test@email.com",
         password: "password",
         phone: mobile,
-        age: parseInt(birth), // int
+        age: birth, // date
         address: addr1 + "," + addr2,
         city: city,
         state: state,
@@ -144,11 +145,11 @@ export default function ProfileCreateScreen({navigation}) {
         emailAddress: email,
         password: password,
         phone: mobile,
-        age: parseInt(birth), // int
+        age: birth, // date
         maxTravelDistance: parseInt(distance), // int
         gender: gender, // 0:Male, 1:Female, 2:Other
         imageName: "",
-        minimumBid: parseInt(bid),
+        minimumBid: bid,
         bio: bio,
         maxClientsPerSession: parseInt(capacity),
         homeSession: home, // boolean
@@ -248,6 +249,7 @@ export default function ProfileCreateScreen({navigation}) {
         />
         <View style={{flexDirection: "row"}}>
           <TextInput
+            editable={false}
             value={firstName}
             style={[styles.textInput, {width: 159}]}
             placeholder={"First Name"}
@@ -256,6 +258,7 @@ export default function ProfileCreateScreen({navigation}) {
             }}
           />
           <TextInput
+            editable={false}
             value={lastName}
             style={[styles.textInput, {width: 159}]}
             placeholder={"Last Name"}
@@ -266,16 +269,18 @@ export default function ProfileCreateScreen({navigation}) {
         </View>
         <View style={{flexDirection: "row"}}>
           <TextInput
-            value={birth}
-            style={[styles.textInput, {width: 73}]}
+            editable={false}
+            value={format(birth, "yyyy/MM/dd")}
+            style={[styles.textInput, {width: 103}]}
             placeholder={"Birth"}
             onChangeText={(text) => {
               updateBirth(text);
             }}
           />
           <TextInput
+            editable={false}
             value={gender}
-            style={[styles.textInput, {width: 73}]}
+            style={[styles.textInput, {width: 63}]}
             placeholder={"Gender"}
             onChangeText={(text) => {
               updateGender(text);
@@ -283,7 +288,7 @@ export default function ProfileCreateScreen({navigation}) {
           />
           <TextInput
             value={email}
-            style={[styles.textInput, {width: 160}]}
+            style={[styles.textInput, {width: 140}]}
             placeholder={"Email Address"}
             onChangeText={(text) => {
               updateEmail(text);
@@ -300,6 +305,7 @@ export default function ProfileCreateScreen({navigation}) {
         {/*  }}*/}
         {/*/>*/}
         <TextInput
+          editable={false}
           value={mobile}
           style={styles.textInput}
           placeholder={"Phone Number"}
@@ -308,6 +314,7 @@ export default function ProfileCreateScreen({navigation}) {
           }}
         />
         <TextInput
+          editable={false}
           value={addr1}
           style={styles.textInput}
           placeholder={"Address 1"}
@@ -316,6 +323,7 @@ export default function ProfileCreateScreen({navigation}) {
           }}
         />
         <TextInput
+          editable={false}
           value={addr2}
           style={styles.textInput}
           placeholder={"Address 2"}
@@ -325,6 +333,7 @@ export default function ProfileCreateScreen({navigation}) {
         />
         <View style={{flexDirection: "row"}}>
           <TextInput
+            editable={false}
             value={city}
             style={[styles.textInput, {width: 122}]}
             placeholder={"City"}
@@ -333,6 +342,7 @@ export default function ProfileCreateScreen({navigation}) {
             }}
           />
           <TextInput
+            editable={false}
             value={state}
             style={[styles.textInput, {width: 92}]}
             placeholder={"State"}
@@ -341,6 +351,7 @@ export default function ProfileCreateScreen({navigation}) {
             }}
           />
           <TextInput
+            editable={false}
             value={zip}
             style={[styles.textInput, {width: 92}]}
             placeholder={"Zip Code"}
@@ -350,7 +361,8 @@ export default function ProfileCreateScreen({navigation}) {
           />
         </View>
         <TextInput
-          value={distance ? String(distance) : ""}
+          editable={false}
+          value={distance ? "Distance: " + String(distance) : ""}
           style={styles.textInput}
           placeholder={"Maximum Travel Distance: 0"}
           onChangeText={(text) => {
@@ -361,36 +373,23 @@ export default function ProfileCreateScreen({navigation}) {
             }
           }}
         />
-        {role === "client" ? (
-          <View>
-            <TextInput
-              value={`Willing to train at zoom: ${zoom ? "Yes" : "No"}`}
-              style={styles.textInput}
-              placeholder={"Willing to train over Zoom? "}
-            />
-            <TextInput
-              value={`Willing to train at home: ${home ? "Yes" : "No"}`}
-              style={styles.textInput}
-              placeholder={"Willing to train at home?"}
-            />
-          </View>
-        ) : (
-          <View style={{flexDirection: "row"}}>
-            <TextInput
-              value={`Home session: ${zoom ? "Yes" : "No"}`}
-              style={[styles.textInput, {width: 154}]}
-            ></TextInput>
-            <TextInput
-              value={`Zoom session: ${zoom ? "Yes" : "No"}`}
-              style={[styles.textInput, {width: 154}]}
-            ></TextInput>
-          </View>
-        )}
-
+        <View style={{flexDirection: "row"}}>
+          <TextInput
+            editable={false}
+            value={`Home session: ${zoom ? "Yes" : "No"}`}
+            style={[styles.textInput, {width: 159}]}
+          />
+          <TextInput
+            editable={false}
+            value={`Zoom session: ${zoom ? "Yes" : "No"}`}
+            style={[styles.textInput, {width: 159}]}
+          />
+        </View>
         {role === "trainer" && (
           <TextInput
-            value={String(bid)}
-            style={[styles.textInput, {width: 160}]}
+            editable={false}
+            value={"Minimum Bid: " + String(bid)}
+            style={[styles.textInput, {width: 180}]}
             placeholder={"Minimum Bid"}
             onChangeText={(text) => {
               updateBid(parseInt(text));
