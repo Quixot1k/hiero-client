@@ -7,8 +7,18 @@ import * as Location from "expo-location";
 import {useStore} from "../store";
 
 const {width: windowWidth} = Dimensions.get("window");
-export default function LocationScreen({navigation}) {
-  const {role, addr1, addr2, city, state, zip, distance, latitude, longitude} = useStore((state) => state);
+export default function ClientLocationScreen({navigation}) {
+  const {
+    role,
+    addr1,
+    addr2,
+    city,
+    state,
+    zip,
+    distance,
+    latitude,
+    longitude,
+  } = useStore((state) => state);
   const {
     updateAddr1,
     updateAddr2,
@@ -17,7 +27,7 @@ export default function LocationScreen({navigation}) {
     updateZip,
     updateDistance,
     updateLatitude,
-    updateLongitude
+    updateLongitude,
   } = useStore((state) => state);
 
   useEffect(() => {
@@ -61,6 +71,7 @@ export default function LocationScreen({navigation}) {
           <TextInput
             value={addr1}
             placeholder="Address 1"
+            textContentType={"streetAddressLine1"}
             style={[styles.textInput, {width: 300}]}
             onChangeText={(text) => {
               updateAddr1(text);
@@ -69,6 +80,7 @@ export default function LocationScreen({navigation}) {
           <TextInput
             value={addr2}
             placeholder="Address 2"
+            textContentType={"streetAddressLine2"}
             style={[styles.textInput, {width: 300, marginVertical: 8}]}
             onChangeText={(text) => {
               updateAddr2(text);
@@ -78,6 +90,7 @@ export default function LocationScreen({navigation}) {
             <TextInput
               value={city}
               placeholder="City"
+              textContentType={"addressCity"}
               style={[styles.textInput, {width: 125}]}
               onChangeText={(text) => {
                 updateCity(text);
@@ -86,6 +99,7 @@ export default function LocationScreen({navigation}) {
             <TextInput
               value={state}
               placeholder="State"
+              textContentType={"addressState"}
               style={[styles.textInput, {marginHorizontal: 6, width: 81}]}
               onChangeText={(text) => {
                 updateState(text);
@@ -94,6 +108,7 @@ export default function LocationScreen({navigation}) {
             <TextInput
               value={zip}
               placeholder="Zip Code"
+              textContentType={"postalCode"}
               style={[styles.textInput, {width: 81}]}
               onChangeText={(text) => {
                 updateZip(text);
@@ -153,7 +168,9 @@ export default function LocationScreen({navigation}) {
           }}
         >
           Distance
-          <Text style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}>
+          <Text
+            style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}
+          >
             {" "}
             {distance < 90 ? distance : 90}
             {distance >= 90 ? "+ " : " "}
@@ -191,14 +208,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
   },
   textInputGroup: {
     flexDirection: "row",
   },
   mapWrapper: {
-    borderRadius: 20,
+    borderRadius: 12,
     height: 240,
     width: 300,
     marginTop: 20,

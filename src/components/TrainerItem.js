@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-export default function TrainerItem({ trainer, onPress }) {
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {AntDesign} from "@expo/vector-icons";
+
+export default function TrainerItem({trainer, onPress}) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
@@ -11,10 +12,10 @@ export default function TrainerItem({ trainer, onPress }) {
         </View>
         {/* name + specs */}
         <View>
-          <View style={{ marginBottom: 2 }}>
+          <View style={{marginBottom: 2}}>
             <Text style={styles.name}>{trainer.trainerProfile.name}</Text>
           </View>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", width: 150 }}>
+          <View style={{flexDirection: "row", flexWrap: "wrap", width: 150}}>
             {trainer.providerCategories.categories
               .slice(0, 2)
               .map((category) => {
@@ -29,9 +30,9 @@ export default function TrainerItem({ trainer, onPress }) {
           </View>
         </View>
         {/* bid */}
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={{flexDirection: "row", alignItems: "center"}}>
           <Text style={styles.bid}>${trainer.trainerProfile.minimumBid}</Text>
-          <AntDesign name="caretright" size={12} color="black" />
+          <AntDesign name="caretright" size={12} color="black"/>
         </View>
       </View>
     </TouchableOpacity>
@@ -46,12 +47,11 @@ const styles = StyleSheet.create({
     width: 330,
     height: 90,
     marginVertical: 5,
-    marginHorizontal: 10,
     backgroundColor: "#ffffff",
     borderRadius: 14,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowRadius: 2,
   },
   avatar: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     shadowOpacity: 0,
     textShadowColor: "rgba(0, 0, 0, 0.25)",
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,
   },
   specWrapper: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginRight: 2,
     shadowOpacity: 0,
     textShadowColor: "rgba(0, 0, 0, 0.25)",
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,
   },
 });

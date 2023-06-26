@@ -1,9 +1,10 @@
 import {CommonActions} from "@react-navigation/native";
 import {CheckBox} from "@rneui/themed";
-import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from '../store'
+import {useStore} from "../store";
 
+const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
   const role = useStore((state) => state.role);
   const updateRole = useStore((state) => state.updateRole);
@@ -17,7 +18,7 @@ export default function LoginScreen({navigation}) {
     console.log("goto InfoScreen and clear navigation stack");
     navigation.navigate("InfoScreen");
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -44,9 +45,11 @@ export default function LoginScreen({navigation}) {
           <TextInput
             value={email}
             placeholder="Email"
+            textContentType={"emailAddress"}
+            keyboardType={"email-address"}
             style={styles.textInput}
             onChangeText={(text) => {
-              updateEmail(text)
+              updateEmail(text);
             }}
           />
         </View>
@@ -54,7 +57,9 @@ export default function LoginScreen({navigation}) {
           <Text style={styles.text}>Password</Text>
           <TextInput
             value={password}
-            placeholder="Password (8 or more characters)"
+            textContentType={"password"}
+            placeholder="8 or more characters"
+            secureTextEntry={true}
             style={styles.textInput}
             onChangeText={(text) => {
               updatePassword(text);
@@ -65,7 +70,9 @@ export default function LoginScreen({navigation}) {
           <Text style={styles.text}>Password</Text>
           <TextInput
             value={password2}
+            textContentType={"password"}
             placeholder="Password Again"
+            secureTextEntry={true}
             style={styles.textInput}
             onChangeText={(text) => {
               updatePassword2(text);
@@ -135,6 +142,7 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     marginTop: 40,
+    width: screenWidth,
   },
   header: {
     fontSize: 32,
@@ -147,21 +155,20 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    marginHorizontal: 10,
+    paddingLeft: 3,
     fontWeight: "500",
   },
   textInput: {
-    backgroundColor: "#fefefe",
     borderRadius: 10,
     height: 50,
     width: 260,
     marginTop: 5,
     paddingLeft: 10,
-    fontSize: 16,
+    fontSize: 17,
+    backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
-    marginHorizontal: 10,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
   },
 });

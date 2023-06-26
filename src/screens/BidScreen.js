@@ -1,7 +1,8 @@
-import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 
+const {width: screenWidth} = Dimensions.get("window");
 export default function BidScreen({navigation}) {
   const bid = useStore((state) => state.bid);
   const updateBid = useStore((state) => state.updateBid);
@@ -18,6 +19,7 @@ export default function BidScreen({navigation}) {
         </Text>
         <TextInput
           placeholder={"$0.00"}
+          keyboardType={"decimal-pad"}
           value={bid ? String(bid) : ""}
           style={styles.textInput}
           multiline={true}
@@ -40,6 +42,7 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     marginTop: 150,
+    width: screenWidth,
   },
   header: {
     fontSize: 32,

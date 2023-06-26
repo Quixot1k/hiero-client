@@ -1,11 +1,12 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Slider} from "@rneui/themed";
 import axios from "axios";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import GymItem from "../components/GymItem";
 import {useStore} from "../store";
 
+const {width: screenWidth} = Dimensions.get("window");
 export default function GymListScreen({navigation}) {
   const {latitude, longitude} = useStore((state) => state);
   const [radius, setRadius] = useState(50);
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     marginTop: 30,
-    marginHorizontal: 10,
+    width: screenWidth,
   },
   listWrapper: {
     height: 588,
@@ -143,7 +144,6 @@ const styles = StyleSheet.create({
   },
   sliderWrapper: {
     paddingHorizontal: 20,
-    marginHorizontal: 10,
     marginTop: 10,
     marginBottom: 35,
     backgroundColor: "#fff",
@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
   },
   sliderText: {
     fontSize: 16,
@@ -168,8 +168,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
     paddingHorizontal: 10,
     fontSize: 17,
   },

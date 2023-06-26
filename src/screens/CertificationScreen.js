@@ -6,10 +6,10 @@ import CertificationCard from "../components/CertificationCard";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 
-const selections = [
-  {label: "Company", type: "Company"},
-  {label: "XXX", type: "XXX"},
-  {label: "YYY", type: "YYY"},
+const typeOptions = [
+  {label: "Company", value: "Company"},
+  {label: "XXX", value: "XXX"},
+  {label: "YYY", value: "YYY"},
 ];
 
 const {width: screenWidth} = Dimensions.get("window");
@@ -43,18 +43,18 @@ export default function CertificationScreen({navigation}) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>Upload your certifications</Text>
-        <View style={styles.pannelWrapper}>
+        <View style={styles.panelWrapper}>
           <Dropdown
-            style={[styles.dropdown]}
+            style={styles.dropdown}
             selectedTextStyle={{
               fontSize: 17,
               textAlign: "center",
               marginLeft: 12,
             }}
             iconStyle={styles.iconStyle}
-            data={selections}
+            data={typeOptions}
             labelField="label"
-            valueField="type"
+            valueField="value"
             value={type}
             onChange={(item) => {
               console.log(item);
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 34,
   },
-  pannelWrapper: {
+  panelWrapper: {
     alignItems: "center",
     backgroundColor: "#fcfcfc",
     borderRadius: 6,

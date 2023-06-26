@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useStore} from "../store";
 
-export default function Grid({name, toggle}) {
+export default function IntSpecGrid({name, toggle}) {
   const [pressed, setPressed] = useState(false);
   const intSpecs = useStore((state) => state.intSpecs);
   useEffect(() => {
@@ -44,17 +44,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     width: 102,
     height: 48,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     marginVertical: 6,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 2,
     shadowColor: "black",
     shadowOpacity: 0.5,
-    shadowOffset: {width: 1.5, height: 1.5},
-    shadowRadius: 1.5,
+    shadowOffset: {width: 1, height: 1.5},
+    shadowRadius: 3,
   },
   text: {
+    textAlign: "center",
     fontSize: 11,
     fontWeight: "600",
   },

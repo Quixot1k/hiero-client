@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-export default function ClientItem({ avatar, name, onPress }) {
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {AntDesign} from "@expo/vector-icons";
+
+export default function ClientItem({avatar, name, onPress}) {
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
@@ -37,10 +38,9 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowRadius: 2,
     marginVertical: 8,
-    marginHorizontal: 10,
   },
   avatar: {
     borderWidth: 1,
@@ -56,12 +56,12 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     marginRight: 80,
     textShadowColor: "rgba(0, 0, 0, 0.25)",
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,
   },
   arrow: {
     textShadowColor: "rgba(0, 0, 0, 0.25)",
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,
   },
 });

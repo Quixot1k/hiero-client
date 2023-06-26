@@ -7,11 +7,11 @@ import CapacityScreen from "../screens/CapacityScreen";
 import CertificationScreen from "../screens/CertificationScreen";
 import InfoScreen from "../screens/InfoScreen";
 import IntSpecScreen from "../screens/IntSpecScreen";
-import LocationScreen from "../screens/LocationScreen";
+import ClientLocationScreen from "../screens/ClientLocationScreen";
 import TrainerLocationScreen from "../screens/TrainerLocationScreen";
 import LoginScreen from "../screens/LoginScreen";
 import BidScreen from "../screens/BidScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileCreateScreen from "../screens/ProfileCreateScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import TabNavigator from "./TabNavigator";
 import ProfileUpdateScreen from "../screens/ProfileUpdateScreen";
@@ -30,7 +30,7 @@ export default function StackNavigator() {
   const headRightButton = () => (
     <ScreenHeaderBtn
       handlePress={() => {
-        console.log("goto StackNavigator and clear navigation stack");
+        console.log("go back to LoginScreen and clear navigation stack");
         navigation.dispatch(
           CommonActions.reset({
             index: 1,
@@ -78,8 +78,8 @@ export default function StackNavigator() {
         }}
       />
       <Stack.Screen
-        name="LocationScreen"
-        component={LocationScreen}
+        name="ClientLocationScreen"
+        component={ClientLocationScreen}
         options={{title: "Location", headerRight: headRightButton}}
       />
       <Stack.Screen
@@ -99,8 +99,8 @@ export default function StackNavigator() {
         }}
       />
       <Stack.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
+        name="ProfileCreateScreen"
+        component={ProfileCreateScreen}
         options={{title: "Your profile", headerRight: headRightButton}}
       />
       {/* Only for trainer */}
@@ -121,7 +121,7 @@ export default function StackNavigator() {
       />
       {/* Successfully sign in */}
       <Stack.Screen
-        name="TabNavigatorScreen"
+        name="TabNavigator"
         component={TabNavigator}
         options={{headerShown: false}}
       />

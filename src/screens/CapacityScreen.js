@@ -1,15 +1,16 @@
-import {SafeAreaView, ScrollView, StyleSheet, Text} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import PrimarySlider from "../components/PrimarySlider";
 import {useStore} from "../store";
 
+const {width: screenWidth} = Dimensions.get("window");
 export default function CapacityScreen({navigation}) {
   const {role, capacity} = useStore((state) => state);
   const updateCapacity = useStore((state) => state.updateCapacity);
   const handleNext = () => {
     if (role === "client") {
-      console.log("goto LocationScreen");
-      navigation.navigate("LocationScreen");
+      console.log("goto ClientLocationScreen");
+      navigation.navigate("ClientLocationScreen");
     } else {
       console.log("goto TrainerLocationScreen");
       navigation.navigate("TrainerLocationScreen");
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
   scrollView: {
     marginTop: 190,
     alignItems: "center",
+    width: screenWidth,
   },
   text: {
     width: 300,

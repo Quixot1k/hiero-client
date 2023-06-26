@@ -1,18 +1,28 @@
-import {useState} from "react";
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
+import { useState } from "react";
+import {
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import axios from "axios";
-import {v4 as uuid} from "uuid";
-import {CheckBox} from "@rneui/base";
+import { v4 as uuid } from "uuid";
+import { CheckBox } from "@rneui/base";
 import LocationCard from "../components/LocationCard";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-import {useStore} from "../store";
+import { useStore } from "../store";
 
-const {width: screenWidth} = Dimensions.get("window");
-export default function TrainerLocationScreen({navigation}) {
+const { width: screenWidth } = Dimensions.get("window");
+export default function TrainerLocationScreen({ navigation }) {
   // global state
-  const {isLogged, userId, trainerLocations} = useStore((state) => state);
-  const {addTrainerLocation, removeTrainerLocation} = useStore((state) => state);
+  const { isLogged, userId, trainerLocations } = useStore((state) => state);
+  const { addTrainerLocation, removeTrainerLocation } = useStore(
+    (state) => state
+  );
   // local state
   const initialLocation = {
     locationId: "",
@@ -78,71 +88,76 @@ export default function TrainerLocationScreen({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        contentContainerStyle={[styles.scrollView, {marginTop: 20}]}
+        contentContainerStyle={[styles.scrollView, { marginTop: 20 }]}
       >
         {/* Input Section */}
         <Text style={styles.header}>Add training locations</Text>
-        <View style={[styles.inputSectionWrapper, {width: screenWidth - 30}]}>
+        <View style={[styles.inputSectionWrapper, { width: screenWidth - 30 }]}>
           <TextInput
             value={location.name}
             placeholder="Training Location Name"
             style={styles.textInput}
             onChangeText={(text) => {
-              setLocation({...location, name: text});
+              setLocation({ ...location, name: text });
             }}
           />
           <TextInput
             value={location.addr1}
             placeholder="Address 1"
+            textContentType={"streetAddressLine1"}
             style={styles.textInput}
             onChangeText={(text) => {
-              setLocation({...location, addr1: text});
+              setLocation({ ...location, addr1: text });
             }}
           />
           <TextInput
             value={location.addr2}
             placeholder="Address 2"
+            textContentType={"streetAddressLine2"}
             style={styles.textInput}
             onChangeText={(text) => {
-              setLocation({...location, addr2: text});
+              setLocation({ ...location, addr2: text });
             }}
           />
           <View style={styles.textInputGroup}>
             <TextInput
               value={location.city}
               placeholder="City"
-              style={[styles.textInput, {width: 95}]}
+              textContentType={"addressCity"}
+              style={[styles.textInput, { width: 95 }]}
               onChangeText={(text) => {
-                setLocation({...location, city: text});
+                setLocation({ ...location, city: text });
               }}
             />
             <TextInput
               value={location.state}
               placeholder="State"
-              style={[styles.textInput, {marginHorizontal: 6, width: 96}]}
+              textContentType={"addressState"}
+              style={[styles.textInput, { marginHorizontal: 6, width: 96 }]}
               onChangeText={(text) => {
-                setLocation({...location, state: text});
+                setLocation({ ...location, state: text });
               }}
             />
             <TextInput
               value={location.zipcode}
               placeholder="Zip Code"
-              style={[styles.textInput, {width: 97}]}
+              textContentType={"postalCode"}
+              style={[styles.textInput, { width: 97 }]}
               onChangeText={(text) => {
-                setLocation({...location, zipcode: text});
+                setLocation({ ...location, zipcode: text });
               }}
             />
           </View>
           <View
-            style={{flexDirection: "row", justifyContent: "space-around"}}
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
             <CheckBox
               size={22}
               checked={location.locationType === "Gym"}
               checkedColor="#000"
               title={"Gym"}
-              textStyle={{fontSize: 16, fontWeight: "500", color: "#000"}}
-              wrapperStyle={{marginBottom: -10}}
+              textStyle={{ fontSize: 16, fontWeight: "500", color: "#000" }}
+              wrapperStyle={{ marginBottom: -10 }}
               onPress={() =>
                 setLocation((prevLocation) => ({
                   ...prevLocation,
@@ -155,8 +170,8 @@ export default function TrainerLocationScreen({navigation}) {
               checked={location.locationType === "Home"}
               checkedColor="#000"
               title={"Residential"}
-              textStyle={{fontSize: 16, fontWeight: "500", color: "#000"}}
-              wrapperStyle={{marginBottom: -10}}
+              textStyle={{ fontSize: 16, fontWeight: "500", color: "#000" }}
+              wrapperStyle={{ marginBottom: -10 }}
               onPress={() =>
                 setLocation((prevLocation) => ({
                   ...prevLocation,
@@ -189,7 +204,7 @@ export default function TrainerLocationScreen({navigation}) {
             <ScrollView
               contentContainerStyle={[
                 styles.scrollView,
-                {width: screenWidth - 30},
+                { width: screenWidth - 30 },
               ]}
             >
               {trainerLocations.map((obj, index) => (
@@ -209,11 +224,11 @@ export default function TrainerLocationScreen({navigation}) {
             </ScrollView>
           </View>
         )}
-        <View style={{paddingBottom: 30}}>
+        <View style={{ paddingBottom: 30 }}>
           {isLogged ? (
-            <PrimaryButton title="Save" onPress={handleSave}/>
+            <PrimaryButton title="Save" onPress={handleSave} />
           ) : (
-            <PrimaryButton title="Next" onPress={handleNext}/>
+            <PrimaryButton title="Next" onPress={handleNext} />
           )}
         </View>
       </ScrollView>
@@ -242,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: {width: 3, height: 4},
+    shadowOffset: { width: 3, height: 4 },
     shadowRadius: 4,
     paddingTop: 14,
     marginBottom: 20,
@@ -257,8 +272,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 3,
   },
   textInputGroup: {
     flexDirection: "row",
@@ -272,7 +287,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: {width: 3, height: 4},
+    shadowOffset: { width: 3, height: 4 },
     shadowRadius: 4,
   },
 });

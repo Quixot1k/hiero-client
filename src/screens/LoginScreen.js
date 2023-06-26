@@ -1,13 +1,13 @@
 import {CommonActions} from "@react-navigation/native";
 import {CheckBox} from "@rneui/themed";
-import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
-import axios from "axios";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
-import {useState} from "react";
+import axios from "axios";
 
+const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
-  const role = useStore((state) => state.role);
+  const {role, email, password} = useStore((state) => state);
   const {
     updateRole,
     updateUserId,
@@ -37,18 +37,21 @@ export default function LoginScreen({navigation}) {
     updateBio,
     updateAvatar,
   } = useStore((state) => state);
-  const [state, setState] = useState({
-    email: "ghuges2@uci.edu",
-    password: "abc",
-  });
+
   const handleClientSignIn = async () => {
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [{name: "TabNavigator"}],
+    //   })
+    // );
     try {
       await axios
         .post(
           "http://localhost:10001/client/login",
           {
-            emailAddress: state.email,
-            password: state.password,
+            emailAddress: email,
+            password: password,
           },
           {
             headers: {
@@ -63,7 +66,7 @@ export default function LoginScreen({navigation}) {
             const clientCategories = res.data.clientCategories;
             updateUserId(clientProfile.trainerId);
             updateEmail(clientProfile.emailAddress);
-            updatePassword(state.password);
+            // updatePassword(state.password);
             updateFirstName(clientProfile.name.split(",")[0]);
             updateLastName(clientProfile.name.split(",")[1]);
             updateBirth(clientProfile.age);
@@ -99,17 +102,23 @@ export default function LoginScreen({navigation}) {
           }
         });
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
     }
   };
   const handleTrainerSignIn = async () => {
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [{name: "TabNavigator"}],
+    //   })
+    // );
     try {
       await axios
         .post(
           "http://localhost:10001/trainer/login",
           {
-            emailAddress: state.email,
-            password: state.password,
+            emailAddress: email,
+            password: password,
           },
           {
             headers: {
@@ -130,10 +139,11 @@ export default function LoginScreen({navigation}) {
             if (res.data.trainerLocations) {
               trainerLocations = res.data.trainerLocations.locations;
             }
-            const trainerCertification = res.data.providerCategories.certifications;
+            const trainerCertification =
+              res.data.providerCategories.certifications;
             updateUserId(trainerProfile.trainerId);
             updateEmail(trainerProfile.emailAddress);
-            updatePassword(state.password);
+            // updatePassword(state.password);
             updateFirstName(trainerProfile.name.split(",")[0]);
             updateLastName(trainerProfile.name.split(",")[1]);
             updateBirth(trainerProfile.age);
@@ -175,12 +185,11 @@ export default function LoginScreen({navigation}) {
           <Text style={styles.text}>Email</Text>
           <TextInput
             placeholder="Email"
+            textContentType={"emailAddress"}
+            keyboardType={"email-address"}
             style={styles.textInput}
             onChangeText={(text) => {
-              setState(prevState => ({
-                ...prevState,
-                email: text,
-              }));
+              updateEmail(text);
             }}
           />
         </View>
@@ -188,12 +197,11 @@ export default function LoginScreen({navigation}) {
           <Text style={styles.text}>Password</Text>
           <TextInput
             placeholder="Password"
+            textContentType={"password"}
+            secureTextEntry={true}
             style={styles.textInput}
             onChangeText={(text) => {
-              setState(prevState => ({
-                ...prevState,
-                password: text,
-              }));
+              updatePassword(text);
             }}
           />
         </View>
@@ -207,7 +215,7 @@ export default function LoginScreen({navigation}) {
             checked={role === "client"}
             checkedColor="#000"
             onPress={() => {
-              updateRole("client")
+              updateRole("client");
             }}
           />
           <CheckBox
@@ -220,7 +228,7 @@ export default function LoginScreen({navigation}) {
             checked={role === "trainer"}
             checkedColor="#000"
             onPress={() => {
-              updateRole("trainer")
+              updateRole("trainer");
             }}
           />
         </View>
@@ -268,6 +276,7 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     marginTop: 30,
+    width: screenWidth,
   },
   header: {
     fontSize: 50,
@@ -279,21 +288,20 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    marginHorizontal: 10,
+    paddingLeft: 3,
     fontWeight: "500",
   },
   textInput: {
     borderRadius: 10,
     height: 50,
     width: 260,
-    marginTop: 10,
+    marginTop: 5,
     paddingLeft: 10,
     fontSize: 17,
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
-    marginHorizontal: 10,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
   },
 });

@@ -146,7 +146,7 @@ export default function ScheduleScreen() {
 
   const handleAddSession = () => {
   };
-  
+
   useEffect(() => {
     getTrainerSessions().catch((err) => {
       console.log(err);
@@ -159,7 +159,7 @@ export default function ScheduleScreen() {
   return (
     <SafeAreaView style={styles.container}>
       {/* WeeklyView */}
-      <View style={styles.weekview}>
+      <View style={styles.weekView}>
         <WeekView
           events={weeklyEvent}
           selectedDate={new Date()}
@@ -265,7 +265,7 @@ export default function ScheduleScreen() {
           setBottomSheetVisible(index);
         }}
       >
-        <View style={{marginBottom: 15, marginHorizontal: 10}}>
+        <View style={{marginBottom: 15, marginHorizontal: 12}}>
           <Text style={{fontWeight: "700", fontSize: 24, marginBottom: 15}}>
             Add/Block
           </Text>
@@ -273,6 +273,7 @@ export default function ScheduleScreen() {
             <Text style={{fontSize: 18}}>Start:</Text>
             <DatePicker
               date={startDatetime}
+              minuteInterval={15}
               onDateChange={(date) => setStartDatetime(date)}
               style={{height: 100, transform: [{scale: 0.875}]}}
             />
@@ -281,8 +282,10 @@ export default function ScheduleScreen() {
             <Text style={{fontSize: 18}}>End:</Text>
             <DatePicker
               date={endDatetime}
+              minuteInterval={15}
+              minimumDate={startDatetime}
               onDateChange={(date) => {
-                setEndDatetime(date);
+                setEndDatetime(date)
               }}
               style={{height: 100, transform: [{scale: 0.875}]}}
             />
@@ -330,7 +333,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
   },
-  weekview: {
+  weekView: {
     marginTop: -40,
     transform: [{scale: 0.85}],
     borderColor: "rgba(0,0,0,0)",

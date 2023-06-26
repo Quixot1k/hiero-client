@@ -1,11 +1,13 @@
-import {Image, SafeAreaView, ScrollView, StyleSheet, TextInput, View,} from "react-native";
+import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, TextInput, View,} from "react-native";
 import {CommonActions} from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import FormData from "form-data";
 import {useStore} from "../store";
 
-export default function ProfileScreen({navigation}) {
+const {width: screenWidth} = Dimensions.get("window");
+
+export default function ProfileCreateScreen({navigation}) {
   const {
     role,
     // isLogged,
@@ -37,7 +39,7 @@ export default function ProfileScreen({navigation}) {
     trainerLocations, // {  locationId: "", name: "", addr1: "", addr2: "", city: "", state: "", zipcode: "", locationType: 0, latitude: -1.0, longitude: -1.0 },
     bio,
     bid,
-  } = useStore((state) => state)
+  } = useStore((state) => state);
   const {
     updateMessage,
     updateBio,
@@ -56,12 +58,11 @@ export default function ProfileScreen({navigation}) {
     updateZip,
     updateDistance,
     updateBid,
-  } = useStore((state) => state)
-  const globalState = useStore((state) => state);
+  } = useStore((state) => state);
+  // const globalState = useStore((state) => state);
   const handleClientSignUp = async () => {
-    console.log("globalState: ", globalState);
-    /*
-        const formData = new FormData();
+    // console.log("globalState: ", globalState);
+    const formData = new FormData();
     const userData = {
       clientProfile: {
         clientId: "",
@@ -133,7 +134,6 @@ export default function ProfileScreen({navigation}) {
     } catch (error) {
       console.log(error);
     }
-    */
   };
   const handleTrainerSignUp = async () => {
     const formData = new FormData();
@@ -290,15 +290,15 @@ export default function ProfileScreen({navigation}) {
             }}
           />
         </View>
-        <TextInput
-          value={password}
-          style={styles.textInput}
-          placeholder={"Password"}
-          onChangeText={(text) => {
-            updatePassword(text);
-            updatePassword2(text);
-          }}
-        />
+        {/*<TextInput*/}
+        {/*  value={password}*/}
+        {/*  style={styles.textInput}*/}
+        {/*  placeholder={"Password"}*/}
+        {/*  onChangeText={(text) => {*/}
+        {/*    updatePassword(text);*/}
+        {/*    updatePassword2(text);*/}
+        {/*  }}*/}
+        {/*/>*/}
         <TextInput
           value={mobile}
           style={styles.textInput}
@@ -400,7 +400,9 @@ export default function ProfileScreen({navigation}) {
         <View style={{paddingBottom: 30}}>
           <PrimaryButton
             title={"Save"}
-            onPress={role === "client" ? handleClientSignUp : handleTrainerSignUp}
+            onPress={
+              role === "client" ? handleClientSignUp : handleTrainerSignUp
+            }
           />
         </View>
       </ScrollView>
@@ -418,6 +420,7 @@ const styles = StyleSheet.create({
   scrollView: {
     marginTop: 20,
     alignItems: "center",
+    width: screenWidth,
   },
   circle: {
     borderWidth: 0.2,
@@ -437,7 +440,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
   },
 });

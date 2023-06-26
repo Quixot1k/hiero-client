@@ -8,16 +8,16 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
-import MapView, {Circle, Marker} from "react-native-maps";
-import {CheckBox, Slider} from "@rneui/themed";
+import MapView, { Circle, Marker } from "react-native-maps";
+import { CheckBox, Slider } from "@rneui/themed";
 import axios from "axios";
 import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from "../store";
+import { useStore } from "../store";
 
-const {width: screenWidth} = Dimensions.get("window");
-export default function Profile({navigation}) {
+const { width: screenWidth } = Dimensions.get("window");
+export default function Profile({ navigation }) {
   const {
     role,
     userId,
@@ -45,7 +45,7 @@ export default function Profile({navigation}) {
     // business,
     bio,
     bid,
-  } = useStore((state) => state)
+  } = useStore((state) => state);
   const {
     // updateMessage,
     updateBio,
@@ -66,7 +66,7 @@ export default function Profile({navigation}) {
     updateBid,
     updateZoom,
     updateHome,
-  } = useStore((state) => state)
+  } = useStore((state) => state);
   const handleTrainerSave = async () => {
     const trainerProfile = {
       trainerId: userId,
@@ -88,7 +88,7 @@ export default function Profile({navigation}) {
       await axios
         .put(
           "http://127.0.0.1:10001/trainer/profile",
-          {trainerProfile},
+          { trainerProfile },
           {
             headers: {
               "Content-Type": "application/json",
@@ -106,16 +106,17 @@ export default function Profile({navigation}) {
       console.log(JSON.stringify(err));
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* Header */}
         <View style={styles.headerSection}>
-          <View style={{flexDirection: "row", alignItems: "center"}}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
             {avatar ? (
               <Image
-                source={{uri: avatar}}
-                style={{width: 120, height: 120, borderRadius: 60}}
+                source={{ uri: avatar }}
+                style={{ width: 120, height: 120, borderRadius: 60 }}
               />
             ) : (
               <View style={styles.profileCircle}></View>
@@ -213,7 +214,7 @@ export default function Profile({navigation}) {
             <View style={styles.inputWrapper}>
               <Text style={styles.text}>Certification</Text>
               <TouchableOpacity
-                style={{alignItems: "center", width: 300}}
+                style={{ alignItems: "center", width: 300 }}
                 onPress={() => navigation.navigate("CertificationScreen")}
               >
                 <Text
@@ -294,7 +295,7 @@ export default function Profile({navigation}) {
         {/* Map */}
         <View style={styles.mapWrapper}>
           <MapView
-            style={{width: "100%", height: "100%", borderRadius: 20}}
+            style={{ width: "100%", height: "100%", borderRadius: 20 }}
             initialRegion={{
               latitude: latitude,
               longitude: longitude,
@@ -308,9 +309,9 @@ export default function Profile({navigation}) {
               longitudeDelta: distance / 30,
             }}
           >
-            <Marker coordinate={{latitude: latitude, longitude: longitude}}/>
+            <Marker coordinate={{ latitude: latitude, longitude: longitude }} />
             <Circle
-              center={{latitude: latitude, longitude: longitude}}
+              center={{ latitude: latitude, longitude: longitude }}
               radius={1609 * distance}
               fillColor={"rgba(255,255,255,0.3)"}
             />
@@ -318,7 +319,7 @@ export default function Profile({navigation}) {
         </View>
         {/* CheckBox & Radio */}
         <View style={styles.textInputSection}>
-          <Text style={{fontSize: 16, marginBottom: 6, fontWeight: "500"}}>
+          <Text style={{ fontSize: 16, marginBottom: 6, fontWeight: "500" }}>
             {role === "client"
               ? "How far are you willing to go for service?"
               : "How far are you willing to travel to clients?"}
@@ -330,8 +331,8 @@ export default function Profile({navigation}) {
             minimumTrackTintColor="#000"
             maximumTrackTintColor="#ccc"
             allowTouchTrack={true}
-            thumbStyle={{height: 20, width: 20, backgroundColor: "#000"}}
-            trackStyle={{height: 6, width: 250, borderRadius: 10}}
+            thumbStyle={{ height: 20, width: 20, backgroundColor: "#000" }}
+            trackStyle={{ height: 6, width: 250, borderRadius: 10 }}
             step={1}
             onValueChange={(value) => {
               updateDistance(value);
@@ -347,7 +348,7 @@ export default function Profile({navigation}) {
           >
             Distance
             <Text
-              style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}
+              style={{ fontSize: 18, fontStyle: "italic", fontWeight: "800" }}
             >
               {" "}
               {distance < 90 ? distance : 90}
@@ -361,8 +362,8 @@ export default function Profile({navigation}) {
               checked={zoom === true}
               checkedColor="#000"
               title={"Online session possible?"}
-              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
-              containerStyle={{marginBottom: -15, backgroundColor: "#fcfcfc"}}
+              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000000" }}
+              containerStyle={{ marginBottom: -15, backgroundColor: "#fcfcfc" }}
               onPress={() => {
                 updateZoom();
               }}
@@ -372,8 +373,8 @@ export default function Profile({navigation}) {
               checked={home === true}
               checkedColor="#000"
               title={"Home session possible?"}
-              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
-              containerStyle={{backgroundColor: "#fcfcfc"}}
+              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000000" }}
+              containerStyle={{ backgroundColor: "#fcfcfc" }}
               onPress={() => {
                 updateHome();
               }}
@@ -417,8 +418,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 3,
   },
   profileCircle: {
     borderWidth: 0.2,
@@ -438,8 +439,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 3,
   },
   inputWrapper: {
     width: "100%",
@@ -457,14 +458,10 @@ const styles = StyleSheet.create({
   textInput: {
     width: 200,
     height: 35,
-    backgroundColor: "#rgba(0,0,0,0)",
     borderBottomWidth: 1,
     paddingLeft: 10,
     fontSize: 17,
-    shadowColor: "rgba(0,0,0,0.75)",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 1},
-    shadowRadius: 5,
+    backgroundColor: "#rgba(0,0,0,0)",
   },
   mapWrapper: {
     borderRadius: 20,
@@ -474,7 +471,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.5,
-    shadowOffset: {width: 1, height: 2},
+    shadowOffset: { width: 1, height: 2 },
     shadowRadius: 3,
   },
 });

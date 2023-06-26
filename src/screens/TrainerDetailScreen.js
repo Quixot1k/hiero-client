@@ -1,14 +1,23 @@
-import {MaterialIcons} from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import {format} from "date-fns";
-import React, {useState} from "react";
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import { format } from "date-fns";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import Schedule from "../components/Schedule";
 
-const {width: screenWidth} = Dimensions.get("window");
-export default function TrainerDetailScreen({route}) {
-  const {trainerObj} = route.params;
+const { width: screenWidth } = Dimensions.get("window");
+export default function TrainerDetailScreen({ route }) {
+  const { trainerObj } = route.params;
   const [mode, setMode] = useState({
     calendarVisible: true,
     bidVisible: true,
@@ -39,15 +48,15 @@ export default function TrainerDetailScreen({route}) {
             <TouchableOpacity
               onPress={() => {
                 if (mode.calendarVisible === true) {
-                  setMode({...mode, calendarVisible: false});
+                  setMode({ ...mode, calendarVisible: false });
                 } else {
-                  setMode({...mode, calendarVisible: true});
+                  setMode({ ...mode, calendarVisible: true });
                 }
               }}
             >
               <View
                 style={
-                  mode.calendarVisible && {transform: [{rotate: "90deg"}]}
+                  mode.calendarVisible && { transform: [{ rotate: "90deg" }] }
                 }
               >
                 <MaterialIcons
@@ -66,10 +75,10 @@ export default function TrainerDetailScreen({route}) {
               Upcoming Sessions:
             </Text>
           </View>
-          <View style={{alignItems: "center"}}>
+          <View style={{ alignItems: "center" }}>
             {mode.calendarVisible && (
-              <View style={{marginTop: 6}}>
-                <Schedule/>
+              <View style={{ marginTop: 6 }}>
+                <Schedule />
               </View>
             )}
           </View>
@@ -80,14 +89,14 @@ export default function TrainerDetailScreen({route}) {
             <TouchableOpacity
               onPress={() => {
                 if (mode.bidVisible === true) {
-                  setMode({...mode, bidVisible: false});
+                  setMode({ ...mode, bidVisible: false });
                 } else {
-                  setMode({...mode, bidVisible: true});
+                  setMode({ ...mode, bidVisible: true });
                 }
               }}
             >
               <View
-                style={mode.bidVisible && {transform: [{rotate: "90deg"}]}}
+                style={mode.bidVisible && { transform: [{ rotate: "90deg" }] }}
               >
                 <MaterialIcons
                   name="keyboard-arrow-right"
@@ -105,9 +114,9 @@ export default function TrainerDetailScreen({route}) {
               Place Bid:
             </Text>
           </View>
-          <View style={{alignItems: "center"}}>
+          <View style={{ alignItems: "center" }}>
             {mode.bidVisible && (
-              <View style={{marginTop: 10}}>
+              <View style={{ marginTop: 10 }}>
                 {/* Start Time */}
                 <View
                   style={{
@@ -117,14 +126,14 @@ export default function TrainerDetailScreen({route}) {
                     marginVertical: 5,
                   }}
                 >
-                  <View style={{width: 80}}>
-                    <Text style={{fontSize: 16}}>Start Time:</Text>
+                  <View style={{ width: 80 }}>
+                    <Text style={{ fontSize: 16 }}>Start Time:</Text>
                   </View>
                   <DateTimePicker
                     value={session.startTime}
                     mode={"datetime"}
                     onChange={(event, selectedDate) => {
-                      setSession({...session, startTime: selectedDate});
+                      setSession({ ...session, startTime: selectedDate });
                     }}
                   />
                 </View>
@@ -137,14 +146,14 @@ export default function TrainerDetailScreen({route}) {
                     marginVertical: 5,
                   }}
                 >
-                  <View style={{width: 80}}>
-                    <Text style={{fontSize: 16}}>End Time:</Text>
+                  <View style={{ width: 80 }}>
+                    <Text style={{ fontSize: 16 }}>End Time:</Text>
                   </View>
                   <DateTimePicker
                     value={session.endTime}
                     mode={"datetime"}
                     onChange={(event, selectedDate) => {
-                      setSession({...session, endTime: selectedDate});
+                      setSession({ ...session, endTime: selectedDate });
                     }}
                   />
                 </View>
@@ -157,12 +166,12 @@ export default function TrainerDetailScreen({route}) {
                     marginTop={0}
                     marginBottom={0}
                     onPress={() => {
-                      setSession({...session, sessionId: sessionList.length});
+                      setSession({ ...session, sessionId: sessionList.length });
                       setSessionList([...sessionList, session]);
                     }}
                   />
                   <View style={styles.inputBtnGroup}>
-                    <TextInput placeholder="$$" style={styles.textInput}/>
+                    <TextInput placeholder="$$" style={styles.textInput} />
                     <PrimaryButton
                       title={"Deal"}
                       paddingHorizontal={20}
@@ -191,7 +200,7 @@ export default function TrainerDetailScreen({route}) {
                         <Text style={styles.sessionText}>
                           To {format(sessionObj.endTime, "yyyy-M-d hh:mm")}
                         </Text>
-                        <View style={{marginLeft: 10}}>
+                        <View style={{ marginLeft: 10 }}>
                           <MaterialIcons
                             name="cancel"
                             size={18}
@@ -233,8 +242,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 3,
   },
   image: {
     width: 60,
@@ -247,7 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "500",
     textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowOffset: {width: 1, height: 1},
+    textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1.5,
   },
   section: {
@@ -260,7 +269,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: {width: 3, height: 4},
+    shadowOffset: { width: 3, height: 4 },
     shadowRadius: 4,
   },
   sectionBtn: {
@@ -277,8 +286,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 3,
     marginRight: 10,
   },
   panelWrapper: {
@@ -292,7 +301,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowRadius: 3,
     paddingHorizontal: 8,
     paddingVertical: 5,
@@ -311,7 +320,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowRadius: 2,
     marginVertical: 6,
   },

@@ -1,7 +1,9 @@
 import React from "react";
 import {MaterialIcons} from "@expo/vector-icons";
-import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import {useStore} from "../store";
+
+const {width: screenWidth} = Dimensions.get("window");
 
 export default function Settings({navigation}) {
   const role = useStore((state) => state.role);
@@ -69,16 +71,16 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     marginTop: 30,
+    width: screenWidth,
   },
   section: {
     alignItems: "center",
     backgroundColor: "#fcfcfc",
     borderRadius: 12,
-    shadowColor: "black",
+    shadowColor: "rgba(0, 0, 0, 0.75)",
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
-    marginHorizontal: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },

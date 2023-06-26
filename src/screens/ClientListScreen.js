@@ -1,8 +1,9 @@
-import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {useEffect, useState} from "react";
 import ClientItem from "../components/ClientItem";
 import axios from "axios";
 
+const {width: screenWidth} = Dimensions.get("window");
 export default function ClientListScreen({navigation}) {
   const [clientList, setClientList] = useState([]);
   const [filterClientList, setFilterClientList] = useState([]);
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     marginTop: 30,
+    width: screenWidth,
   },
   textInput: {
     width: 300,
@@ -92,8 +94,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 2},
-    shadowRadius: 2,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
   },
   listWrapper: {
     height: 600,
@@ -105,6 +107,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
-    marginHorizontal: 10,
   },
 });
