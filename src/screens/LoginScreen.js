@@ -4,6 +4,7 @@ import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touch
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 import axios from "axios";
+import {useState} from "react";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
@@ -38,6 +39,7 @@ export default function LoginScreen({navigation}) {
     updateAvatar,
   } = useStore((state) => state);
 
+  const [hidden, setHidden] = useState(true);
   const handleClientSignIn = async () => {
     // navigation.dispatch(
     //   CommonActions.reset({
@@ -177,6 +179,7 @@ export default function LoginScreen({navigation}) {
       console.log(err.message);
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -184,6 +187,7 @@ export default function LoginScreen({navigation}) {
         <View style={styles.textInputGroup}>
           <Text style={styles.text}>Email</Text>
           <TextInput
+            value={email}
             placeholder="Email"
             textContentType={"emailAddress"}
             keyboardType={"email-address"}
@@ -193,17 +197,33 @@ export default function LoginScreen({navigation}) {
             }}
           />
         </View>
+
         <View style={[styles.textInputGroup, {marginBottom: 20}]}>
           <Text style={styles.text}>Password</Text>
-          <TextInput
-            placeholder="Password"
-            textContentType={"password"}
-            secureTextEntry={true}
-            style={styles.textInput}
-            onChangeText={(text) => {
-              updatePassword(text);
-            }}
-          />
+          <View
+            style={[styles.textInputView, {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingRight: 14,
+            }]}>
+            <TextInput
+              value={password}
+              placeholder="Password"
+              style={{width: 180, fontSize: 17, marginLeft: 10}}
+              maxLength={16}
+              textContentType={"password"}
+              secureTextEntry={hidden}
+              onChangeText={(text) => {
+                updatePassword(text);
+              }}
+            />
+            <TouchableOpacity onPress={() => {
+              setHidden(!hidden);
+            }}>
+              <Text style={{fontWeight: "500"}}>{hidden ? "Show" : "Hide"}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View>
           <CheckBox
@@ -304,4 +324,15 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
   },
+  textInputView: {
+    borderRadius: 10,
+    height: 50,
+    width: 260,
+    marginTop: 5,
+    backgroundColor: "#fefefe",
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
+  }
 });

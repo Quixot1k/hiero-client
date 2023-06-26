@@ -1,7 +1,12 @@
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 import {Dropdown} from "react-native-element-dropdown";
+import validator from "validator";
+import {useState} from "react";
+import DatePicker from "react-native-date-picker";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {format} from "date-fns";
 
 const {width: screenWidth} = Dimensions.get("window");
 
@@ -23,10 +28,21 @@ export default function InfoScreen({navigation}) {
     updateBusiness,
   } = useStore((state) => state);
 
+  const [visible, setVisible] = useState(false);
+
   const handleNext = () => {
-    console.log("goto IntSpecScreen");
-    navigation.navigate("IntSpecScreen");
+    if (!validator.isDate(birth)) {
+      console.log(birth);
+      console.log("invalid birth");
+    } else if (!validator.isMobilePhone(mobile, "en-US")) {
+      console.log(mobile);
+      console.log("invalid mobile");
+    } else {
+      console.log("goto IntSpecScreen");
+      navigation.navigate("IntSpecScreen");
+    }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -55,15 +71,34 @@ export default function InfoScreen({navigation}) {
             updateLastName(text);
           }}
         />
+        <View
+          style={[styles.textInputView, {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingRight: 14,
+          }]}>
+          <TextInput
+            style={{marginLeft: 10, fontSize: 17}}
+            editable={false}
+            value={birth ? format(birth, "yyyy/MM/dd") : ""}
+            placeholder="Birth (YYYY/MM/DD)"
+          />
+          <TouchableOpacity onPress={() => {
+            setVisible(true)
+          }}>
+            <MaterialCommunityIcons name="calendar-cursor" size={24} color="#3f3f3f"/>
+          </TouchableOpacity>
+        </View>
+        <DatePicker modal open={visible} date={new Date()} mode="date"
+                    onConfirm={(date) => {
+                      updateBirth(date)
+                      setVisible(false)
+                    }}
+                    onCancel={() => {
+                      setVisible(false)
+                    }}/>
 
-        <TextInput
-          value={birth}
-          placeholder="Birth"
-          style={styles.textInput}
-          onChangeText={(text) => {
-            updateBirth(text);
-          }}
-        />
         {role === "trainer" && (
           <TextInput
             value={business}
@@ -87,6 +122,7 @@ export default function InfoScreen({navigation}) {
             height: 20,
             width: 20,
           }}
+          iconColor={"#3f3f3f"}
           placeholderStyle={{
             color: "rgb(200, 200, 200)",
             paddingLeft: 10,
@@ -140,6 +176,17 @@ const styles = StyleSheet.create({
     marginTop: 25,
     paddingLeft: 10,
     fontSize: 17,
+    backgroundColor: "#fefefe",
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
+  },
+  textInputView: {
+    borderRadius: 10,
+    height: 50,
+    width: 260,
+    marginTop: 25,
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,

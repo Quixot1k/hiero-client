@@ -1,18 +1,18 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 export default function PrimaryButton({
-  title,
-  onPress,
-  height,
-  width,
-  fontSize = 16,
-  fontWeight = 700,
-  marginTop = 20,
-  marginBottom = 24,
-  paddingVertical = 12,
-  paddingHorizontal = 32,
-  icon,
-}) {
+                                        title,
+                                        onPress,
+                                        height,
+                                        width,
+                                        fontSize = 16,
+                                        fontWeight = 700,
+                                        marginTop = 20,
+                                        marginBottom = 24,
+                                        paddingVertical = 12,
+                                        paddingHorizontal = 32,
+                                        icon,
+                                      }) {
   return (
     <TouchableOpacity
       style={[
@@ -31,12 +31,12 @@ export default function PrimaryButton({
       ]}
       onPress={onPress}
     >
-      {icon && <View style={{ marginRight: 4, marginLeft: -4 }}>{icon}</View>}
-      <Text
-        style={[styles.text, { fontWeight: fontWeight, fontSize: fontSize }]}
+      {icon && <View>{icon}</View>}
+      {title && <Text
+        style={[styles.text, {fontWeight: fontWeight, fontSize: fontSize}]}
       >
         {title}
-      </Text>
+      </Text>}
     </TouchableOpacity>
   );
 }
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 3, height: 3 },
+    shadowOffset: {width: 3, height: 3},
     shadowRadius: 5,
   },
   text: {

@@ -1,5 +1,5 @@
 import {CheckBox} from "@rneui/themed";
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import axios from "axios";
 import IntSpecGrid from "../components/IntSpecGrid";
 import PrimaryButton from "../components/PrimaryButton";

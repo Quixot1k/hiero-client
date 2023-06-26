@@ -3,6 +3,8 @@ import {CheckBox} from "@rneui/themed";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
+import validator from "validator";
+import {useState} from "react";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
@@ -14,9 +16,22 @@ export default function LoginScreen({navigation}) {
   const updatePassword = useStore((state) => state.updatePassword);
   const password2 = useStore((state) => state.password2);
   const updatePassword2 = useStore((state) => state.updatePassword2);
+
+  const [hidden, setHidden] = useState({
+    password: true,
+    password2: true,
+  });
   const handleSignUp = () => {
-    console.log("goto InfoScreen and clear navigation stack");
-    navigation.navigate("InfoScreen");
+    if (!validator.isEmail(email)) {
+      console.log("email is not valid");
+    } else if (!validator.isStrongPassword(password)) {
+      console.log("password is not valid");
+    } else if (password !== password2) {
+      console.log("passwords do not match");
+    } else {
+      console.log("goto InfoScreen and clear navigation stack");
+      navigation.navigate("InfoScreen");
+    }
   };
 
   return (
@@ -55,29 +70,57 @@ export default function LoginScreen({navigation}) {
         </View>
         <View style={styles.textInputGroup}>
           <Text style={styles.text}>Password</Text>
-          <TextInput
-            value={password}
-            textContentType={"password"}
-            placeholder="8 or more characters"
-            secureTextEntry={true}
-            style={styles.textInput}
-            onChangeText={(text) => {
-              updatePassword(text);
-            }}
-          />
+          <View
+            style={[styles.textInputView, {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingRight: 14,
+            }]}>
+            <TextInput
+              value={password}
+              placeholder="8 to 12 characters"
+              style={{width: 180, fontSize: 17, marginLeft: 10}}
+              maxLength={16}
+              textContentType={"password"}
+              secureTextEntry={hidden.password}
+              onChangeText={(text) => {
+                updatePassword(text);
+              }}
+            />
+            <TouchableOpacity onPress={() => {
+              setHidden({...hidden, password: !hidden.password});
+            }}>
+              <Text style={{fontWeight: "500"}}>{hidden.password ? "Show" : "Hide"}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={[styles.textInputGroup, {marginBottom: 20}]}>
           <Text style={styles.text}>Password</Text>
-          <TextInput
-            value={password2}
-            textContentType={"password"}
-            placeholder="Password Again"
-            secureTextEntry={true}
-            style={styles.textInput}
-            onChangeText={(text) => {
-              updatePassword2(text);
-            }}
-          />
+          <View
+            style={[styles.textInputView, {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingRight: 14,
+            }]}>
+            <TextInput
+              value={password}
+              placeholder="Enter your passowrd again"
+              style={{width: 180, fontSize: 17, marginLeft: 10}}
+              maxLength={16}
+              textContentType={"password"}
+              secureTextEntry={hidden.password2}
+              onChangeText={(text) => {
+                updatePassword2(text);
+              }}
+            />
+            <TouchableOpacity onPress={() => {
+              setHidden({...hidden, password2: !hidden.password2});
+            }}>
+              <Text style={{fontWeight: "500"}}>{hidden.password2 ? "Show" : "Hide"}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View>
           <CheckBox
@@ -171,4 +214,15 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
   },
+  textInputView: {
+    borderRadius: 10,
+    height: 50,
+    width: 260,
+    marginTop: 5,
+    backgroundColor: "#fefefe",
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
+  }
 });
