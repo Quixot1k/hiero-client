@@ -287,6 +287,7 @@ export default function ProfileCreateScreen({navigation}) {
             }}
           />
           <TextInput
+            editable={false}
             value={email}
             style={[styles.textInput, {width: 140}]}
             placeholder={"Email Address"}
@@ -431,6 +432,7 @@ const styles = StyleSheet.create({
   textInput: {
     borderRadius: 10,
     textAlign: "center",
+    color: "#3f3f3f",
     height: 46,
     width: 330,
     marginHorizontal: 6,

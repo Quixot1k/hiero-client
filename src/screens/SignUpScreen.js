@@ -3,7 +3,7 @@ import {CheckBox} from "@rneui/themed";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
-import validator from "validator";
+import validator from "validator/es";
 import {useState} from "react";
 
 const {width: screenWidth} = Dimensions.get("window");
@@ -21,6 +21,11 @@ export default function LoginScreen({navigation}) {
     password: true,
     password2: true,
   });
+  const [warning, setWarning] = useState({
+    email: false,
+    password: false,
+    password2: false,
+  })
   const handleSignUp = () => {
     if (!validator.isEmail(email)) {
       console.log("email is not valid");
@@ -62,9 +67,14 @@ export default function LoginScreen({navigation}) {
             placeholder="Email"
             textContentType={"emailAddress"}
             keyboardType={"email-address"}
-            style={styles.textInput}
+            style={[styles.textInput, {shadowColor: warning.email ? "red" : "black"}]}
             onChangeText={(text) => {
               updateEmail(text);
+              if (!text || validator.isEmail(text)) {
+                setWarning({...warning, email: false});
+              } else {
+                setWarning({...warning, email: true});
+              }
             }}
           />
         </View>
@@ -76,16 +86,22 @@ export default function LoginScreen({navigation}) {
               alignItems: "center",
               justifyContent: "space-between",
               paddingRight: 14,
+              shadowColor: warning.password ? "red" : "black",
             }]}>
             <TextInput
               value={password}
-              placeholder="8 to 12 characters"
+              placeholder="8 to 16 characters"
               style={{width: 180, fontSize: 17, marginLeft: 10}}
               maxLength={16}
               textContentType={"password"}
               secureTextEntry={hidden.password}
               onChangeText={(text) => {
                 updatePassword(text);
+                if (!text || validator.isStrongPassword(text)) {
+                  setWarning({...warning, password: false});
+                } else {
+                  setWarning({...warning, password: true});
+                }
               }}
             />
             {password && <TouchableOpacity onPress={() => {
@@ -103,6 +119,7 @@ export default function LoginScreen({navigation}) {
               alignItems: "center",
               justifyContent: "space-between",
               paddingRight: 14,
+              shadowColor: warning.password2 ? "red" : "black",
             }]}>
             <TextInput
               value={password2}
@@ -113,6 +130,11 @@ export default function LoginScreen({navigation}) {
               secureTextEntry={hidden.password2}
               onChangeText={(text) => {
                 updatePassword2(text);
+                if (!text || text === password) {
+                  setWarning({...warning, password2: false});
+                } else {
+                  setWarning({...warning, password2: true});
+                }
               }}
             />
             {password2 && <TouchableOpacity onPress={() => {
@@ -143,7 +165,7 @@ export default function LoginScreen({navigation}) {
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
             checked={role === "trainer"}
-            checkedColor="#000"
+            checkedColor="#000000"
             onPress={() => {
               updateRole("trainer");
             }}
@@ -209,7 +231,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 17,
     backgroundColor: "#fefefe",
-    shadowColor: "black",
+    shadowColor: "#000000",
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
@@ -220,7 +242,7 @@ const styles = StyleSheet.create({
     width: 260,
     marginTop: 5,
     backgroundColor: "#fefefe",
-    shadowColor: "black",
+    shadowColor: "#000000",
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,

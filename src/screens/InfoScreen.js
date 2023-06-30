@@ -2,7 +2,7 @@ import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touch
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 import {Dropdown} from "react-native-element-dropdown";
-import validator from "validator";
+import validator from "validator/es";
 import {useState} from "react";
 import DatePicker from "react-native-date-picker";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
@@ -29,14 +29,24 @@ export default function InfoScreen({navigation}) {
   } = useStore((state) => state);
 
   const [visible, setVisible] = useState(false);
-
+  const [warning, setWarning] = useState({
+    firstName: false,
+    lastName: false,
+    birth: false,
+    gender: false,
+    mobile: false,
+  });
   const handleNext = () => {
-    if (!validator.isDate(birth)) {
-      console.log(birth);
-      console.log("invalid birth");
+    if (firstName === "") {
+      setWarning({...warning, firstName: true});
+    } else if (lastName === "") {
+      setWarning({...warning, lastName: true});
+    } else if (!validator.isDate(birth)) {
+      setWarning({...warning, birth: true});
+    } else if (gender === "") {
+      setWarning({...warning, gender: true});
     } else if (!validator.isMobilePhone(mobile, "en-US")) {
-      console.log(mobile);
-      console.log("invalid mobile");
+      setWarning({...warning, mobile: true});
     } else {
       console.log("goto IntSpecScreen");
       navigation.navigate("IntSpecScreen");
@@ -57,18 +67,24 @@ export default function InfoScreen({navigation}) {
           value={firstName}
           textContentType={"givenName"}
           placeholder="First Name"
-          style={styles.textInput}
+          style={[styles.textInput, {shadowColor: warning.firstName ? "#ff0000" : "#000000"}]}
           onChangeText={(text) => {
             updateFirstName(text);
+            if (text) {
+              setWarning({...warning, firstName: false});
+            }
           }}
         />
         <TextInput
           value={lastName}
           placeholder="Last Name"
           textContentType={"familyName"}
-          style={styles.textInput}
+          style={[styles.textInput, {shadowColor: warning.lastName ? "#ff0000" : "#000000"}]}
           onChangeText={(text) => {
             updateLastName(text);
+            if (text) {
+              setWarning({...warning, lastName: false});
+            }
           }}
         />
         <View
@@ -77,6 +93,7 @@ export default function InfoScreen({navigation}) {
             alignItems: "center",
             justifyContent: "space-between",
             paddingRight: 14,
+            shadowColor: warning.birth ? "#ff0000" : "#000000",
           }]}>
           <TextInput
             style={{marginLeft: 10, fontSize: 17}}
@@ -94,6 +111,7 @@ export default function InfoScreen({navigation}) {
                     onConfirm={(date) => {
                       updateBirth(date)
                       setVisible(false)
+                      setWarning({...warning, birth: false})
                     }}
                     onCancel={() => {
                       setVisible(false)
@@ -111,7 +129,7 @@ export default function InfoScreen({navigation}) {
           />
         )}
         <Dropdown
-          style={styles.dropdown}
+          style={[styles.dropdown, {shadowColor: warning.gender ? "#ff0000" : "#000000"}]}
           selectedTextStyle={{
             fontSize: 17,
             textAlign: "center",
@@ -134,17 +152,22 @@ export default function InfoScreen({navigation}) {
           placeholder={"Select your gender"}
           value={gender}
           onChange={(item) => {
-            console.log(item);
             updateGender(item.value);
+            setWarning({...warning, gender: false});
           }}
         />
         <TextInput
           value={mobile}
           placeholder="Mobile"
           textContentType={"telephoneNumber"}
-          style={[styles.textInput, {marginBottom: 10}]}
+          style={[styles.textInput, {marginBottom: 10, shadowColor: warning.mobile ? "red" : "black"}]}
           onChangeText={(text) => {
             updateMobile(text);
+            if (!text || validator.isMobilePhone(text, "en-US")) {
+              setWarning({...warning, mobile: false});
+            } else {
+              setWarning({...warning, mobile: true});
+            }
           }}
         />
         <PrimaryButton title="Next" onPress={handleNext} marginTop={40}/>

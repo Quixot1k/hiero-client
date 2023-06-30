@@ -1,15 +1,20 @@
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
-import validator from "validator";
+import validator from "validator/es";
+import {useState} from "react";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function BidScreen({navigation}) {
   const bid = useStore((state) => state.bid);
   const updateBid = useStore((state) => state.updateBid);
+  const [warning, setWarning] = useState({
+    bid: false,
+  })
   const handleNext = () => {
     if (bid === 0 || !validator.isNumeric(String(bid))) {
-      console.log("invalid bid");
+      console.log("invalid bid", bid);
+      setWarning({...warning, bid: true});
     } else {
       console.log("goto AvatarScreen");
       navigation.navigate("AvatarScreen");
@@ -27,12 +32,13 @@ export default function BidScreen({navigation}) {
           maxLength={5}
           keyboardType={"number-pad"}
           value={bid ? String(bid) : ""}
-          style={styles.textInput}
+          style={[styles.textInput, {shadowColor: warning.bid ? "#ff0000" : "#000000"}]}
           onChangeText={(text) => {
             if (text === "") {
               updateBid(0);
             } else if (validator.isNumeric(text)) {
               updateBid(parseInt(text));
+              setWarning({...warning, bid: false});
             } else {
               console.log("invalid bid");
             }

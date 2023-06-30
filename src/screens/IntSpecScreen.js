@@ -130,6 +130,10 @@ export default function IntSpecScreen({navigation}) {
     }
   };
   const handleNext = () => {
+    if (intSpecs.length < 3) {
+      console.log("please select at least 3 options");
+      return;
+    }
     if (role === "client") {
       console.log("goto CapacityScreen");
       navigation.navigate("CapacityScreen");

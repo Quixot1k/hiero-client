@@ -32,7 +32,7 @@ export const useStore = create((set) => ({
   intSpecs: [],
   updateIntSpecs: (newIntSpecs) => set(() => ({intSpecs: newIntSpecs})),
   addOrRemoveIntSpec: (newIntSpec) => set((state) => {
-    const intSpecId = newIntSpec.id
+    const intSpecId = newIntSpec.categoryId
     const existingIndex = state.intSpecs.findIndex(item => item.categoryId === intSpecId);
     if (existingIndex !== -1) {
       const updatedIntSpecs = [...state.intSpecs];

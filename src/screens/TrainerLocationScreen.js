@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import axios from "axios";
 import {v4 as uuid} from "uuid";
 import {CheckBox} from "@rneui/base";
@@ -7,6 +7,8 @@ import LocationCard from "../components/LocationCard";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import {useStore} from "../store";
+import validator from "validator/es";
+
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerLocationScreen({navigation}) {
@@ -30,7 +32,14 @@ export default function TrainerLocationScreen({navigation}) {
     longitude: -1.0,
   };
   const [location, setLocation] = useState(initialLocation);
-
+  const [warning, setWarning] = useState({
+    name: false,
+    address: false,
+    addr1: false,
+    city: false,
+    state: false,
+    zipcode: false,
+  });
   const handleSave = async () => {
     try {
       await axios.put(
@@ -53,8 +62,24 @@ export default function TrainerLocationScreen({navigation}) {
   };
 
   const handleAdd = () => {
+    if (!location.name) {
+      setWarning({...warning, name: true});
+      return;
+    } else if (!location.addr1) {
+      setWarning({...warning, addr1: true});
+      return;
+    } else if (!location.city) {
+      setWarning({...warning, city: true});
+      return;
+    } else if (!location.state) {
+      setWarning({...warning, state: true});
+      return;
+    } else if (!validator.isPostalCode(location.zipcode, 'US')) {
+      setWarning({...warning, zipcode: true});
+      return;
+    }
     const locationObj = {
-      locationId: parseInt(uuid()),
+      locationId: uuid(),
       address: location.name + "," + location.addr1 + "," + location.addr2,
       city: location.city,
       state: location.state,
@@ -88,25 +113,31 @@ export default function TrainerLocationScreen({navigation}) {
           <TextInput
             value={location.name}
             placeholder="Training Location Name"
-            style={styles.textInput}
+            style={[styles.textInput, {shadowColor: warning.name ? "#ff0000" : "#000000"}]}
             onChangeText={(text) => {
               setLocation({...location, name: text});
+              if (text) {
+                setWarning({...warning, name: false});
+              }
             }}
           />
           <TextInput
             value={location.addr1}
             placeholder="Address 1"
             textContentType={"streetAddressLine1"}
-            style={styles.textInput}
+            style={[styles.textInput, {shadowColor: warning.addr1 ? "#ff0000" : "#000000"}]}
             onChangeText={(text) => {
               setLocation({...location, addr1: text});
+              if (text) {
+                setWarning({...warning, addr1: false});
+              }
             }}
           />
           <TextInput
             value={location.addr2}
-            placeholder="Address 2"
+            placeholder="Address 2 (Optional)"
             textContentType={"streetAddressLine2"}
-            style={styles.textInput}
+            style={[styles.textInput, {shadowColor: warning.addr2 ? "#ff0000" : "#000000"}]}
             onChangeText={(text) => {
               setLocation({...location, addr2: text});
             }}
@@ -116,27 +147,40 @@ export default function TrainerLocationScreen({navigation}) {
               value={location.city}
               placeholder="City"
               textContentType={"addressCity"}
-              style={[styles.textInput, {width: 95}]}
+              style={[styles.textInput, {width: 95, shadowColor: warning.city ? "#ff0000" : "#000000"}]}
               onChangeText={(text) => {
                 setLocation({...location, city: text});
+                if (text) {
+                  setWarning({...warning, city: false});
+                }
               }}
             />
             <TextInput
               value={location.state}
               placeholder="State"
               textContentType={"addressState"}
-              style={[styles.textInput, {marginHorizontal: 6, width: 96}]}
+              style={[styles.textInput, {
+                marginHorizontal: 6,
+                width: 96,
+                shadowColor: warning.state ? "#ff0000" : "#000000"
+              }]}
               onChangeText={(text) => {
                 setLocation({...location, state: text});
+                if (text) {
+                  setWarning({...warning, state: false});
+                }
               }}
             />
             <TextInput
               value={location.zipcode}
               placeholder="Zip Code"
               textContentType={"postalCode"}
-              style={[styles.textInput, {width: 97}]}
+              style={[styles.textInput, {width: 97, shadowColor: warning.zipcode ? "#ff0000" : "#000000"}]}
               onChangeText={(text) => {
                 setLocation({...location, zipcode: text});
+                if (validator.isPostalCode(text, 'US')) {
+                  setWarning({...warning, zipcode: false});
+                }
               }}
             />
           </View>
