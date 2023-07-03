@@ -14,7 +14,7 @@ const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerLocationScreen({navigation}) {
   // global state
   const {isLogged, userId, trainerLocations} = useStore((state) => state);
-  const {addTrainerLocation, removeTrainerLocation} = useStore(
+  const {addTrainerLocation, removeTrainerLocation, updateTrainerLocations} = useStore(
     (state) => state
   );
   // local state
@@ -47,6 +47,7 @@ export default function TrainerLocationScreen({navigation}) {
         {
           trainerLocations: {
             trainerId: userId,
+            location_commission: 0,
             locations: trainerLocations,
           },
         },
@@ -55,13 +56,17 @@ export default function TrainerLocationScreen({navigation}) {
             "Content-Type": "application/json",
           },
         }
-      );
+      ).then(res => {
+        if (res.status === 200) {
+          console.log("SUCCESS");
+        }
+      })
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!location.name) {
       setWarning({...warning, name: true});
       return;
@@ -93,7 +98,6 @@ export default function TrainerLocationScreen({navigation}) {
   };
 
   const handleRemove = (locationId) => {
-    console.log(trainerLocations);
     removeTrainerLocation(locationId);
   };
 
@@ -243,7 +247,7 @@ export default function TrainerLocationScreen({navigation}) {
                 {width: screenWidth - 30},
               ]}
             >
-              {trainerLocations.map((obj, index) => (
+              {trainerLocations?.map((obj, index) => (
                 <LocationCard
                   key={index}
                   locationId={obj.locationId}
@@ -315,7 +319,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   listWrapper: {
-    height: 300,
+    height: 360,
     width: screenWidth - 30,
     borderRadius: 16,
     paddingVertical: 20,

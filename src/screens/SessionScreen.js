@@ -1,52 +1,24 @@
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View,} from "react-native";
-import axios from "axios";
-import {useEffect, useState} from "react";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {useIsFocused} from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
 import SessionItem from "../components/SessionItem";
 import {useStore} from "../store";
+import {add, format} from "date-fns";
+import useTodaySession from "../hooks/useTodaySession";
 
 const {width: screenWidth} = Dimensions.get("window");
+
+const convertMilitaryTime = (dateString, timeString) => {
+  const hour = timeString.substring(0, 2);
+  const minute = timeString.substring(2, 4);
+  return new Date(dateString + "T" + hour + ":" + minute);
+}
 
 export default function SessionScreen({navigation}) {
   const isFocused = useIsFocused();
   const {role, userId} = useStore((state) => state);
-  const [sessionList, setSessionList] = useState([]);
 
-  const handleSearch = () => {
-    navigation.navigate("GymListScreen");
-  };
-  const handleMyClients = () => {
-    navigation.navigate("ClientListScreen");
-  };
-
-  const handleMySchedule = () => {
-    navigation.navigate("ScheduleScreen");
-  };
-
-  const getTodaySessionsByRole = async () => {
-    if (role === "client") {
-      console.log("clientGetSessions");
-      await axios
-        .get(`http://localhost:10001/schedule/client/today/${userId}`)
-        .then((res) => {
-          setSessionList(res.data);
-        });
-    } else if (role === "trainer") {
-      console.log("trainerGetSessions");
-      await axios
-        .get(`http://localhost:10001/schedule/trainer/today/${userId}`)
-        .then((res) => {
-          setSessionList(res.data);
-        });
-    }
-  };
-
-  useEffect(() => {
-    getTodaySessionsByRole().catch((err) => {
-      console.log(err);
-    });
-  }, [isFocused]);
+  const {data: sessions, error, isLoading} = useTodaySession()
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,33 +28,27 @@ export default function SessionScreen({navigation}) {
             <Text style={styles.listHeaderText}>Upcoming Sessions</Text>
           </View>
           <ScrollView
-            style={styles.sessionList}
             contentContainerStyle={{alignItems: "center"}}
           >
-            {role === "trainer" && sessionList.length ? (
-              sessionList.map((item, key) => (
+            {isLoading && <Text style={styles.listContentText}>Loading...</Text>}
+            {error && <Text style={styles.listContentText}>{error.message}</Text>}
+            {
+              sessions?.map((sessionObj, index) => (
                 <SessionItem
-                  key={key}
-                  name={item.clientProfileList[0].name}
-                  startTime={item.session.startTime}
-                  endTime={
-                    parseInt(item.session.startTime) +
-                    parseInt(item.session.sessionTimeLength)
-                  }
+                  key={index}
+                  name={sessionObj.clientProfileList[0].name}
+                  startTime={format(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), "HH:mm")}
+                  endTime={format(add(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), {minutes: sessionObj.session.sessionTimeLength}), "HH:mm")}
                   location={
-                    item.location.address +
+                    sessionObj.location.address +
                     ", " +
-                    item.location.city +
+                    sessionObj.location.city +
                     ", " +
-                    item.location.state
+                    sessionObj.location.state
                   }
                 />
               ))
-            ) : (
-              <Text style={{marginTop: 120, fontSize: 20}}>
-                No upcoming sessions
-              </Text>
-            )}
+            }
           </ScrollView>
         </View>
         <View style={styles.buttonGroup}>
@@ -90,20 +56,26 @@ export default function SessionScreen({navigation}) {
             <PrimaryButton
               title="Search"
               marginBottom={14}
-              onPress={handleSearch}
+              onPress={() => {
+                navigation.navigate("GymListScreen");
+              }}
             />
           )}
           {role === "trainer" && (
             <PrimaryButton
               title="My Clients"
               marginBottom={14}
-              onPress={handleMyClients}
+              onPress={() => {
+                navigation.navigate("ClientListScreen");
+              }}
             />
           )}
           <PrimaryButton
             title={"My Schedule"}
             paddingHorizontal={0}
-            onPress={handleMySchedule}
+            onPress={() => {
+              navigation.navigate("ScheduleScreen");
+            }}
           />
         </View>
       </ScrollView>
@@ -142,7 +114,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   listHeader: {
-    height: 40,
+    height: 42,
     flexDirection: "row",
     alignItems: "center",
     borderTopLeftRadius: 16,
@@ -157,6 +129,11 @@ const styles = StyleSheet.create({
     textShadowColor: "#fcfcfc",
     textShadowOffset: {width: 0, height: 0},
     textShadowRadius: 1,
+  },
+  listContentText: {
+    fontSize: 17,
+    fontWeight: "600",
+    marginTop: 120,
   },
   buttonGroup: {
     marginVertical: 20,

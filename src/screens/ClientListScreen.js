@@ -53,7 +53,7 @@ export default function ClientListScreen({navigation}) {
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
             {filterClientList.length ? (
-              filterClientList.map((clientObj, index) => (
+              filterClientList?.map((clientObj, index) => (
                 <ClientItem
                   key={index}
                   name={clientObj.name}

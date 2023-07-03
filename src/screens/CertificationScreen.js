@@ -84,7 +84,7 @@ export default function CertificationScreen({navigation}) {
           }}
           contentContainerStyle={{alignItems: "center"}}
         >
-          {certifications.map((certificationObj) => (
+          {certifications?.map((certificationObj) => (
             <CertificationCard
               key={certificationObj.certificationId}
               CertificationId={certificationObj.certificationId}

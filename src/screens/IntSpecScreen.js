@@ -152,7 +152,7 @@ export default function IntSpecScreen({navigation}) {
             : "What are your specialities"}
         </Text>
         <View style={styles.grids}>
-          {intSpecList.map((intSpecObj) => (
+          {intSpecList?.map((intSpecObj) => (
             <IntSpecGrid
               key={intSpecObj.categoryId}
               name={intSpecObj.categoryName}

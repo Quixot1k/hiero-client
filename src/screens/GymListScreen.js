@@ -55,7 +55,7 @@ export default function GymListScreen({navigation}) {
         {/* List */}
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
-            {filterGymList.map((gymObj, key) => {
+            {filterGymList?.map((gymObj, key) => {
               // {{url}}/trainers/gym/3
               return (
                 <GymItem

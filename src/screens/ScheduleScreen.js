@@ -1,167 +1,62 @@
 import {Dimensions, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import DatePicker from "react-native-date-picker";
 import WeekView from "react-native-week-view";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {MaterialIcons} from "@expo/vector-icons";
 import PrimaryButton from "../components/PrimaryButton";
-import axios from "axios";
-import {add, format} from "date-fns";
+import {format} from "date-fns";
 import {useStore} from "../store";
+import useSession from "../hooks/useSession";
+import useBlockSession from "../hooks/useBlockSession";
+import useRemoveSession from "../hooks/useRemoveSession";
 
 const {width: screenWidth} = Dimensions.get("window");
+
+const TodayHeaderComponent = ({formattedDate, textStyle}) => (
+  <Text
+    style={[textStyle, {fontWeight: "900", fontSize: 14, color: "darkred"}]}
+  >
+    {formattedDate}
+  </Text>
+);
+
+const EventComponent = ({event, position}) => {
+  return (
+    <>
+      <Text
+        style={{
+          color: "#eee",
+          fontWeight: "700",
+          marginTop: position.height / 2.25,
+          textAlign: "center",
+        }}
+      >
+        {event.description}
+      </Text>
+    </>
+  );
+};
+
 export default function ScheduleScreen() {
   const userId = useStore((state) => state.userId);
-  const [weeklyEvent, setWeeklyEvent] = useState([]);
   const [event, setEvent] = useState();
   const [startDatetime, setStartDatetime] = useState(new Date());
   const [endDatetime, setEndDatetime] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(0);
   const snapPoints = useMemo(() => ["10%", "50%"], []);
-  let eventId = 0;
 
-  const TodayHeaderComponent = ({formattedDate, textStyle}) => (
-    <Text
-      style={[textStyle, {fontWeight: "900", fontSize: 14, color: "darkred"}]}
-    >
-      {formattedDate}
-    </Text>
-  );
-
-  const EventComponent = ({event, position}) => {
-    return (
-      <>
-        <Text
-          style={{
-            color: "#eee",
-            fontWeight: "700",
-            marginTop: position.height / 2.25,
-            textAlign: "center",
-          }}
-        >
-          {event.description}
-        </Text>
-      </>
-    );
-  };
-
-  const getTrainerSessions = async () => {
-    try {
-      await axios
-        .get(`http://127.0.0.1:10001/schedule/trainer?id=${userId}&week=0`)
-        .then((res) => {
-          if (res.status === 200) {
-            let eventList = [];
-            // convert raw events to weekly events
-            for (const item of res.data) {
-              console.log(item);
-              const year = parseInt(item.startDate.split("-")[0]);
-              const month = parseInt(item.startDate.split("-")[1]);
-              const day = parseInt(item.startDate.split("-")[2]);
-              const hour = parseInt(item.startTime.substr(0, 2));
-              const minute = parseInt(item.startTime.substr(2, 4));
-              const duration = parseInt(item.sessionTimeLength);
-              const startDate = new Date(year, month - 1, day, hour, minute);
-              const endDate = add(
-                new Date(year, month - 1, day, hour, minute),
-                {
-                  minutes: duration,
-                }
-              );
-              eventList.push({
-                id: eventId,
-                startDate: startDate,
-                endDate: endDate,
-                clientId: item.clientId,
-                description:
-                  item.clientId === 0 ? "Block" : "client" + item.clientId,
-                color: item.clientId === 0 ? "#000000" : "#005A9C",
-                resolveOverlap: "stack",
-              });
-              eventId += 1;
-            }
-            setWeeklyEvent(eventList);
-          } else {
-            console.log("error");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleBlockSession = () => {
-    const sessionObj = {
-      trainerId: userId,
-      date: format(startDatetime, "yyyy-MM-dd"),
-      startTime: format(startDatetime, "HHmm"),
-      endTime: format(endDatetime, "HHmm"),
-    };
-    console.log(sessionObj);
-    try {
-      axios
-        .post("http://127.0.0.1:10001/schedule/trainer/block", sessionObj, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log("Has been blocked!");
-            getTrainerSessions().catch((err) => {
-              console.log(err);
-            });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleRemoveSession = () => {
-    const sessionObj = {
-      id: userId,
-      startDate: format(event.startDate, "yyyy-MM-dd"),
-      startTime: format(event.startDate, "HHmm"),
-    };
-    console.log(sessionObj);
-    try {
-      axios
-        .delete("http://localhost:10001/schedule/deleteByTrainer", {
-          data: sessionObj,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log("Has been removed!");
-            getTrainerSessions().catch((err) => {
-              console.log(err);
-            });
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleAddSession = () => {
-  };
-
-  useEffect(() => {
-    getTrainerSessions().catch((err) => {
-      console.log(err);
-    });
-    return () => {
-      setWeeklyEvent([]);
-    };
-  }, []);
+  const {data: sessions, error, isLoading} = useSession();
+  const blockSession = useBlockSession();
+  const removeSession = useRemoveSession();
 
   return (
     <SafeAreaView style={styles.container}>
       {/* WeeklyView */}
       <View style={styles.weekView}>
         <WeekView
-          events={weeklyEvent}
+          events={sessions}
           selectedDate={new Date()}
           fixedHorizontally={false}
           allowScrollByDay={true}
@@ -246,8 +141,12 @@ export default function ScheduleScreen() {
                 marginTop={15}
                 title={"Remove"}
                 onPress={() => {
-                  // function to delete this eevnt and send to backend
-                  handleRemoveSession();
+                  // function to delete this event and send to backend
+                  removeSession.mutate({
+                    id: userId,
+                    startDate: format(event.startDate, "yyyy-MM-dd"),
+                    startTime: format(event.startDate, "HHmm"),
+                  });
                   setModalVisible(false);
                 }}
               />
@@ -306,7 +205,8 @@ export default function ScheduleScreen() {
               paddingHorizontal={4}
               marginTop={20}
               marginBottom={10}
-              onPress={() => handleAddSession()}
+              onPress={() => {
+              }}
             />
             <PrimaryButton
               title={"Block"}
@@ -317,7 +217,12 @@ export default function ScheduleScreen() {
               marginTop={20}
               marginBottom={10}
               onPress={() => {
-                handleBlockSession();
+                blockSession.mutate({
+                  trainerId: userId,
+                  date: format(startDatetime, "yyyy-MM-dd"),
+                  startTime: format(startDatetime, "HHmm"),
+                  endTime: format(endDatetime, "HHmm"),
+                });
               }}
             />
           </View>

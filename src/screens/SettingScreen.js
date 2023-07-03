@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 2},
-    shadowRadius: 2,
+    shadowRadius: 3,
   },
   btnTitle: {
     fontSize: 20,

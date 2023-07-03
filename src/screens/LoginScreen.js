@@ -28,8 +28,8 @@ export default function LoginScreen({navigation}) {
     updateCity,
     updateState,
     updateZip,
-    // updateLatitude,
-    // updateLongitude,
+    updateLatitude,
+    updateLongitude,
     updateDistance,
     updateTrainerLocations,
     updateZoom,
@@ -41,12 +41,6 @@ export default function LoginScreen({navigation}) {
 
   const [hidden, setHidden] = useState(true);
   const handleClientSignIn = async () => {
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [{name: "TabNavigator"}],
-    //   })
-    // );
     try {
       await axios
         .post(
@@ -89,8 +83,8 @@ export default function LoginScreen({navigation}) {
             updateCity(clientProfile.city);
             updateState(clientProfile.state);
             updateZip(clientProfile.zipcode);
-            // updateLatitude(clientProfile.latitude);
-            // updateLongitude(clientProfile.longitude);
+            updateLatitude(clientProfile.latitude);
+            updateLongitude(clientProfile.longitude);
             updateDistance(clientProfile.maxTravelDistance);
             /* navigate */
             navigation.dispatch(
@@ -108,12 +102,6 @@ export default function LoginScreen({navigation}) {
     }
   };
   const handleTrainerSignIn = async () => {
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [{name: "TabNavigator"}],
-    //   })
-    // );
     try {
       await axios
         .post(
@@ -130,7 +118,6 @@ export default function LoginScreen({navigation}) {
         )
         .then((res) => {
           if (res.status === 200) {
-            console.log(res.data);
             // initialize all global states
             const trainerProfile = res.data.trainerProfile;
             let trainerCategories = [];

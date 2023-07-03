@@ -71,17 +71,15 @@ export default function TrainerListScreen({navigation, route}) {
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
-            {filterTrainerList.map((trainerObj) => {
-              return (
-                <TrainerItem
-                  key={trainerObj.trainerId}
-                  trainer={trainerObj}
-                  onPress={() => {
-                    navigation.navigate("TrainerDetailScreen", {trainerObj});
-                  }}
-                />
-              );
-            })}
+            {filterTrainerList?.map((trainerObj) => (
+              <TrainerItem
+                key={trainerObj.trainerId}
+                trainer={trainerObj}
+                onPress={() => {
+                  navigation.navigate("TrainerDetailScreen", {trainerObj});
+                }}
+              />
+            ))}
           </ScrollView>
         </View>
       </ScrollView>
