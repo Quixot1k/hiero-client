@@ -7,7 +7,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import {Dropdown} from "react-native-element-dropdown";
 import {useStore} from "../store";
 import {format} from "date-fns";
-import axios from "axios";
+import useAddSession from "../hooks/useAddSession";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerDetailScreen({route}) {
@@ -37,8 +37,10 @@ export default function TrainerDetailScreen({route}) {
     price: NaN,
   });
 
+  const addSession = useAddSession();
+
   const handleAddAdhoc = () => {
-    const newAdhoc = {
+    const addSessionQuery = {
       trainerId: trainerProfile.trainerId,
       clientId: userId,
       locationId: session.locationId,
@@ -48,21 +50,7 @@ export default function TrainerDetailScreen({route}) {
       numClientsInSession: 3,
       pricePaidByClients: session.price,
     }
-    try {
-      axios
-        .post("http://127.0.0.1:10001/schedule/adhoc", newAdhoc, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log("Has been added!");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    addSession.mutate(addSessionQuery);
   }
   const makeBid = () => {
     const bid = {

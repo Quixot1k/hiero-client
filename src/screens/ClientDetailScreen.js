@@ -3,52 +3,50 @@ import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touch
 import {format} from "date-fns";
 import DatePicker from "react-native-date-picker";
 import {MaterialIcons} from "@expo/vector-icons";
-import axios from "axios";
 import Schedule from "../components/Schedule";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
+import {Dropdown} from "react-native-element-dropdown";
+import useAddSession from "../hooks/useAddSession";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function ClientDetailScreen({route}) {
   const {clientObj} = route.params;
-  const userId = useStore((state) => state.userId);
+  const {userId, trainerLocations} = useStore((state) => state);
+  let locationOptions = [];
+  for (const location of trainerLocations) {
+    locationOptions.push({
+      label: location.address + "," + location.city + "," + location.state + " " + location.zipcode,
+      value: location.locationId,
+    });
+  }
+
   const [mode, setMode] = useState({
     calendarVisible: true,
     adhocVisible: true,
   });
   const [adhoc, setAdhoc] = useState({
+    locationId: NaN,
     startDatetime: new Date(),
     endDatetime: new Date(),
     capacity: 1,
     price: 20,
   });
 
+  const addSession = useAddSession();
+
   const handleAddAdhoc = () => {
-    const newAdhoc = {
+    const addSessionQuery = {
       trainerId: userId,
       clientId: clientObj.clientId,
-      locationId: 1,
+      locationId: adhoc.locationId,
       startDate: format(adhoc.startDatetime, "yyyy-MM-dd"),
       startTime: format(adhoc.startDatetime, "HHmm"),
       endTime: format(adhoc.endDatetime, "HHmm"),
       numClientsInSession: adhoc.capacity,
       pricePaidByClients: adhoc.price,
     };
-    try {
-      axios
-        .post("http://127.0.0.1:10001/schedule/adhoc", newAdhoc, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log("Has been added!");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    addSession.mutate(addSessionQuery);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -137,6 +135,21 @@ export default function ClientDetailScreen({route}) {
             <View style={{alignItems: "center"}}>
               {mode.adhocVisible && (
                 <>
+                  {/*Location*/}
+                  <Dropdown data={locationOptions} labelField="label" valueField="value"
+                            placeholder={"Select a location"}
+                            value={adhoc.locationId}
+                            style={{
+                              width: screenWidth - 100,
+                              paddingHorizontal: 10,
+                              paddingVertical: 1,
+                              marginTop: 14,
+                              borderRadius: 9,
+                              backgroundColor: "#efeff0",
+                            }}
+                            onChange={(item) => {
+                              setAdhoc({...adhoc, locationId: item.value});
+                            }}/>
                   <View
                     style={{
                       flexDirection: "row",

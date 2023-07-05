@@ -24,7 +24,7 @@ export default function ClientListScreen({navigation}) {
   useEffect(() => {
     setClientList(clients);
     setFilteredClientList(clients);
-  }, []);
+  }, [clients]);
 
   return (
     <SafeAreaView style={styles.container}>

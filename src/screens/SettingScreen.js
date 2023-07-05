@@ -8,6 +8,7 @@ const {width: screenWidth} = Dimensions.get("window");
 export default function Settings({navigation}) {
   const role = useStore((state) => state.role);
   const updateIsLogged = useStore((state) => state.updateIsLogged);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>

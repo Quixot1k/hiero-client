@@ -46,7 +46,7 @@ export default function TrainerListScreen({navigation, route}) {
   useEffect(() => {
     setTrainerList(trainersFromGym);
     setFilterTrainerList(trainersFromGym);
-  }, []);
+  }, [trainersFromGym]);
 
   return (
     <SafeAreaView style={styles.container}>

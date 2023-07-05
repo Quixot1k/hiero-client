@@ -6,7 +6,6 @@ const useRemoveSession = () => {
   const queryClient = useQueryClient();
   const role = useStore((state) => state.role);
   const removeSession = async (sessionObj) => {
-    console.log(sessionObj);
     if (role === "client") {
     } else if (role === "trainer") {
       await axios

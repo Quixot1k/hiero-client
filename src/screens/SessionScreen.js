@@ -14,10 +14,10 @@ const convertMilitaryTime = (dateString, timeString) => {
 }
 
 export default function SessionScreen({navigation}) {
-  const {role, userId} = useStore((state) => state);
+  const role = useStore((state) => state.role);
 
   const {data: sessions, error, isLoading} = useTodaySession()
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
