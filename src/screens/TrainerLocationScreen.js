@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import axios from "axios";
-import {v4 as uuid} from "uuid";
 import {CheckBox} from "@rneui/base";
 import LocationCard from "../components/LocationCard";
 import PrimaryButton from "../components/PrimaryButton";
@@ -14,7 +13,7 @@ const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerLocationScreen({navigation}) {
   // global state
   const {isLogged, userId, trainerLocations} = useStore((state) => state);
-  const {addTrainerLocation, removeTrainerLocation, updateTrainerLocations} = useStore(
+  const {addTrainerLocation, removeTrainerLocation} = useStore(
     (state) => state
   );
   // local state
@@ -47,7 +46,7 @@ export default function TrainerLocationScreen({navigation}) {
         {
           trainerLocations: {
             trainerId: userId,
-            location_commission: 0,
+            location_commissions: 0,
             locations: trainerLocations,
           },
         },
@@ -56,35 +55,18 @@ export default function TrainerLocationScreen({navigation}) {
             "Content-Type": "application/json",
           },
         }
-      ).then(res => {
-        if (res.status === 200) {
-          console.log("SUCCESS");
-        }
-      })
+      ).then((res) => {
+        console.log(JSON.stringify(res));
+      });
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleAdd = async () => {
-    if (!location.name) {
-      setWarning({...warning, name: true});
-      return;
-    } else if (!location.addr1) {
-      setWarning({...warning, addr1: true});
-      return;
-    } else if (!location.city) {
-      setWarning({...warning, city: true});
-      return;
-    } else if (!location.state) {
-      setWarning({...warning, state: true});
-      return;
-    } else if (!validator.isPostalCode(location.zipcode, 'US')) {
-      setWarning({...warning, zipcode: true});
-      return;
-    }
-    const locationObj = {
-      locationId: uuid(),
+  const handleAdd = () => {
+    const timestamp = String(new Date().getTime());
+    const nextLocation = {
+      locationId: -Math.abs(parseInt(timestamp.substring(timestamp.length - 5))),
       address: location.name + "," + location.addr1 + "," + location.addr2,
       city: location.city,
       state: location.state,
@@ -93,13 +75,15 @@ export default function TrainerLocationScreen({navigation}) {
       latitude: Math.random(),
       longitude: Math.random(),
     };
-    addTrainerLocation(locationObj);
+    addTrainerLocation(nextLocation);
     setLocation(initialLocation);
   };
 
   const handleRemove = (locationId) => {
+    console.log(trainerLocations);
     removeTrainerLocation(locationId);
   };
+
 
   const handleNext = () => {
     console.log("goto BioScreen");

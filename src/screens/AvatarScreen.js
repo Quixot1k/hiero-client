@@ -6,7 +6,7 @@ import {useStore} from "../store";
 
 const {width: windowWidth} = Dimensions.get("window");
 export default function AvatarScreen({navigation}) {
-  const avatar = useStore((state) => state.avatar)
+  const avatarUri = useStore((state) => state.avatarUri)
   const updateAvatar = useStore((state) => state.updateAvatar)
   const openMediaLibrary = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -46,9 +46,9 @@ export default function AvatarScreen({navigation}) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.header}>Show the world who you are</Text>
-        {avatar ? (
+        {avatarUri ? (
           <Image
-            source={{uri: avatar}}
+            source={{uri: avatarUri}}
             style={{width: 240, height: 240, borderRadius: 120}}
           />
         ) : (

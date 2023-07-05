@@ -11,9 +11,9 @@ import {format} from "date-fns";
 const {width: screenWidth} = Dimensions.get("window");
 
 const genderOptions = [
-  {label: "Male", value: "male"},
-  {label: "Female", value: "female"},
-  {label: "Other", value: "other"},
+  {label: "Male", value: "0"},
+  {label: "Female", value: "1"},
+  {label: "Other", value: "2"},
 ];
 
 export default function InfoScreen({navigation}) {

@@ -43,10 +43,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     width: 330,
     height: 90,
     marginVertical: 5,
+    paddingHorizontal: 10,
     backgroundColor: "#ffffff",
     borderRadius: 14,
     shadowColor: "black",
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   name: {
-    fontSize: 22,
+    fontSize: 20,
     shadowOpacity: 0,
     textShadowColor: "rgba(0, 0, 0, 0.25)",
     textShadowOffset: {width: 1, height: 1},
@@ -82,12 +83,12 @@ const styles = StyleSheet.create({
   },
   specialtyItem: {
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: "500",
     color: "#ffffff",
   },
   bid: {
-    fontSize: 20,
-    fontWeight: 500,
+    fontSize: 24,
+    fontWeight: "500",
     marginRight: 2,
     shadowOpacity: 0,
     textShadowColor: "rgba(0, 0, 0, 0.25)",

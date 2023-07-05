@@ -44,8 +44,8 @@ export const useStore = create((set) => ({
   }),
   capacity: 3,
   updateCapacity: (newCapacity) => set(() => ({capacity: newCapacity})),
-  avatar: "",
-  updateAvatar: (newAvatar) => set(() => ({avatar: newAvatar})),
+  avatarUri: "",
+  updateAvatar: (newAvatarUri) => set(() => ({avatarUri: newAvatarUri})),
   zoom: false,
   updateZoom: () => set((state) => ({zoom: !state.zoom})),
   home: false,
@@ -62,7 +62,7 @@ export const useStore = create((set) => ({
   }),
   trainerLocations: [], // {  locationId: "", "address": "", city: "", state: "", zipcode: "", locationType: Gym/Home, latitude: -1.0, longitude: -1.0 },
   updateTrainerLocations: (newTrainerLocations) => set(() => ({trainerLocations: newTrainerLocations})),
-  addTrainerLocation: (locationObj) => set((state) => ({trainerLocations: [locationObj, ...state.trainerLocations]})),
+  addTrainerLocation: (locationObj) => set((state) => ({trainerLocations: [...state.trainerLocations, locationObj]})),
   removeTrainerLocation: (locationId) => set((state) => {
     return {trainerLocations: state.trainerLocations.filter((location) => location.locationId !== locationId)}
   }),

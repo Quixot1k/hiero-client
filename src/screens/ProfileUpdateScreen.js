@@ -10,14 +10,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Circle, Marker } from "react-native-maps";
-import { CheckBox, Slider } from "@rneui/themed";
+import MapView, {Circle, Marker} from "react-native-maps";
+import {CheckBox, Slider} from "@rneui/themed";
 import axios from "axios";
 import PrimaryButton from "../components/PrimaryButton";
-import { useStore } from "../store";
+import {useStore} from "../store";
 
-const { width: screenWidth } = Dimensions.get("window");
-export default function Profile({ navigation }) {
+const {width: screenWidth} = Dimensions.get("window");
+export default function Profile({navigation}) {
   const {
     role,
     userId,
@@ -29,7 +29,7 @@ export default function Profile({ navigation }) {
     birth,
     gender,
     capacity,
-    avatar,
+    avatarUri,
     zoom,
     home,
     /* only for client */
@@ -67,6 +67,49 @@ export default function Profile({ navigation }) {
     updateZoom,
     updateHome,
   } = useStore((state) => state);
+  
+  const handleClientSave = async () => {
+    const clientProfile = {
+      clientId: userId,
+      name: firstName + "," + lastName,
+      emailAddress: email,
+      password: password,
+      phone: mobile,
+      age: parseInt(birth),
+      address: addr1 + "," + addr2,
+      city: city,
+      state: state,
+      zipcode: zip,
+      maxTravelDistance: parseInt(distance),
+      gender: "0",
+      imageName: "",
+      homeSession: home,
+      zoomSession: zoom,
+      maxOtherClientsToShareWith: capacity,
+      maxSessionsPerWeekByClient: 5,
+    }
+    try {
+      await axios
+        .put(
+          "http://127.0.0.1:10001/client/profile",
+          {clientProfile},
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("Update Successfully");
+          } else {
+            console.log(JSON.stringify(res));
+          }
+        });
+    } catch (err) {
+      console.log(JSON.stringify(err));
+    }
+  }
   const handleTrainerSave = async () => {
     const trainerProfile = {
       trainerId: userId,
@@ -82,13 +125,14 @@ export default function Profile({ navigation }) {
       maxClientsPerSession: parseInt(capacity),
       clientsHomeSession: home,
       zoomSession: zoom,
+      homeSession: home,
       imageName: "",
     };
     try {
       await axios
         .put(
           "http://127.0.0.1:10001/trainer/profile",
-          { trainerProfile },
+          {trainerProfile},
           {
             headers: {
               "Content-Type": "application/json",
@@ -112,11 +156,11 @@ export default function Profile({ navigation }) {
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* Header */}
         <View style={styles.headerSection}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            {avatar ? (
+          <View style={{flexDirection: "row", alignItems: "center"}}>
+            {avatarUri ? (
               <Image
-                source={{ uri: avatar }}
-                style={{ width: 120, height: 120, borderRadius: 60 }}
+                source={{uri: avatarUri}}
+                style={{width: 120, height: 120, borderRadius: 60}}
               />
             ) : (
               <View style={styles.profileCircle}></View>
@@ -214,7 +258,7 @@ export default function Profile({ navigation }) {
             <View style={styles.inputWrapper}>
               <Text style={styles.text}>Certification</Text>
               <TouchableOpacity
-                style={{ alignItems: "center", width: 300 }}
+                style={{alignItems: "center", width: 300}}
                 onPress={() => navigation.navigate("CertificationScreen")}
               >
                 <Text
@@ -295,7 +339,7 @@ export default function Profile({ navigation }) {
         {/* Map */}
         <View style={styles.mapWrapper}>
           <MapView
-            style={{ width: "100%", height: "100%", borderRadius: 20 }}
+            style={{width: "100%", height: "100%", borderRadius: 20}}
             initialRegion={{
               latitude: latitude,
               longitude: longitude,
@@ -309,9 +353,9 @@ export default function Profile({ navigation }) {
               longitudeDelta: distance / 30,
             }}
           >
-            <Marker coordinate={{ latitude: latitude, longitude: longitude }} />
+            <Marker coordinate={{latitude: latitude, longitude: longitude}}/>
             <Circle
-              center={{ latitude: latitude, longitude: longitude }}
+              center={{latitude: latitude, longitude: longitude}}
               radius={1609 * distance}
               fillColor={"rgba(255,255,255,0.3)"}
             />
@@ -319,7 +363,7 @@ export default function Profile({ navigation }) {
         </View>
         {/* CheckBox & Radio */}
         <View style={styles.textInputSection}>
-          <Text style={{ fontSize: 16, marginBottom: 6, fontWeight: "500" }}>
+          <Text style={{fontSize: 16, marginBottom: 6, fontWeight: "500"}}>
             {role === "client"
               ? "How far are you willing to go for service?"
               : "How far are you willing to travel to clients?"}
@@ -331,8 +375,8 @@ export default function Profile({ navigation }) {
             minimumTrackTintColor="#000"
             maximumTrackTintColor="#ccc"
             allowTouchTrack={true}
-            thumbStyle={{ height: 20, width: 20, backgroundColor: "#000" }}
-            trackStyle={{ height: 6, width: 250, borderRadius: 10 }}
+            thumbStyle={{height: 20, width: 20, backgroundColor: "#000"}}
+            trackStyle={{height: 6, width: 250, borderRadius: 10}}
             step={1}
             onValueChange={(value) => {
               updateDistance(value);
@@ -348,7 +392,7 @@ export default function Profile({ navigation }) {
           >
             Distance
             <Text
-              style={{ fontSize: 18, fontStyle: "italic", fontWeight: "800" }}
+              style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}
             >
               {" "}
               {distance < 90 ? distance : 90}
@@ -362,8 +406,8 @@ export default function Profile({ navigation }) {
               checked={zoom === true}
               checkedColor="#000"
               title={"Online session possible?"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000000" }}
-              containerStyle={{ marginBottom: -15, backgroundColor: "#fcfcfc" }}
+              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
+              containerStyle={{marginBottom: -15, backgroundColor: "#fcfcfc"}}
               onPress={() => {
                 updateZoom();
               }}
@@ -373,8 +417,8 @@ export default function Profile({ navigation }) {
               checked={home === true}
               checkedColor="#000"
               title={"Home session possible?"}
-              textStyle={{ fontSize: 16, fontWeight: 500, color: "#000000" }}
-              containerStyle={{ backgroundColor: "#fcfcfc" }}
+              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
+              containerStyle={{backgroundColor: "#fcfcfc"}}
               onPress={() => {
                 updateHome();
               }}
@@ -387,9 +431,16 @@ export default function Profile({ navigation }) {
           fontWeight={500}
           paddingVertical={8}
           onPress={() => {
-            handleTrainerSave().catch((err) => {
-              console.log(err);
-            });
+            console.log(role);
+            if (role === "client") {
+              handleClientSave().catch((err) => {
+                console.log(err);
+              });
+            } else if (role === "trainer") {
+              handleTrainerSave().catch((err) => {
+                console.log(err);
+              });
+            }
           }}
         />
       </ScrollView>
@@ -418,7 +469,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
   },
   profileCircle: {
@@ -439,7 +490,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
   },
   inputWrapper: {
@@ -471,7 +522,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.5,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowRadius: 3,
   },
 });

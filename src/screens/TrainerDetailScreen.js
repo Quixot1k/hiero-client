@@ -1,20 +1,31 @@
 import {MaterialIcons} from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import {format} from "date-fns";
 import React, {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
 import Schedule from "../components/Schedule";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import PrimaryButton from "../components/PrimaryButton";
+import {Dropdown} from "react-native-element-dropdown";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerDetailScreen({route}) {
   const {trainerObj} = route.params;
+  const {providerCategories, trainerLocations, trainerProfile} = trainerObj;
+  // set up locationOptions for a bid
+  let locationOptions = [];
+  for (const location of trainerLocations.locations) {
+    locationOptions.push({
+      label: location.address + "," + location.city + "," + location.state + " " + location.zipcode,
+      value: location.locationId,
+    });
+  }
+
   const [mode, setMode] = useState({
     calendarVisible: true,
     bidVisible: true,
   });
   const [session, setSession] = useState({
-    sessionId: -1,
+    sessionId: NaN,
+    locationId: NaN,
     startTime: new Date(),
     endTime: new Date(),
   });
@@ -108,6 +119,19 @@ export default function TrainerDetailScreen({route}) {
           <View style={{alignItems: "center"}}>
             {mode.bidVisible && (
               <View style={{marginTop: 10}}>
+                {/*Location*/}
+                <Dropdown data={locationOptions} labelField="label" valueField="value"
+                          placeholder={"Select a location"}
+                          value={session.locationId}
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 1,
+                            marginBottom: 5,
+                            borderRadius: 9,
+                            backgroundColor: "#efeff0",
+                          }} onChange={(item) => {
+                  setSession({...session, locationId: item.value});
+                }}/>
                 {/* Start Time */}
                 <View
                   style={{
@@ -120,7 +144,7 @@ export default function TrainerDetailScreen({route}) {
                   <View style={{width: 80}}>
                     <Text style={{fontSize: 16}}>Start Time:</Text>
                   </View>
-                  <DateTimePicker
+                  <RNDateTimePicker
                     value={session.startTime}
                     mode={"datetime"}
                     onChange={(event, selectedDate) => {
@@ -140,7 +164,7 @@ export default function TrainerDetailScreen({route}) {
                   <View style={{width: 80}}>
                     <Text style={{fontSize: 16}}>End Time:</Text>
                   </View>
-                  <DateTimePicker
+                  <RNDateTimePicker
                     value={session.endTime}
                     mode={"datetime"}
                     onChange={(event, selectedDate) => {
@@ -157,8 +181,6 @@ export default function TrainerDetailScreen({route}) {
                     marginTop={0}
                     marginBottom={0}
                     onPress={() => {
-                      setSession({...session, sessionId: sessionList.length});
-                      setSessionList([...sessionList, session]);
                     }}
                   />
                   <View style={styles.inputBtnGroup}>
@@ -170,37 +192,9 @@ export default function TrainerDetailScreen({route}) {
                       marginTop={0}
                       marginBottom={0}
                       onPress={() => {
-                        console.log(sessionList);
                       }}
                     />
                   </View>
-                </View>
-                {/* List */}s
-                <View style={styles.listWrapper}>
-                  {sessionList?.map((sessionObj, index) => (
-                    <View key={index} style={styles.sessionWrapper}>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Text style={styles.sessionText}>
-                          From {format(sessionObj.startTime, "yyyy-M-d hh:mm")}{" "}
-                        </Text>
-                        <Text style={styles.sessionText}>
-                          To {format(sessionObj.endTime, "yyyy-M-d hh:mm")}
-                        </Text>
-                        <View style={{marginLeft: 10}}>
-                          <MaterialIcons
-                            name="cancel"
-                            size={18}
-                            color="darkred"
-                          />
-                        </View>
-                      </View>
-                    </View>
-                  ))}
                 </View>
               </View>
             )}

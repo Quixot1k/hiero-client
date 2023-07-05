@@ -1,4 +1,4 @@
-import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, TextInput, View,} from "react-native";
+import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import {CommonActions} from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
@@ -22,7 +22,7 @@ export default function ProfileCreateScreen({navigation}) {
     mobile,
     intSpecs,
     capacity,
-    avatar,
+    avatarUri,
     zoom,
     home,
     /* only for client */
@@ -41,6 +41,7 @@ export default function ProfileCreateScreen({navigation}) {
     bio,
     bid,
   } = useStore((state) => state);
+
   const {
     updateMessage,
     updateBio,
@@ -60,61 +61,47 @@ export default function ProfileCreateScreen({navigation}) {
     updateDistance,
     updateBid,
   } = useStore((state) => state);
-  // const globalState = useStore((state) => state);
+
   const handleClientSignUp = async () => {
-    // console.log("globalState: ", globalState);
     const formData = new FormData();
     const userData = {
       clientProfile: {
         clientId: "",
-        name: lastName + "," + firstName,
-        emailAddress: "test@email.com",
-        password: "password",
+        name: firstName + "," + lastName,
+        emailAddress: email,
+        password: password,
         phone: mobile,
-        age: birth, // date
+        age: 34,
         address: addr1 + "," + addr2,
         city: city,
         state: state,
         zipcode: zip,
-        maxTravelDistance: parseInt(distance), // int
-        gender: gender, // 0:Male, 1:Female, 2:Other
-        homeSession: home, // boolean
-        zoomSession: zoom, // boolean
-        maxOtherClientsToShareWith: parseInt(capacity),
-        maxSessionsPerWeekByClient: 1,
+        maxTravelDistance: distance,
+        gender: gender,
+        homeSession: home,
+        zoomSession: zoom,
+        maxOtherClientsToShareWith: capacity,
+        maxSessionsPerWeekByClient: 5,
       },
       clientCategories: {
-        // clientId: "",
-        // categories: intSpecs,
+        clientId: "",
+        categories: intSpecs,
       },
       clientLocations: {
-        //   clientId: "",
-        //   locations: [
-        //     {
-        //       locationId: 1,
-        //       locationType: "Home/Gym/Zoom/Other",
-        //       city: "",
-        //       state: "",
-        //       zipcode: "",
-        //       address: "",
-        //       latitude: 1.1,
-        //       longitude: 1.1,
-        //     },
-        //   ],
+        locations: [],
       },
     };
-    const avatarResponse = await fetch(avatar);
-    const avatarBlob = await avatarResponse.blob();
-    const avatarFile = new File([avatarBlob], "avatar.jpg", {
-      type: "image/jpeg",
-    });
-    formData.append("image", avatarFile);
     formData.append("clientInfoEntity", JSON.stringify(userData));
+    formData.append("image", {
+      uri: avatarUri,
+      type: "image/jpeg",
+      name: "image.jpg",
+    });
     try {
       await axios
         .post("http://localhost:10001/client", formData, {
           headers: {
-            "Content-Type": "multipart/form-data", // Set the content type to 'multipart/form-data'
+            "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
@@ -126,14 +113,14 @@ export default function ProfileCreateScreen({navigation}) {
                 routes: [{name: "TabNavigator"}],
               })
             );
-          } else {
-            updateMessage("Registration failed, please try again");
-            console.log("Registration failed");
-            console.log(res);
           }
+        }).catch((err) => {
+          updateMessage("Registration failed, please try again");
+          console.log("Registration failed");
+          console.log(err.message);
         });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
   const handleTrainerSignUp = async () => {
@@ -146,12 +133,12 @@ export default function ProfileCreateScreen({navigation}) {
         password: password,
         phone: mobile,
         age: birth, // date
-        maxTravelDistance: parseInt(distance), // int
+        maxTravelDistance: distance, // int
         gender: gender, // 0:Male, 1:Female, 2:Other
         imageName: "",
         minimumBid: bid,
         bio: bio,
-        maxClientsPerSession: parseInt(capacity),
+        maxClientsPerSession: capacity,
         homeSession: home, // boolean
         zoomSession: zoom, // boolean
       },
@@ -165,13 +152,16 @@ export default function ProfileCreateScreen({navigation}) {
         locations: trainerLocations,
       },
     };
-    const avatarResponse = await fetch(avatar);
-    const avatarBlob = await avatarResponse.blob();
-    const avatarFile = new File([avatarBlob], "avatar.jpg", {
+    formData.append("image", {
+      uri: avatarUri,
       type: "image/jpeg",
+      name: "image.jpg",
     });
-    formData.append("image", avatarFile);
-    formData.append("certificate", avatarFile);
+    formData.append("certificate", {
+      uri: avatarUri,
+      type: "image/jpeg",
+      name: "image.jpg",
+    });
     formData.append("trainerInfoEntity", JSON.stringify(userData));
 
     try {
@@ -179,7 +169,7 @@ export default function ProfileCreateScreen({navigation}) {
       await axios
         .post("http://localhost:10001/trainer", formData, {
           headers: {
-            "Content-Type": "multipart/form-data", // Set the content type to 'multipart/form-data'
+            "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
@@ -208,9 +198,9 @@ export default function ProfileCreateScreen({navigation}) {
         showsVerticalScrollIndicator={false}
       >
         <View style={{flexDirection: "row", alignItems: "center"}}>
-          {avatar ? (
+          {avatarUri ? (
             <Image
-              source={{uri: avatar}}
+              source={{uri: avatarUri}}
               style={{width: 120, height: 120, borderRadius: 60}}
             />
           ) : (

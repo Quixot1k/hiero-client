@@ -17,8 +17,7 @@ export default function TrainerListScreen({navigation, route}) {
   const snapPoints = useMemo(() => ["10%", "40%"], []);
 
   const getTrainersFromGym = async () => {
-    // 4 -> gymObj.locationId
-    await axios.get("http://127.0.0.1:10001/trainers/gym/4").then((res) => {
+    await axios.get(`http://127.0.0.1:10001/trainers/gym/${gymObj.locationId}`).then((res) => {
       let tmpTrainerList = [];
       for (const trainer of res.data) {
         tmpTrainerList.push({

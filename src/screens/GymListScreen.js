@@ -1,53 +1,31 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Slider} from "@rneui/themed";
-import axios from "axios";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import GymItem from "../components/GymItem";
-import {useStore} from "../store";
+import useGym from "../hooks/useGym";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function GymListScreen({navigation}) {
-  const {latitude, longitude} = useStore((state) => state);
+
   const [radius, setRadius] = useState(50);
-  const [gymList, setGymList] = useState([]);
-  const [filterGymList, setFilterGymList] = useState([]);
+  const [filteredGyms, setFilteredGyms] = useState([]);
   const [addressFilter, setAddressFilter] = useState("");
   const snapPoints = useMemo(() => ["15%", "30%"], []);
-  const getGymsByRadius = async () => {
-    setAddressFilter("");
-    try {
-      await axios
-        .get(
-          `http://127.0.0.1:10001/search/gym?lat=${0}&lng=${0}&radius=${radius}`
-        )
-        .then((res) => {
-          if ((res.status = 200)) {
-            setGymList(res.data);
-            setFilterGymList(res.data);
-          } else {
-            console.log("error");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
+  const {data: gyms, isLoading, error} = useGym(radius);
+
   const handleAddressFilter = (text) => {
-    // console.log(text);
     if (addressFilter * 1 === 0) {
-      setFilterGymList(gymList);
+      setFilteredGyms(gyms);
     }
-    setFilterGymList(
-      gymList.filter((gym) =>
+    setFilteredGyms(
+      gyms.filter((gym) =>
         gym.address.toLowerCase().includes(text.toLowerCase())
       )
     );
   };
 
-  useEffect(() => {
-    getGymsByRadius();
-  }, [radius]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,11 +33,13 @@ export default function GymListScreen({navigation}) {
         {/* List */}
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
-            {filterGymList?.map((gymObj, key) => {
+            {isLoading && <Text style={styles.listText}>Loading...</Text>}
+            {error && <Text style={styles.listText}>{error.message}</Text>}
+            {gyms?.map((gymObj, index) => {
               // {{url}}/trainers/gym/3
               return (
                 <GymItem
-                  key={key}
+                  key={index}
                   gym={gymObj}
                   onPress={() =>
                     navigation.navigate("TrainerListScreen", {gymObj})
@@ -76,7 +56,7 @@ export default function GymListScreen({navigation}) {
         style={{paddingHorizontal: 30}}
         backgroundStyle={styles.bottomSheet}
       >
-        <View>
+        <View style={{paddingHorizontal: 5}}>
           {/* Slider */}
           <View style={styles.sliderWrapper}>
             <Slider
@@ -96,7 +76,7 @@ export default function GymListScreen({navigation}) {
             <Text style={styles.sliderText}>Radius:{radius}</Text>
           </View>
           {/* TextInput */}
-          <View style={{paddingHorizontal: 10}}>
+          <View>
             <BottomSheetTextInput
               value={addressFilter}
               onChangeText={(text) => {
@@ -135,6 +115,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     paddingVertical: 10,
   },
+  listText: {
+    fontSize: 17,
+    fontWeight: "600",
+    marginTop: 120,
+  },
   bottomSheet: {
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
@@ -143,14 +128,13 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
   },
   sliderWrapper: {
-    paddingHorizontal: 20,
     marginTop: 10,
     marginBottom: 35,
     backgroundColor: "#fff",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
+    borderRadius: 20,
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowOffset: {width: 1, height: 1},
@@ -164,13 +148,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 43,
-    borderRadius: 8,
+    borderRadius: 20,
     backgroundColor: "#fefefe",
     shadowColor: "black",
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
-    paddingHorizontal: 10,
+    paddingHorizontal: 18,
     fontSize: 17,
   },
 });

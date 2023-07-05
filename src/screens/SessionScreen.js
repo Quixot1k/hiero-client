@@ -1,5 +1,4 @@
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
-import {useIsFocused} from "@react-navigation/native";
 import PrimaryButton from "../components/PrimaryButton";
 import SessionItem from "../components/SessionItem";
 import {useStore} from "../store";
@@ -15,7 +14,6 @@ const convertMilitaryTime = (dateString, timeString) => {
 }
 
 export default function SessionScreen({navigation}) {
-  const isFocused = useIsFocused();
   const {role, userId} = useStore((state) => state);
 
   const {data: sessions, error, isLoading} = useTodaySession()
@@ -32,6 +30,7 @@ export default function SessionScreen({navigation}) {
           >
             {isLoading && <Text style={styles.listContentText}>Loading...</Text>}
             {error && <Text style={styles.listContentText}>{error.message}</Text>}
+            {sessions && !sessions.length && <Text style={styles.listContentText}>No Sessions</Text>}
             {
               sessions?.map((sessionObj, index) => (
                 <SessionItem

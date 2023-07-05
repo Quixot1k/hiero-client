@@ -60,7 +60,7 @@ export default function LoginScreen({navigation}) {
             // initialize all global states
             const clientProfile = res.data.clientProfile;
             const clientCategories = res.data.clientCategories;
-            updateUserId(clientProfile.trainerId);
+            updateUserId(clientProfile.clientId);
             updateEmail(clientProfile.emailAddress);
             // updatePassword(state.password);
             updateFirstName(clientProfile.name.split(",")[0]);
