@@ -43,6 +43,7 @@ export default function ProfileCreateScreen({navigation}) {
   } = useStore((state) => state);
 
   const {
+    updateIsLogged,
     updateMessage,
     updateBio,
     updateFirstName,
@@ -107,6 +108,7 @@ export default function ProfileCreateScreen({navigation}) {
         .then((res) => {
           if (res.status === 200) {
             console.log("Registration Success");
+            updateIsLogged(true);
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
@@ -175,6 +177,7 @@ export default function ProfileCreateScreen({navigation}) {
         .then((res) => {
           if (res.status === 200) {
             console.log("Registration Success");
+            updateIsLogged(true);
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,

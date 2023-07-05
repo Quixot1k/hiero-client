@@ -1,9 +1,9 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View,} from "react-native";
-import axios from "axios";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import TrainerItem from "../components/TrainerItem";
 import PrimaryButton from "../components/PrimaryButton";
+import useTrainerFromGym from "../hooks/useTrainerFromGym";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerListScreen({navigation, route}) {
@@ -15,21 +15,6 @@ export default function TrainerListScreen({navigation, route}) {
   const [trainerList, setTrainerList] = useState([]);
   const [filterTrainerList, setFilterTrainerList] = useState([]);
   const snapPoints = useMemo(() => ["10%", "40%"], []);
-
-  const getTrainersFromGym = async () => {
-    await axios.get(`http://127.0.0.1:10001/trainers/gym/${gymObj.locationId}`).then((res) => {
-      let tmpTrainerList = [];
-      for (const trainer of res.data) {
-        tmpTrainerList.push({
-          trainerProfile: trainer.trainerProfile,
-          trainerLocations: trainer.trainerLocations,
-          providerCategories: trainer.providerCategories,
-        });
-      }
-      setTrainerList(tmpTrainerList);
-      setFilterTrainerList(tmpTrainerList);
-    });
-  };
 
   const handleSearch = () => {
     let tmpTrainerList = [];
@@ -56,13 +41,11 @@ export default function TrainerListScreen({navigation, route}) {
     }
   };
 
+  const {data: trainersFromGym, isLoading, error} = useTrainerFromGym(gymObj);
+
   useEffect(() => {
-    getTrainersFromGym().catch((err) => {
-      console.log(err);
-    });
-    return () => {
-      setTrainerList([]);
-    };
+    setTrainerList(trainersFromGym);
+    setFilterTrainerList(trainersFromGym);
   }, []);
 
   return (
@@ -70,9 +53,11 @@ export default function TrainerListScreen({navigation, route}) {
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
-            {filterTrainerList?.map((trainerObj) => (
+            {isLoading && <Text style={{marginTop: 100}}>Loading...</Text>}
+            {error && <Text style={{marginTop: 100}}>{error.message}</Text>}
+            {filterTrainerList?.map((trainerObj, index) => (
               <TrainerItem
-                key={trainerObj.trainerId}
+                key={index}
                 trainer={trainerObj}
                 onPress={() => {
                   navigation.navigate("TrainerDetailScreen", {trainerObj});

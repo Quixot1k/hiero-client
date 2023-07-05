@@ -1,26 +1,16 @@
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {useEffect, useState} from "react";
 import ClientItem from "../components/ClientItem";
-import axios from "axios";
+import {useStore} from "../store";
+import useClient from "../hooks/useClient";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function ClientListScreen({navigation}) {
-  const [clientList, setClientList] = useState([]);
-  const [filterClientList, setFilterClientList] = useState([]);
-  const [search, setSearch] = useState("");
+  const userId = useStore((state) => state.userId);
 
-  const getClients = async () => {
-    try {
-      await axios
-        .get(`http://localhost:10001/client/getall/${11}`)
-        .then((res) => {
-          setClientList(res.data);
-          setFilterClientList(res.data);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [clientList, setClientList] = useState([]);
+  const [filteredClientList, setFilteredClientList] = useState([]);
+  const [search, setSearch] = useState("");
 
   const handleFilter = () => {
     const filteredList = clientList.filter((client) => {
@@ -29,10 +19,11 @@ export default function ClientListScreen({navigation}) {
     setFilterClientList(filteredList);
   };
 
+  const {data: clients, isLoading, error} = useClient();
+
   useEffect(() => {
-    getClients().catch((err) => {
-      console.log(err);
-    });
+    setClientList(clients);
+    setFilteredClientList(clients);
   }, []);
 
   return (
@@ -44,7 +35,7 @@ export default function ClientListScreen({navigation}) {
           onChangeText={(text) => {
             setSearch(text);
             if (text.length <= 0) {
-              setFilterClientList(clientList);
+              setFilteredClientList(clientList);
             } else {
               handleFilter();
             }
@@ -52,19 +43,19 @@ export default function ClientListScreen({navigation}) {
         />
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
-            {filterClientList.length ? (
-              filterClientList?.map((clientObj, index) => (
+            {isLoading && <Text>Loading...</Text>}
+            {error && <Text>{error.message}</Text>}
+            {
+              filteredClientList?.map((clientObj, index) => (
                 <ClientItem
                   key={index}
                   name={clientObj.name}
                   onPress={() =>
                     navigation.navigate("ClientDetailScreen", {clientObj})
                   }
-                />
-              ))
-            ) : (
-              <Text style={{marginTop: 150, fontSize: 20}}>No Clients</Text>
-            )}
+                />)
+              )
+            }
           </ScrollView>
         </View>
       </ScrollView>

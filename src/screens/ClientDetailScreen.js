@@ -24,14 +24,6 @@ export default function ClientDetailScreen({route}) {
   });
 
   const handleAddAdhoc = () => {
-    // "trainerId": 1,
-    // "clientId": 3,
-    // "locationId": 1,
-    // "startDate": "2025-10-07",
-    // "startTime": "2020",
-    // "endTime": "2300",
-    // "numClientsInSession": 1,
-    // "pricePaidByClients": 100.50
     const newAdhoc = {
       trainerId: userId,
       clientId: clientObj.clientId,

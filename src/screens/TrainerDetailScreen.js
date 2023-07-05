@@ -5,12 +5,16 @@ import Schedule from "../components/Schedule";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import PrimaryButton from "../components/PrimaryButton";
 import {Dropdown} from "react-native-element-dropdown";
+import {useStore} from "../store";
+import {format} from "date-fns";
+import axios from "axios";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerDetailScreen({route}) {
+
+  // set up locationOptions for a bid
   const {trainerObj} = route.params;
   const {providerCategories, trainerLocations, trainerProfile} = trainerObj;
-  // set up locationOptions for a bid
   let locationOptions = [];
   for (const location of trainerLocations.locations) {
     locationOptions.push({
@@ -19,6 +23,8 @@ export default function TrainerDetailScreen({route}) {
     });
   }
 
+  // state
+  const userId = useStore((state) => state.userId);
   const [mode, setMode] = useState({
     calendarVisible: true,
     bidVisible: true,
@@ -28,8 +34,46 @@ export default function TrainerDetailScreen({route}) {
     locationId: NaN,
     startTime: new Date(),
     endTime: new Date(),
+    price: NaN,
   });
-  const [sessionList, setSessionList] = useState([]);
+
+  const handleAddAdhoc = () => {
+    const newAdhoc = {
+      trainerId: trainerProfile.trainerId,
+      clientId: userId,
+      locationId: session.locationId,
+      startDate: format(session.startTime, "yyyy-MM-dd"),
+      startTime: format(session.startTime, "HHmm"),
+      endTime: format(session.endTime, "HHmm"),
+      numClientsInSession: 3,
+      pricePaidByClients: session.price,
+    }
+    try {
+      axios
+        .post("http://127.0.0.1:10001/schedule/adhoc", newAdhoc, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("Has been added!");
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const makeBid = () => {
+    const bid = {
+      clientId: userId,
+      trainerId: trainerProfile.trainerId,
+      bidPrice: session.price,
+      maxOtherClientsToShareWithThisBid: 1,
+      maxSessionPerWeekByClientThisBid: 1,
+      locationIds: 1,
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -174,24 +218,27 @@ export default function TrainerDetailScreen({route}) {
                 </View>
                 {/* Panel */}
                 <View style={styles.panelWrapper}>
-                  <PrimaryButton
-                    title={"Add"}
-                    paddingHorizontal={20}
-                    paddingVertical={8}
-                    marginTop={0}
-                    marginBottom={0}
-                    onPress={() => {
-                    }}
-                  />
+                  {/*<PrimaryButton*/}
+                  {/*  title={"Add"}*/}
+                  {/*  paddingHorizontal={20}*/}
+                  {/*  paddingVertical={8}*/}
+                  {/*  marginTop={0}*/}
+                  {/*  marginBottom={0}*/}
+                  {/*  onPress={() => {*/}
+                  {/*  }}*/}
+                  {/*/>*/}
                   <View style={styles.inputBtnGroup}>
-                    <TextInput placeholder="$$" style={styles.textInput}/>
+                    <TextInput placeholder="$$" style={styles.textInput} onChangeText={(text) => {
+                      setSession({...session, price: parseInt(text)});
+                    }}/>
                     <PrimaryButton
                       title={"Deal"}
-                      paddingHorizontal={20}
+                      paddingHorizontal={28}
                       paddingVertical={8}
                       marginTop={0}
                       marginBottom={0}
                       onPress={() => {
+                        handleAddAdhoc();
                       }}
                     />
                   </View>
@@ -263,7 +310,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textInput: {
-    width: 70,
+    width: 90,
     height: 35.5,
     fontSize: 17,
     textAlign: "center",
@@ -282,35 +329,38 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   inputBtnGroup: {
+    width: screenWidth - 140,
     flexDirection: "row",
-    backgroundColor: "#fcfcfc",
-    shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 2, height: 2},
-    shadowRadius: 3,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-    borderRadius: 10,
+    justifyContent: "space-around",
+    marginBottom: 6,
+    // backgroundColor: "#fcfcfc",
+    // shadowColor: "black",
+    // shadowOpacity: 0.3,
+    // shadowOffset: {width: 2, height: 2},
+    // shadowRadius: 3,
+    // paddingHorizontal: 8,
+    // paddingVertical: 5,
+    // borderRadius: 10,
   },
-  listWrapper: {
-    marginTop: 16,
-    alignItems: "center",
-  },
-  sessionWrapper: {
-    backgroundColor: "#fcfcfc",
-    width: screenWidth - 80,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 2, height: 2},
-    shadowRadius: 2,
-    marginVertical: 6,
-  },
-  sessionText: {
-    fontSize: 13,
-    fontWeight: "500",
-  },
+  // listWrapper: {
+  //   marginTop: 16,
+  //   alignItems: "center",
+  // },
+  // sessionWrapper: {
+  //   backgroundColor: "#fcfcfc",
+  //   width: screenWidth - 80,
+  //   height: 40,
+  //   borderRadius: 20,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   shadowColor: "black",
+  //   shadowOpacity: 0.3,
+  //   shadowOffset: {width: 2, height: 2},
+  //   shadowRadius: 2,
+  //   marginVertical: 6,
+  // },
+  // sessionText: {
+  //   fontSize: 13,
+  //   fontWeight: "500",
+  // },
 });

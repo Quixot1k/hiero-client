@@ -1,15 +1,9 @@
-import {useEffect} from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {MaterialIcons} from "@expo/vector-icons";
 import SessionScreen from "../screens/SessionScreen";
 import SettingScreen from "../screens/SettingScreen";
-import {useStore} from "../store";
 
 export default function TabNavigator() {
-  const updateIsLogged = useStore((state) => state.updateIsLogged);
-  useEffect(() => {
-    updateIsLogged(true)
-  }, []);
 
   const Tab = createBottomTabNavigator();
   return (<Tab.Navigator

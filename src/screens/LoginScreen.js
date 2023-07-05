@@ -10,6 +10,7 @@ const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
   const {role, email, password} = useStore((state) => state);
   const {
+    updateIsLogged,
     updateRole,
     updateUserId,
     updateEmail,
@@ -87,6 +88,7 @@ export default function LoginScreen({navigation}) {
             updateLongitude(clientProfile.longitude);
             updateDistance(clientProfile.maxTravelDistance);
             /* navigate */
+            updateIsLogged(true);
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
@@ -152,6 +154,7 @@ export default function LoginScreen({navigation}) {
             updateBio(trainerProfile.bio);
             updateBid(trainerProfile.minimumBid);
             /* navigate */
+            updateIsLogged(true);
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
