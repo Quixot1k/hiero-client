@@ -1,28 +1,23 @@
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {useEffect, useState} from "react";
 import ClientItem from "../components/ClientItem";
-import {useStore} from "../store";
 import useClient from "../hooks/useClient";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function ClientListScreen({navigation}) {
-  const userId = useStore((state) => state.userId);
-
-  const [clientList, setClientList] = useState([]);
   const [filteredClientList, setFilteredClientList] = useState([]);
   const [search, setSearch] = useState("");
 
   const handleFilter = () => {
-    const filteredList = clientList.filter((client) => {
+    const filteredList = clients.filter((client) => {
       return client.name.toLowerCase().includes(search.toLowerCase());
     });
-    setFilterClientList(filteredList);
+    setFilteredClientList(filteredList);
   };
 
   const {data: clients, isLoading, error} = useClient();
 
   useEffect(() => {
-    setClientList(clients);
     setFilteredClientList(clients);
   }, [clients]);
 
@@ -35,7 +30,7 @@ export default function ClientListScreen({navigation}) {
           onChangeText={(text) => {
             setSearch(text);
             if (text.length <= 0) {
-              setFilteredClientList(clientList);
+              setFilteredClientList(clients);
             } else {
               handleFilter();
             }
