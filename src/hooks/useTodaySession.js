@@ -5,6 +5,7 @@ import {useStore} from "../store";
 const useTodaySession = () => {
   const role = useStore((state) => state.role);
   const userId = useStore((state) => state.userId);
+
   const fetchTodaySession = async () => {
     let data = []
     if (role === "client") {
@@ -19,7 +20,7 @@ const useTodaySession = () => {
     return data;
   }
   return useQuery({
-    queryKey: ["session", "todaySession"],
+    queryKey: ["session", "todaySession", role],
     queryFn: fetchTodaySession
   });
 }
