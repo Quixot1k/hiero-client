@@ -105,9 +105,33 @@ export default function IntSpecScreen({navigation}) {
   const {userId, intSpecs, zoom, home} = useStore((state) => state);
   const {addOrRemoveIntSpec, updateHome, updateZoom} = useStore((state) => state);
   const handleSave = async () => {
+    // less than 3
+    if (intSpecs.length < 3) {
+      console.log("please select at least 3 options");
+      return;
+    }
+    // save by role
     if (role === "client") {
       // save to client interests
-    } else {
+      try {
+        await axios.put(
+          "http://127.0.0.1:10001/client/categories",
+          {
+            clientCategories: {
+              clientId: userId,
+              categories: intSpecs,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ).then(res => console.log(res.status)).catch(err => console.log(err.message));
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (role === "trainer") {
       // save to trainer specialities
       try {
         await axios.put(
