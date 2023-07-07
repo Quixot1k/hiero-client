@@ -1,5 +1,15 @@
 import React, {useState} from "react";
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import {format} from "date-fns";
 import DatePicker from "react-native-date-picker";
 import {MaterialIcons} from "@expo/vector-icons";
@@ -48,13 +58,22 @@ export default function ClientDetailScreen({route}) {
     };
     addSession.mutate(addSessionQuery);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* head */}
         <View style={styles.header}>
-          <View style={styles.image}></View>
-          <Text style={styles.title}>{clientObj.name}</Text>
+          <View style={{alignItems: "center", marginVertical: 2}}>
+            <View style={styles.imageWrapper}>
+              <Image source={{uri: clientObj.imageName}} style={{
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+              }}/>
+            </View>
+            <Text style={styles.title}>{clientObj.name}</Text>
+          </View>
           <View>
             <Text style={styles.info}>Gender: {clientObj.gender}</Text>
             <Text style={styles.info}>Email: {clientObj.emailAddress}</Text>
@@ -88,7 +107,7 @@ export default function ClientDetailScreen({route}) {
             <Text
               style={{
                 fontSize: 16,
-                fontWeight: "600",
+                fontWeight: "500",
               }}
             >
               Upcoming Sessions:
@@ -126,7 +145,7 @@ export default function ClientDetailScreen({route}) {
               <Text
                 style={{
                   fontSize: 16,
-                  fontWeight: "600",
+                  fontWeight: "500",
                 }}
               >
                 Adhoc
@@ -256,11 +275,11 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   header: {
-    width: screenWidth - 40,
+    width: 0.9 * screenWidth,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
-    paddingHorizontal: 15,
+    justifyContent: "space-between",
+    paddingHorizontal: 25,
     paddingVertical: 5,
     backgroundColor: "#fff",
     borderRadius: 14,
@@ -269,14 +288,17 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
   },
-  image: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+  imageWrapper: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     borderWidth: 1,
+    marginVertical: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "500",
     textShadowColor: "rgba(0, 0, 0, 0.1)",
     textShadowOffset: {width: 1, height: 1},
@@ -284,13 +306,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   info: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "400",
-    fontStyle: "italic",
     textShadowColor: "rgba(0, 0, 0, 0.1)",
     textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,
-    marginVertical: 2,
+    marginVertical: 8,
   },
   section: {
     marginVertical: 15,
@@ -298,7 +319,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
     borderRadius: 14,
-    width: screenWidth - 40,
+    width: 0.9 * screenWidth,
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.35,

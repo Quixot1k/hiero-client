@@ -44,7 +44,7 @@ export default function ClientListScreen({navigation}) {
               filteredClientList?.map((clientObj, index) => (
                 <ClientItem
                   key={index}
-                  name={clientObj.name}
+                  clientObj={clientObj}
                   onPress={() =>
                     navigation.navigate("ClientDetailScreen", {clientObj})
                   }

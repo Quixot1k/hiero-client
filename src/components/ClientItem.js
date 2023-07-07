@@ -1,13 +1,17 @@
 import React from "react";
-import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
 const {width: screenWidth} = Dimensions.get("window");
-export default function ClientItem({avatar, name, onPress}) {
+export default function ClientItem({clientObj, onPress}) {
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
-        <Text>Avatar</Text>
+        <Image source={{uri: clientObj.imageName}} style={{
+          borderRadius: 30,
+          height: 60,
+          width: 60,
+        }}/>
       </View>
       <TouchableOpacity
         onPress={onPress}
@@ -18,7 +22,7 @@ export default function ClientItem({avatar, name, onPress}) {
         }}
       >
         <View style={{width: 180}}>
-          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.name}>{clientObj.name}</Text>
         </View>
         <AntDesign
           name="caretright"
@@ -48,13 +52,17 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   avatar: {
-    borderWidth: 1,
     borderColor: "#000",
-    borderRadius: 60,
+    borderRadius: 30,
     height: 60,
     width: 60,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#ffffff",
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 2, height: 2},
+    shadowRadius: 3,
   },
   name: {
     fontSize: 26,
