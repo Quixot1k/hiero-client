@@ -3,7 +3,7 @@ import {MaterialIcons} from "@expo/vector-icons";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import {useStore} from "../store";
 
-const {width: screenWidth} = Dimensions.get("window");
+const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
 export default function Settings({navigation}) {
   const role = useStore((state) => state.role);
@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
   },
   btnWrapper: {
     width: 0.85 * screenWidth,
-    height: 50,
+    height: 0.0575 * screenHeight,
     marginVertical: 5,
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 10,
+    paddingLeft: 15,
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.3,

@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputSectionWrapper: {
-    width: 0.9375 * screenWidth,
+    width: 0.90 * screenWidth,
     alignItems: "center",
     borderRadius: 16,
     backgroundColor: "#fcfcfc",
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     height: 360,
-    width: 0.9375 * screenWidth,
+    width: 0.90 * screenWidth,
     borderRadius: 16,
     paddingVertical: 20,
     marginBottom: 10,

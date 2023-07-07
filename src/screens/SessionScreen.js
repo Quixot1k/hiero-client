@@ -26,7 +26,7 @@ export default function SessionScreen({navigation}) {
             <Text style={styles.listHeaderText}>Upcoming Sessions</Text>
           </View>
           <ScrollView
-            contentContainerStyle={{alignItems: "center"}}
+            contentContainerStyle={{alignItems: "center", marginTop: 3}}
           >
             {isLoading && <Text style={styles.listContentText}>Loading...</Text>}
             {error && <Text style={styles.listContentText}>{error.message}</Text>}
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   listHeader: {
-    height: 42,
+    height: 45,
     flexDirection: "row",
     alignItems: "center",
     borderTopLeftRadius: 16,

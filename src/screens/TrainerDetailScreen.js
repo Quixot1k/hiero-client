@@ -25,7 +25,7 @@ export default function TrainerDetailScreen({route}) {
 
   // state
   const userId = useStore((state) => state.userId);
-  const [mode, setMode] = useState({
+  const [visible, setVisible] = useState({
     calendarVisible: true,
     bidVisible: true,
   });
@@ -81,16 +81,16 @@ export default function TrainerDetailScreen({route}) {
           <View style={styles.sectionBtn}>
             <TouchableOpacity
               onPress={() => {
-                if (mode.calendarVisible === true) {
-                  setMode({...mode, calendarVisible: false});
+                if (visible.calendarVisible === true) {
+                  setVisible({...visible, calendarVisible: false});
                 } else {
-                  setMode({...mode, calendarVisible: true});
+                  setVisible({...visible, calendarVisible: true});
                 }
               }}
             >
               <View
                 style={
-                  mode.calendarVisible && {transform: [{rotate: "90deg"}]}
+                  visible.calendarVisible && {transform: [{rotate: "90deg"}]}
                 }
               >
                 <MaterialIcons
@@ -110,7 +110,7 @@ export default function TrainerDetailScreen({route}) {
             </Text>
           </View>
           <View style={{alignItems: "center"}}>
-            {mode.calendarVisible && (
+            {visible.calendarVisible && (
               <View style={{marginTop: 6}}>
                 <Schedule/>
               </View>
@@ -122,15 +122,15 @@ export default function TrainerDetailScreen({route}) {
           <View style={styles.sectionBtn}>
             <TouchableOpacity
               onPress={() => {
-                if (mode.bidVisible === true) {
-                  setMode({...mode, bidVisible: false});
+                if (visible.bidVisible === true) {
+                  setVisible({...visible, bidVisible: false});
                 } else {
-                  setMode({...mode, bidVisible: true});
+                  setVisible({...visible, bidVisible: true});
                 }
               }}
             >
               <View
-                style={mode.bidVisible && {transform: [{rotate: "90deg"}]}}
+                style={visible.bidVisible && {transform: [{rotate: "90deg"}]}}
               >
                 <MaterialIcons
                   name="keyboard-arrow-right"
@@ -149,7 +149,7 @@ export default function TrainerDetailScreen({route}) {
             </Text>
           </View>
           <View style={{alignItems: "center"}}>
-            {mode.bidVisible && (
+            {visible.bidVisible && (
               <View style={{marginTop: 10}}>
                 {/*Location*/}
                 <Dropdown data={locationOptions} labelField="label" valueField="value"
@@ -178,7 +178,7 @@ export default function TrainerDetailScreen({route}) {
                   </View>
                   <RNDateTimePicker
                     value={session.startTime}
-                    mode={"datetime"}
+                    visible={"datetime"}
                     onChange={(event, selectedDate) => {
                       setSession({...session, startTime: selectedDate});
                     }}
@@ -198,7 +198,7 @@ export default function TrainerDetailScreen({route}) {
                   </View>
                   <RNDateTimePicker
                     value={session.endTime}
-                    mode={"datetime"}
+                    visible={"datetime"}
                     onChange={(event, selectedDate) => {
                       setSession({...session, endTime: selectedDate});
                     }}

@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   listWrapper: {
-    height: 0.675 * screenHeight,
-    width: 0.875 * screenWidth,
+    height: 0.65 * screenHeight,
+    width: 0.9 * screenWidth,
     borderRadius: 16,
     paddingVertical: 10,
     backgroundColor: "#fcfcfc",

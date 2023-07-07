@@ -5,7 +5,7 @@ import TrainerItem from "../components/TrainerItem";
 import PrimaryButton from "../components/PrimaryButton";
 import useTrainerFromGym from "../hooks/useTrainerFromGym";
 
-const {width: screenWidth} = Dimensions.get("window");
+const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 export default function TrainerListScreen({navigation, route}) {
   const {gymObj} = route.params;
   const [filter, setFilter] = useState({
@@ -162,8 +162,8 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   listWrapper: {
-    height: 625,
-    width: 360,
+    height: 0.65 * screenHeight,
+    width: 0.9 * screenWidth,
     borderRadius: 16,
     paddingVertical: 10,
     backgroundColor: "#fcfcfc",

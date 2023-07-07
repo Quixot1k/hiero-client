@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: {width: 2, height: 1},
     shadowRadius: 3,
   },
   avatar: {

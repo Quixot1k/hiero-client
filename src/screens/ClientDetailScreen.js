@@ -31,7 +31,7 @@ export default function ClientDetailScreen({route}) {
     });
   }
 
-  const [mode, setMode] = useState({
+  const [visible, setVisible] = useState({
     calendarVisible: true,
     adhocVisible: true,
   });
@@ -85,16 +85,16 @@ export default function ClientDetailScreen({route}) {
           <View style={styles.sectionBtn}>
             <TouchableOpacity
               onPress={() => {
-                if (mode.calendarVisible === true) {
-                  setMode({...mode, calendarVisible: false});
+                if (visible.calendarVisible === true) {
+                  setVisible({...visible, calendarVisible: false});
                 } else {
-                  setMode({...mode, calendarVisible: true});
+                  setVisible({...visible, calendarVisible: true});
                 }
               }}
             >
               <View
                 style={
-                  mode.calendarVisible && {transform: [{rotate: "90deg"}]}
+                  visible.calendarVisible && {transform: [{rotate: "90deg"}]}
                 }
               >
                 <MaterialIcons
@@ -114,7 +114,7 @@ export default function ClientDetailScreen({route}) {
             </Text>
           </View>
           <View style={{alignItems: "center"}}>
-            {mode.calendarVisible && <Schedule/>}
+            {visible.calendarVisible && <Schedule/>}
           </View>
         </View>
         {/* adhoc */}
@@ -123,16 +123,16 @@ export default function ClientDetailScreen({route}) {
             <View style={styles.sectionBtn}>
               <TouchableOpacity
                 onPress={() => {
-                  if (mode.adhocVisible === true) {
-                    setMode({...mode, adhocVisible: false});
+                  if (visible.adhocVisible === true) {
+                    setVisible({...visible, adhocVisible: false});
                   } else {
-                    setMode({...mode, adhocVisible: true});
+                    setVisible({...visible, adhocVisible: true});
                   }
                 }}
               >
                 <View
                   style={
-                    mode.adhocVisible && {transform: [{rotate: "90deg"}]}
+                    visible.adhocVisible && {transform: [{rotate: "90deg"}]}
                   }
                 >
                   <MaterialIcons
@@ -152,7 +152,7 @@ export default function ClientDetailScreen({route}) {
               </Text>
             </View>
             <View style={{alignItems: "center"}}>
-              {mode.adhocVisible && (
+              {visible.adhocVisible && (
                 <>
                   {/*Location*/}
                   <Dropdown data={locationOptions} labelField="label" valueField="value"
@@ -279,13 +279,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 25,
+    paddingHorizontal: 30,
     paddingVertical: 5,
-    backgroundColor: "#fff",
+    marginBottom: 5,
+    backgroundColor: "#ffffff",
     borderRadius: 14,
     shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.35,
+    shadowOffset: {width: 3, height: 1},
     shadowRadius: 3,
   },
   imageWrapper: {
@@ -306,7 +307,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   info: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "400",
     textShadowColor: "rgba(0, 0, 0, 0.1)",
     textShadowOffset: {width: 1, height: 1},
@@ -323,7 +324,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: {width: 3, height: 4},
+    shadowOffset: {width: 3, height: 1},
     shadowRadius: 4,
   },
   sectionBtn: {
@@ -334,8 +335,8 @@ const styles = StyleSheet.create({
   textInput: {
     borderRadius: 10,
     textAlign: "center",
-    height: 35,
-    width: 80,
+    height: 38,
+    width: 84,
     marginHorizontal: 6,
     marginVertical: 5,
     fontSize: 16,
