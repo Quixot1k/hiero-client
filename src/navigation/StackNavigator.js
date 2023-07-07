@@ -22,6 +22,7 @@ import ScheduleScreen from "../screens/ScheduleScreen";
 import ClientDetailScreen from "../screens/ClientDetailScreen";
 import TrainerDetailScreen from "../screens/TrainerDetailScreen";
 import {useStore} from "../store";
+import SessionDetailScreen from "../screens/SessionDetailScreen";
 
 export default function StackNavigator() {
   const navigation = useNavigation();
@@ -151,17 +152,22 @@ export default function StackNavigator() {
         options={{
           title: "Update your profile",
         }}
-      ></Stack.Screen>
+      />
+      <Stack.Screen
+        name="SessionDetailScreen"
+        component={SessionDetailScreen}
+        options={{headerTitle: "Session Detail"}}
+      />
       <Stack.Screen
         name="ClientDetailScreen"
         component={ClientDetailScreen}
         options={{headerTitle: "Client Detail"}}
-      ></Stack.Screen>
+      />
       <Stack.Screen
         name="TrainerDetailScreen"
         component={TrainerDetailScreen}
         options={{headerTitle: "Trainer Detail"}}
-      ></Stack.Screen>
+      />
     </Stack.Navigator>
   );
 }

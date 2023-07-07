@@ -1,9 +1,10 @@
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-export default function SessionItem({name, startTime, endTime, location}) {
+const {width: screenWidth} = Dimensions.get("window");
+export default function SessionItem({name, startTime, endTime, location, onPress}) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.firstRow}>
           <Text style={styles.name}>{name + " " + " "}</Text>
@@ -19,7 +20,7 @@ export default function SessionItem({name, startTime, endTime, location}) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 310,
+    width: 0.8 * screenWidth,
     borderRadius: 10,
     flexDirection: "column",
     justifyContent: "center",
@@ -34,11 +35,10 @@ const styles = StyleSheet.create({
   },
   firstRow: {
     flexDirection: "row",
-    marginBottom: 4,
+    marginBottom: 6,
   },
   name: {
     fontSize: 18,
-    textDecorationLine: "underline",
   },
   duration: {
     fontSize: 18,

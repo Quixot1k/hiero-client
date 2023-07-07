@@ -97,7 +97,7 @@ export default function TrainerLocationScreen({navigation}) {
       >
         {/* Input Section */}
         <Text style={styles.header}>Add training locations</Text>
-        <View style={[styles.inputSectionWrapper, {width: screenWidth - 30}]}>
+        <View style={styles.inputSectionWrapper}>
           <TextInput
             value={location.name}
             placeholder="Training Location Name"
@@ -276,6 +276,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputSectionWrapper: {
+    width: 0.9375 * screenWidth,
     alignItems: "center",
     borderRadius: 16,
     backgroundColor: "#fcfcfc",
@@ -304,7 +305,7 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     height: 360,
-    width: screenWidth - 30,
+    width: 0.9375 * screenWidth,
     borderRadius: 16,
     paddingVertical: 20,
     marginBottom: 10,

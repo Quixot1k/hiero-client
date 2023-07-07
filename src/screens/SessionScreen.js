@@ -5,7 +5,7 @@ import {useStore} from "../store";
 import {add, format} from "date-fns";
 import useTodaySession from "../hooks/useTodaySession";
 
-const {width: screenWidth} = Dimensions.get("window");
+const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
 const convertMilitaryTime = (dateString, timeString) => {
   const hour = timeString.substring(0, 2);
@@ -51,6 +51,9 @@ export default function SessionScreen({navigation}) {
                     sessionObj.location.city +
                     ", " +
                     sessionObj.location.state).substring(0, 40) + "..."}
+                  onPress={() => {
+                    navigation.navigate("SessionDetailScreen", {sessionObj});
+                  }}
                 />
               ))
             }
@@ -109,8 +112,8 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   listWrapper: {
-    width: 340,
-    height: 350,
+    width: 0.875 * screenWidth,
+    height: 0.45 * screenHeight,
     backgroundColor: "#fcfcfc",
     borderRadius: 16,
     shadowColor: "black",

@@ -84,9 +84,10 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    width: 0.9 * screenWidth,
   },
   btnWrapper: {
-    width: 350,
+    width: 0.85 * screenWidth,
     height: 50,
     marginVertical: 5,
     borderRadius: 10,

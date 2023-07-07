@@ -246,11 +246,6 @@ export default function LoginScreen({navigation}) {
           title={"Sign In"}
           onPress={role === "client" ? handleClientSignIn : handleTrainerSignIn}
         />
-        <TouchableOpacity>
-          <Text style={[styles.text, {marginTop: 10, fontSize: 18}]}>
-            Continue with Google
-          </Text>
-        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             console.log("goto SignUpScreen and clear navigation stack");

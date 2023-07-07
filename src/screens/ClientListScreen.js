@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import ClientItem from "../components/ClientItem";
 import useClient from "../hooks/useClient";
 
-const {width: screenWidth} = Dimensions.get("window");
+const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 export default function ClientListScreen({navigation}) {
   const [filteredClientList, setFilteredClientList] = useState([]);
   const [search, setSearch] = useState("");
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   listWrapper: {
-    height: 600,
-    width: 360,
+    height: 0.675 * screenHeight,
+    width: 0.875 * screenWidth,
     borderRadius: 16,
     paddingVertical: 10,
     backgroundColor: "#fcfcfc",

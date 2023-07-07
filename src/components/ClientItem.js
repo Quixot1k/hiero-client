@@ -1,7 +1,8 @@
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
+const {width: screenWidth} = Dimensions.get("window");
 export default function ClientItem({avatar, name, onPress}) {
   return (
     <View style={styles.container}>
@@ -13,9 +14,12 @@ export default function ClientItem({avatar, name, onPress}) {
         style={{
           flexDirection: "row",
           alignItems: "center",
+          justifyContent: "flex-start",
         }}
       >
-        <Text style={styles.name}>{name}</Text>
+        <View style={{width: 180}}>
+          <Text style={styles.name}>{name}</Text>
+        </View>
         <AntDesign
           name="caretright"
           size={14}
@@ -29,12 +33,13 @@ export default function ClientItem({avatar, name, onPress}) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 330,
+    width: 0.8 * screenWidth,
     height: 75,
     backgroundColor: "#ffffff",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
     borderRadius: 14,
     shadowColor: "black",
     shadowOpacity: 0.3,

@@ -11,7 +11,7 @@ import useSession from "../hooks/useSession";
 import useBlockSession from "../hooks/useBlockSession";
 import useRemoveSession from "../hooks/useRemoveSession";
 
-const {width: screenWidth} = Dimensions.get("window");
+const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
 const TodayHeaderComponent = ({formattedDate, textStyle}) => (
   <Text
@@ -165,8 +165,8 @@ export default function ScheduleScreen() {
         }}
       >
         <View style={{marginBottom: 15, marginHorizontal: 12}}>
-          <Text style={{fontWeight: "700", fontSize: 24, marginBottom: 15}}>
-            Add/Block
+          <Text style={{fontWeight: "700", fontSize: 26, marginBottom: 15}}>
+            Block
           </Text>
           <View style={{flexDirection: "row", alignItems: "center"}}>
             <Text style={{fontSize: 18}}>Start:</Text>
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     transform: [{scale: 0.85}],
     borderColor: "rgba(0,0,0,0)",
     borderRadius: 16,
-    height: 800,
+    height: 0.9375 * screenHeight,
     backgroundColor: "#ffffff",
     shadowColor: "black",
     shadowOpacity: 0.35,
