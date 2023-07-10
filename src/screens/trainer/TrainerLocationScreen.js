@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import axios from "axios";
 import {CheckBox} from "@rneui/base";
 import LocationItem from "../../components/LocationItem";
@@ -93,10 +93,10 @@ export default function TrainerLocationScreen({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        contentContainerStyle={[styles.scrollView, {marginTop: 20}]}
+        contentContainerStyle={[styles.scrollView, {marginTop: 30}]}
       >
         {/* Input Section */}
-        <Text style={styles.header}>Add training locations</Text>
+        {/*<Text style={styles.header}>Add training locations</Text>*/}
         <View style={styles.inputSectionWrapper}>
           <TextInput
             value={location.name}

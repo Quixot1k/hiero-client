@@ -339,7 +339,7 @@ export default function Profile({navigation}) {
         {/* Map */}
         <View style={styles.mapWrapper}>
           <MapView
-            style={{width: "100%", height: "100%", borderRadius: 20}}
+            style={{width: "100%", height: "100%", borderRadius: 10}}
             initialRegion={{
               latitude: latitude,
               longitude: longitude,
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   headerSection: {
-    width: 360,
+    width: 0.9 * screenWidth,
     borderRadius: 10,
     flexDirection: "column",
     alignItems: "center",
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
   },
   textInputSection: {
     marginTop: 20,
-    width: 360,
+    width: 0.9 * screenWidth,
     borderRadius: 10,
     flexDirection: "column",
     alignItems: "center",
@@ -515,9 +515,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#rgba(0,0,0,0)",
   },
   mapWrapper: {
-    borderRadius: 20,
+    borderRadius: 10,
     height: 240,
-    width: 360,
+    width: 0.9 * screenWidth,
     marginTop: 20,
     backgroundColor: "#fcfcfc",
     shadowColor: "black",

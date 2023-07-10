@@ -5,6 +5,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import axios from "axios";
 import {useState} from "react";
+import URL from "../../constant/config";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
@@ -45,7 +46,7 @@ export default function LoginScreen({navigation}) {
     try {
       await axios
         .post(
-          "http://localhost:10001/client/login",
+          `${URL}/client/login`,
           {
             emailAddress: email,
             password: password,
@@ -107,7 +108,7 @@ export default function LoginScreen({navigation}) {
     try {
       await axios
         .post(
-          "http://localhost:10001/trainer/login",
+          `${URL}/trainer/login`,
           {
             emailAddress: email,
             password: password,

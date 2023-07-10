@@ -11,7 +11,7 @@ export const useStore = create((set) => ({
 
   /* USER */
   // properties for both trainers and clients
-  userId: "",
+  userId: -1,
   updateUserId: (newUserId) => set(() => ({userId: newUserId})),
   email: "shawn@gmail.com",
   updateEmail: (newEmail) => set(() => ({email: newEmail})),

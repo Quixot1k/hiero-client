@@ -1,6 +1,7 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 
+const screenWidth = Dimensions.get("window").width;
 export default function LocationItem({
                                        locationId,
                                        name,
@@ -15,16 +16,16 @@ export default function LocationItem({
   return (
     <View style={styles.container}>
       {/* Left Part */}
-      <View style={{marginLeft: 24, marginTop: 22}}>
+      <View style={{marginLeft: 24}}>
         <Text
           style={[
             styles.text,
-            {fontSize: 18, fontWeight: "700", marginTop: -20, marginLeft: 0},
+            {fontSize: 18, fontWeight: "700", marginLeft: 0},
           ]}
         >
           {name}
         </Text>
-        <Text style={styles.text}>{addr1 + "," + addr2}</Text>
+        <Text style={styles.text}>{(addr1 + " " + addr2).trimStart()}</Text>
         <Text style={styles.text}>{city}</Text>
         <Text style={styles.text}>{state}</Text>
         <Text style={styles.text}>{zipcode}</Text>
@@ -37,7 +38,7 @@ export default function LocationItem({
             color: "#fff",
             marginBottom: 100,
             fontSize: 20,
-            fontWeight: 500,
+            fontWeight: "500",
             marginRight: 10,
           }}
         >
@@ -62,7 +63,7 @@ export default function LocationItem({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#151515",
-    width: 320,
+    width: 0.775 * screenWidth,
     height: 180,
     borderRadius: 16,
     flexDirection: "row",
@@ -77,8 +78,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#ffffff",
-    marginVertical: 5.5,
-    fontSize: 14,
+    marginVertical: 5,
+    fontSize: 16,
   },
   btnText: {
     color: "#fff",
