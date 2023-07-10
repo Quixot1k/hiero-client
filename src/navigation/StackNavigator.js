@@ -6,7 +6,6 @@ import BioScreen from "../screens/trainer/BioScreen";
 import CapacityScreen from "../screens/shared/CapacityScreen";
 import CertificationScreen from "../screens/trainer/CertificationScreen";
 import InfoScreen from "../screens/shared/InfoScreen";
-import IntSpecScreen from "../screens/shared/IntSpecScreen";
 import ClientLocationScreen from "../screens/client/ClientLocationScreen";
 import TrainerLocationScreen from "../screens/trainer/TrainerLocationScreen";
 import LoginScreen from "../screens/shared/LoginScreen";
@@ -14,15 +13,8 @@ import BidScreen from "../screens/trainer/BidScreen";
 import ProfileCreateScreen from "../screens/shared/ProfileCreateScreen";
 import SignUpScreen from "../screens/shared/SignUpScreen";
 import TabNavigator from "./TabNavigator";
-import ProfileUpdateScreen from "../screens/shared/ProfileUpdateScreen";
-import GymListScreen from "../screens/trainer/GymListScreen";
-import TrainerListScreen from "../screens/client/TrainerListScreen";
-import ClientListScreen from "../screens/trainer/ClientListScreen";
-import ScheduleScreen from "../screens/shared/ScheduleScreen";
-import ClientDetailScreen from "../screens/trainer/ClientDetailScreen";
-import TrainerDetailScreen from "../screens/client/TrainerDetailScreen";
 import {useStore} from "../store";
-import SessionDetailScreen from "../screens/shared/SessionDetailScreen";
+import IntSpecScreen from "../screens/shared/IntSpecScreen";
 
 export default function StackNavigator() {
   const navigation = useNavigation();
@@ -87,7 +79,7 @@ export default function StackNavigator() {
         name="TrainerLocationScreen"
         component={TrainerLocationScreen}
         options={{
-          title: "Training Location",
+          title: "Training Locations",
           headerRight: isLogged ? null : headRightButton,
         }}
       />
@@ -120,54 +112,54 @@ export default function StackNavigator() {
         component={BidScreen}
         options={{title: "Set your terms", headerRight: headRightButton}}
       />
-      {/* Successfully sign in */}
+      {/* After login */}
       <Stack.Screen
         name="TabNavigator"
         component={TabNavigator}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="GymListScreen"
-        component={GymListScreen}
-        options={{headerTitle: "Gym"}}
-      />
-      <Stack.Screen
-        name="TrainerListScreen"
-        component={TrainerListScreen}
-        options={{headerTitle: "Trainer"}}
-      />
-      <Stack.Screen
-        name="ClientListScreen"
-        component={ClientListScreen}
-        options={{headerTitle: "Client"}}
-      />
-      <Stack.Screen
-        name="ScheduleScreen"
-        component={ScheduleScreen}
-        options={{headerTitle: "Schedule"}}
-      />
-      <Stack.Screen
-        name="ProfileUpdateScreen"
-        component={ProfileUpdateScreen}
-        options={{
-          title: "Update your profile",
-        }}
-      />
-      <Stack.Screen
-        name="SessionDetailScreen"
-        component={SessionDetailScreen}
-        options={{headerTitle: "Session Detail"}}
-      />
-      <Stack.Screen
-        name="ClientDetailScreen"
-        component={ClientDetailScreen}
-        options={{headerTitle: "Client Detail"}}
-      />
-      <Stack.Screen
-        name="TrainerDetailScreen"
-        component={TrainerDetailScreen}
-        options={{headerTitle: "Trainer Detail"}}
-      />
+      {/*<Stack.Screen*/}
+      {/*  name="GymListScreen"*/}
+      {/*  component={GymListScreen}*/}
+      {/*  options={{headerTitle: "Gym"}}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="TrainerListScreen"*/}
+      {/*  component={TrainerListScreen}*/}
+      {/*  options={{headerTitle: "Trainer"}}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="ClientListScreen"*/}
+      {/*  component={ClientListScreen}*/}
+      {/*  options={{headerTitle: "Client"}}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="ScheduleScreen"*/}
+      {/*  component={ScheduleScreen}*/}
+      {/*  options={{headerTitle: "Schedule"}}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="ProfileUpdateScreen"*/}
+      {/*  component={ProfileUpdateScreen}*/}
+      {/*  options={{*/}
+      {/*    title: "Update your profile",*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="SessionDetailScreen"*/}
+      {/*  component={SessionDetailScreen}*/}
+      {/*  options={{headerTitle: "Session Detail"}}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="ClientDetailScreen"*/}
+      {/*  component={ClientDetailScreen}*/}
+      {/*  options={{headerTitle: "Client Detail"}}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="TrainerDetailScreen"*/}
+      {/*  component={TrainerDetailScreen}*/}
+      {/*  options={{headerTitle: "Trainer Detail"}}*/}
+      {/*/>*/}
     </Stack.Navigator>
   );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import {useStore} from "../../store";
+import {CommonActions} from "@react-navigation/native";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
@@ -24,7 +25,7 @@ export default function Settings({navigation}) {
           {role === "trainer" && (
             <TouchableOpacity
               style={styles.btnWrapper}
-              onPress={() => navigation.navigate("TrainerLocationScreen")}
+              onPress={() => navigation.navigate("TrainerLocationUpdateScreen")}
             >
               <MaterialIcons name="location-pin" size={24} color="black"/>
               <Text style={styles.btnTitle}>Location</Text>
@@ -32,7 +33,7 @@ export default function Settings({navigation}) {
           )}
           <TouchableOpacity
             style={[styles.btnWrapper, {borderBottomWidth: 0}]}
-            onPress={() => navigation.navigate("IntSpecScreen")}
+            onPress={() => navigation.navigate("IntSpecUpdateScreen")}
           >
             <MaterialIcons name="dns" size={24} color="black"/>
             <Text style={styles.btnTitle}>Category</Text>
@@ -51,7 +52,12 @@ export default function Settings({navigation}) {
             style={[styles.btnWrapper, {borderBottomWidth: 0}]}
             onPress={() => {
               updateIsLogged(false);
-              navigation.navigate("LoginScreen");
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 1,
+                  routes: [{name: "LoginScreen"}],
+                })
+              );
             }}
           >
             <MaterialIcons name="outbond" size={24} color="black"/>
