@@ -1,7 +1,7 @@
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text} from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
-import PrimarySlider from "../components/PrimarySlider";
-import {useStore} from "../store";
+import PrimaryButton from "../../components/PrimaryButton";
+import PrimarySlider from "../../components/PrimarySlider";
+import {useStore} from "../../store";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function CapacityScreen({navigation}) {

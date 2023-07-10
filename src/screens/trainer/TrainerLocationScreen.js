@@ -2,10 +2,10 @@ import {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import axios from "axios";
 import {CheckBox} from "@rneui/base";
-import LocationItem from "../components/LocationItem";
-import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
-import {useStore} from "../store";
+import LocationItem from "../../components/LocationItem";
+import PrimaryButton from "../../components/PrimaryButton";
+import SecondaryButton from "../../components/SecondaryButton";
+import {useStore} from "../../store";
 import validator from "validator/es";
 
 

@@ -1,6 +1,6 @@
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput,} from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from "../store";
+import PrimaryButton from "../../components/PrimaryButton";
+import {useStore} from "../../store";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function BioScreen({navigation}) {

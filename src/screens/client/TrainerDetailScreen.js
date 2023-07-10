@@ -1,13 +1,13 @@
 import {MaterialIcons} from "@expo/vector-icons";
 import React, {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
-import WeeklyView from "../components/WeeklyView";
+import WeeklyView from "../../components/WeeklyView";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "../../components/PrimaryButton";
 import {Dropdown} from "react-native-element-dropdown";
-import {useStore} from "../store";
+import {useStore} from "../../store";
 import {format} from "date-fns";
-import useAddSession from "../hooks/useAddSession";
+import useAddSession from "../../hooks/useAddSession";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerDetailScreen({route}) {

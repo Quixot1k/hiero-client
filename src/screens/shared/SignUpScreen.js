@@ -1,8 +1,8 @@
 import {CommonActions} from "@react-navigation/native";
 import {CheckBox} from "@rneui/themed";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from "../store";
+import PrimaryButton from "../../components/PrimaryButton";
+import {useStore} from "../../store";
 import validator from "validator/es";
 import {useState} from "react";
 

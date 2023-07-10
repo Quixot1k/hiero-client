@@ -14,8 +14,8 @@ const useSession = () => {
       const year = parseInt(item.startDate.split("-")[0]);
       const month = parseInt(item.startDate.split("-")[1]);
       const day = parseInt(item.startDate.split("-")[2]);
-      const hour = parseInt(item.startTime.substr(0, 2));
-      const minute = parseInt(item.startTime.substr(2, 4));
+      const hour = parseInt(item.startTime.substring(0, 2));
+      const minute = parseInt(item.startTime.substring(2, 4));
       const duration = parseInt(item.sessionTimeLength);
       const startDate = new Date(year, month - 1, day, hour, minute);
       const endDate = add(

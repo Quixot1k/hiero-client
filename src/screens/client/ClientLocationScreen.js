@@ -1,10 +1,10 @@
 import {Slider} from "@rneui/themed";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
 import {useEffect, useState} from "react";
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "../../components/PrimaryButton";
 import MapView, {Circle, Marker} from "react-native-maps";
 import * as Location from "expo-location";
-import {useStore} from "../store";
+import {useStore} from "../../store";
 import validator from "validator/es";
 
 const {width: windowWidth} = Dimensions.get("window");

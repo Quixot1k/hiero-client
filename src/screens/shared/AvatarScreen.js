@@ -1,8 +1,8 @@
 import * as ImagePicker from "expo-image-picker";
 import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
-import {useStore} from "../store";
+import PrimaryButton from "../../components/PrimaryButton";
+import SecondaryButton from "../../components/SecondaryButton";
+import {useStore} from "../../store";
 
 const {width: windowWidth} = Dimensions.get("window");
 export default function AvatarScreen({navigation}) {

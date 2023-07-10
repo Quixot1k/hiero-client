@@ -2,9 +2,9 @@ import {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import {v4 as uuid} from "uuid";
 import {Dropdown} from "react-native-element-dropdown";
-import CertificationItem from "../components/CertificationItem";
-import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from "../store";
+import CertificationItem from "../../components/CertificationItem";
+import PrimaryButton from "../../components/PrimaryButton";
+import {useStore} from "../../store";
 
 const typeOptions = [
   {label: "Company", value: "Company"},

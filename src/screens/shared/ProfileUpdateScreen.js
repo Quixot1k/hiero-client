@@ -13,8 +13,8 @@ import {
 import MapView, {Circle, Marker} from "react-native-maps";
 import {CheckBox, Slider} from "@rneui/themed";
 import axios from "axios";
-import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from "../store";
+import PrimaryButton from "../../components/PrimaryButton";
+import {useStore} from "../../store";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function Profile({navigation}) {
@@ -150,7 +150,7 @@ export default function Profile({navigation}) {
       console.log(JSON.stringify(err));
     }
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>

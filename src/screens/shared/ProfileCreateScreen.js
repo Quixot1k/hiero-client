@@ -1,9 +1,9 @@
 import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import {CommonActions} from "@react-navigation/native";
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "../../components/PrimaryButton";
 import axios from "axios";
 import FormData from "form-data";
-import {useStore} from "../store";
+import {useStore} from "../../store";
 import {format} from "date-fns";
 
 const {width: screenWidth} = Dimensions.get("window");

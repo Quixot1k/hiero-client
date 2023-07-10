@@ -2,8 +2,8 @@ import React, {useEffect, useMemo, useState} from "react";
 import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Slider} from "@rneui/themed";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import GymItem from "../components/GymItem";
-import useGym from "../hooks/useGym";
+import GymItem from "../../components/GymItem";
+import useGym from "../../hooks/useGym";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function GymListScreen({navigation}) {

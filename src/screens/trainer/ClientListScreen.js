@@ -1,7 +1,7 @@
 import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {useEffect, useState} from "react";
-import ClientItem from "../components/ClientItem";
-import useClient from "../hooks/useClient";
+import ClientItem from "../../components/ClientItem";
+import useClient from "../../hooks/useClient";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 export default function ClientListScreen({navigation}) {

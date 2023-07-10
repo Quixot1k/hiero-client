@@ -2,7 +2,7 @@ import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, Touchable
 import React, {useState} from "react";
 import {add, format} from "date-fns";
 import {FontAwesome, FontAwesome5, MaterialIcons} from '@expo/vector-icons';
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "../../components/PrimaryButton";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 const SessionDetailScreen = ({navigation, route}) => {

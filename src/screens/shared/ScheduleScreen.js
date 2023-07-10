@@ -4,12 +4,12 @@ import DatePicker from "react-native-date-picker";
 import WeekView from "react-native-week-view";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {MaterialIcons} from "@expo/vector-icons";
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "../../components/PrimaryButton";
 import {format} from "date-fns";
-import {useStore} from "../store";
-import useSession from "../hooks/useSession";
-import useBlockSession from "../hooks/useBlockSession";
-import useRemoveSession from "../hooks/useRemoveSession";
+import {useStore} from "../../store";
+import useSession from "../../hooks/useSession";
+import useBlockSession from "../../hooks/useBlockSession";
+import useRemoveSession from "../../hooks/useRemoveSession";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 

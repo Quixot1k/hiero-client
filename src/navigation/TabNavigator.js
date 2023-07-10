@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {MaterialIcons} from "@expo/vector-icons";
-import SessionScreen from "../screens/SessionScreen";
-import SettingScreen from "../screens/SettingScreen";
+import SessionScreen from "../screens/shared/SessionScreen";
+import SettingScreen from "../screens/shared/SettingScreen";
 
 export default function TabNavigator() {
 

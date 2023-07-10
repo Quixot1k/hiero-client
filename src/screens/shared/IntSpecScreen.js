@@ -1,10 +1,10 @@
 import {CheckBox} from "@rneui/themed";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import axios from "axios";
-import IntSpecItem from "../components/IntSpecItem";
-import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from "../store";
-import {intSpecList} from "../constant/intSpecList";
+import IntSpecItem from "../../components/IntSpecItem";
+import PrimaryButton from "../../components/PrimaryButton";
+import {useStore} from "../../store";
+import {intSpecList} from "../../constant/intSpecList";
 
 const {width: screenWidth} = Dimensions.get("window");
 

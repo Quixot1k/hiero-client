@@ -1,9 +1,9 @@
 import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
-import SessionItem from "../components/SessionItem";
-import {useStore} from "../store";
+import PrimaryButton from "../../components/PrimaryButton";
+import SessionItem from "../../components/SessionItem";
+import {useStore} from "../../store";
 import {add, format} from "date-fns";
-import useTodaySession from "../hooks/useTodaySession";
+import useTodaySession from "../../hooks/useTodaySession";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 

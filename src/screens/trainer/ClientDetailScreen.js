@@ -13,11 +13,11 @@ import {
 import {format} from "date-fns";
 import DatePicker from "react-native-date-picker";
 import {MaterialIcons} from "@expo/vector-icons";
-import WeeklyView from "../components/WeeklyView";
-import PrimaryButton from "../components/PrimaryButton";
-import {useStore} from "../store";
+import WeeklyView from "../../components/WeeklyView";
+import PrimaryButton from "../../components/PrimaryButton";
+import {useStore} from "../../store";
 import {Dropdown} from "react-native-element-dropdown";
-import useAddSession from "../hooks/useAddSession";
+import useAddSession from "../../hooks/useAddSession";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function ClientDetailScreen({route}) {
