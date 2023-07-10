@@ -1,15 +1,14 @@
 import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React, {useState} from "react";
-import {add, format} from "date-fns";
 import {FontAwesome, FontAwesome5, MaterialIcons} from '@expo/vector-icons';
 import PrimaryButton from "../../components/PrimaryButton";
 import useRemoveSession from "../../hooks/useRemoveSession";
+import {add, format} from "date-fns";
 import {useStore} from "../../store";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 const SessionDetailScreen = ({navigation, route}) => {
   const sessionObj = route.params;
-  console.log(sessionObj.sessionObj);
   const startDate = sessionObj.sessionObj.session.startDate
   const startTime = sessionObj.sessionObj.session.startTime
   const sessionLength = sessionObj.sessionObj.session.sessionTimeLength
@@ -114,31 +113,31 @@ const SessionDetailScreen = ({navigation, route}) => {
             <View style={{marginRight: 12}}>
               <FontAwesome5 name="calendar-alt" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 18}}>{startDate}</Text>
+            <Text style={{fontSize: 16}}>{startDate}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 12, marginLeft: -1.5}}>
               <FontAwesome5 name="clock" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 18}}>From {format(convertMilitaryTime(startDate, startTime), "HH:mm")}</Text>
+            <Text style={{fontSize: 16}}>From {format(convertMilitaryTime(startDate, startTime), "HH:mm")}</Text>
             <Text
-              style={{fontSize: 18}}> to {format(add(convertMilitaryTime(startDate, startTime), {minutes: sessionLength}), "HH:mm")}</Text>
+              style={{fontSize: 16}}> to {format(add(convertMilitaryTime(startDate, startTime), {minutes: sessionLength}), "HH:mm")}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 16, marginLeft: 2}}>
               <FontAwesome5 name="map-pin" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 18, width: 320}}>{address}, {city}, {state}, {zipcode}</Text>
+            <Text style={{fontSize: 16, width: 320}}>{address}, {city}, {state}, {zipcode}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 14}}>
               <FontAwesome name="group" size={16} color="black"/>
             </View>
-            <Text style={{fontSize: 18}}>1/5</Text>
+            <Text style={{fontSize: 16}}>1/5</Text>
           </View>
           <View style={{alignItems: "center"}}>
             <PrimaryButton title={"Cancel Entire Session"}
-                           paddingHorizontal={20}
+                           paddingHorizontal={10}
                            paddingVertical={10}
                            marginTop={10}
                            marginBottom={5}
@@ -150,7 +149,6 @@ const SessionDetailScreen = ({navigation, route}) => {
                                startDate: startDate,
                                startTime: startTime
                              })
-                             console.log(startDate, startTime)
                            }}
             />
           </View>
@@ -162,6 +160,7 @@ const SessionDetailScreen = ({navigation, route}) => {
       </ScrollView>
     </SafeAreaView>
   )
+
 }
 
 const styles = StyleSheet.create({

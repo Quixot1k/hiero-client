@@ -91,7 +91,7 @@ export default function Profile({navigation}) {
     try {
       await axios
         .put(
-          "http://127.0.0.1:10001/client/profile",
+          `${URL}/client/profile`,
           {clientProfile},
           {
             headers: {
@@ -131,7 +131,7 @@ export default function Profile({navigation}) {
     try {
       await axios
         .put(
-          "http://127.0.0.1:10001/trainer/profile",
+          `${URL}/trainer/profile`,
           {trainerProfile},
           {
             headers: {

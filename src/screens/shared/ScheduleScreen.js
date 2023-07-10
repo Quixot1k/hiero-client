@@ -38,7 +38,7 @@ const EventComponent = ({event, position}) => {
   );
 };
 
-export default function ScheduleScreen() {
+export default function ScheduleScreen({navigation}) {
   const {userId} = useStore((state) => state);
   const [event, setEvent] = useState();
   const [startDatetime, setStartDatetime] = useState(new Date());
@@ -91,9 +91,11 @@ export default function ScheduleScreen() {
           TodayHeaderComponent={TodayHeaderComponent}
           EventComponent={EventComponent}
           onEventPress={(event) => {
-            setEvent(event);
-            setModalVisible(true);
+            // setEvent(event);
+            // setModalVisible(true);
             // console.log(event);
+            const sessionObj = event.sessionObj;
+            navigation.navigate("SessionDetailScreen", {sessionObj})
           }}
           onGridClick={(pressEvent, startHour, date) => {
             setStartDatetime(date);

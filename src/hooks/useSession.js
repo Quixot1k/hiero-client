@@ -69,11 +69,10 @@ const useSession = (sessionQuery) => {
         resolveOverlap: "stack",
         // navigation needed
         sessionObj: {
-          sessionObj: {
-            clientProfileList: item.clientProfileList,
-            session: item.session,
-            location: item.location
-          }
+          clientProfileList: item.clientProfileList,
+          session: item.session,
+          location: item.location
+
         }
       });
     }

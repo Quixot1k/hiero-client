@@ -7,7 +7,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
-
+import URL from "../../constant/config";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerLocationScreen({navigation}) {
@@ -42,7 +42,7 @@ export default function TrainerLocationScreen({navigation}) {
   const handleSave = async () => {
     try {
       await axios.put(
-        "http://127.0.0.1:10001/trainer/locations",
+        `${URL}/trainer/locations`,
         {
           trainerLocations: {
             trainerId: userId,
@@ -183,10 +183,7 @@ export default function TrainerLocationScreen({navigation}) {
               textStyle={{fontSize: 16, fontWeight: "500", color: "#000"}}
               wrapperStyle={{marginBottom: -10}}
               onPress={() =>
-                setLocation((prevLocation) => ({
-                  ...prevLocation,
-                  locationType: "Gym",
-                }))
+                setLocation({...location, locationType: "Gym"})
               }
             />
             <CheckBox
@@ -197,10 +194,7 @@ export default function TrainerLocationScreen({navigation}) {
               textStyle={{fontSize: 16, fontWeight: "500", color: "#000"}}
               wrapperStyle={{marginBottom: -10}}
               onPress={() =>
-                setLocation((prevLocation) => ({
-                  ...prevLocation,
-                  locationType: "Home",
-                }))
+                setLocation({...location, locationType: "Home"})
               }
             />
           </View>

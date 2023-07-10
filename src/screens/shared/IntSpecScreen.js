@@ -5,6 +5,7 @@ import IntSpecItem from "../../components/IntSpecItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import {intSpecList} from "../../constant/intSpecList";
+import URL from "../../constant/config";
 
 const {width: screenWidth} = Dimensions.get("window");
 
@@ -23,7 +24,7 @@ export default function IntSpecScreen({navigation}) {
       // save to client interests
       try {
         await axios.put(
-          "http://127.0.0.1:10001/client/categories",
+          `${URL}/client/categories`,
           {
             clientCategories: {
               clientId: userId,
@@ -43,7 +44,7 @@ export default function IntSpecScreen({navigation}) {
       // save to trainer specialities
       try {
         await axios.put(
-          "http://127.0.0.1:10001/trainer/categories",
+          `${URL}/trainer/categories`,
           {
             providerCategories: {
               providerId: userId,

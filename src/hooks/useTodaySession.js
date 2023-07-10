@@ -1,6 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {useStore} from "../store";
+import URL from "../constant/config";
 
 const useTodaySession = () => {
   const role = useStore((state) => state.role);
@@ -9,11 +10,11 @@ const useTodaySession = () => {
   const fetchTodaySession = async () => {
     let data = []
     if (role === "client") {
-      await axios.get(`http://localhost:10001/schedule/client/today/${userId}`).then(res => {
+      await axios.get(`${URL}/schedule/client/today/${userId}`).then(res => {
         data = res.data
       })
     } else if (role === "trainer") {
-      await axios.get(`http://localhost:10001/schedule/trainer/today/${userId}`).then(res => {
+      await axios.get(`${URL}/schedule/trainer/today/${userId}`).then(res => {
         data = res.data;
       })
     }
