@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import {v4 as uuid} from "uuid";
 import {Dropdown} from "react-native-element-dropdown";
-import CertificationCard from "../components/CertificationCard";
+import CertificationItem from "../components/CertificationItem";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 
@@ -85,7 +85,7 @@ export default function CertificationScreen({navigation}) {
           contentContainerStyle={{alignItems: "center"}}
         >
           {certifications?.map((certificationObj) => (
-            <CertificationCard
+            <CertificationItem
               key={certificationObj.certificationId}
               CertificationId={certificationObj.certificationId}
               type={certificationObj.certificationType}

@@ -13,7 +13,7 @@ import {
 import {format} from "date-fns";
 import DatePicker from "react-native-date-picker";
 import {MaterialIcons} from "@expo/vector-icons";
-import Schedule from "../components/Schedule";
+import WeeklyView from "../components/WeeklyView";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 import {Dropdown} from "react-native-element-dropdown";
@@ -74,7 +74,7 @@ export default function ClientDetailScreen({route}) {
             </View>
             <Text style={styles.title}>{clientObj.name}</Text>
           </View>
-          <View>
+          <View style={{marginRight: 20}}>
             <Text style={styles.info}>Gender: {clientObj.gender}</Text>
             <Text style={styles.info}>Email: {clientObj.emailAddress}</Text>
             <Text style={styles.info}>Mobile: {clientObj.phone}</Text>
@@ -114,148 +114,148 @@ export default function ClientDetailScreen({route}) {
             </Text>
           </View>
           <View style={{alignItems: "center"}}>
-            {visible.calendarVisible && <Schedule/>}
+            {visible.calendarVisible && <WeeklyView/>}
           </View>
         </View>
         {/* adhoc */}
-        <View style={{paddingBottom: 50}}>
-          <View style={styles.section}>
-            <View style={styles.sectionBtn}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (visible.adhocVisible === true) {
-                    setVisible({...visible, adhocVisible: false});
-                  } else {
-                    setVisible({...visible, adhocVisible: true});
-                  }
-                }}
+        <View style={styles.section}>
+          <View style={styles.sectionBtn}>
+            <TouchableOpacity
+              onPress={() => {
+                if (visible.adhocVisible === true) {
+                  setVisible({...visible, adhocVisible: false});
+                } else {
+                  setVisible({...visible, adhocVisible: true});
+                }
+              }}
+            >
+              <View
+                style={
+                  visible.adhocVisible && {transform: [{rotate: "90deg"}]}
+                }
               >
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "500",
+              }}
+            >
+              Adhoc
+            </Text>
+          </View>
+          <View style={{alignItems: "center"}}>
+            {visible.adhocVisible && (
+              <>
+                {/*Location*/}
+                <Dropdown data={locationOptions} labelField="label" valueField="value"
+                          placeholder={"Select a location"}
+                          value={adhoc.locationId}
+                          style={{
+                            width: screenWidth - 100,
+                            paddingHorizontal: 10,
+                            paddingVertical: 1,
+                            marginTop: 14,
+                            borderRadius: 9,
+                            backgroundColor: "#efeff0",
+                          }}
+                          onChange={(item) => {
+                            setAdhoc({...adhoc, locationId: item.value});
+                          }}/>
                 <View
-                  style={
-                    visible.adhocVisible && {transform: [{rotate: "90deg"}]}
-                  }
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginLeft: 40,
+                    marginBottom: -25,
+                  }}
                 >
-                  <MaterialIcons
-                    name="keyboard-arrow-right"
-                    size={24}
-                    color="black"
+                  <Text style={{fontSize: 16}}>Start:</Text>
+                  <DatePicker
+                    date={adhoc.startDatetime}
+                    minuteInterval={15}
+                    onDateChange={(date) =>
+                      setAdhoc({...adhoc, startDatetime: date})
+                    }
+                    style={{
+                      height: 100,
+                      marginLeft: -15,
+                      transform: [{scale: 0.785}],
+                    }}
                   />
                 </View>
-              </TouchableOpacity>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: "500",
-                }}
-              >
-                Adhoc
-              </Text>
-            </View>
-            <View style={{alignItems: "center"}}>
-              {visible.adhocVisible && (
-                <>
-                  {/*Location*/}
-                  <Dropdown data={locationOptions} labelField="label" valueField="value"
-                            placeholder={"Select a location"}
-                            value={adhoc.locationId}
-                            style={{
-                              width: screenWidth - 100,
-                              paddingHorizontal: 10,
-                              paddingVertical: 1,
-                              marginTop: 14,
-                              borderRadius: 9,
-                              backgroundColor: "#efeff0",
-                            }}
-                            onChange={(item) => {
-                              setAdhoc({...adhoc, locationId: item.value});
-                            }}/>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginLeft: 40,
-                      marginBottom: -25,
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginLeft: 40,
+                  }}
+                >
+                  <Text style={{fontSize: 16}}>End:</Text>
+                  <DatePicker
+                    date={adhoc.endDatetime}
+                    minuteInterval={15}
+                    onDateChange={(date) => {
+                      setAdhoc({...adhoc, endDatetime: date});
                     }}
+                    style={{
+                      height: 100,
+                      marginLeft: -15,
+                      transform: [{scale: 0.785}],
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    width: screenWidth - 40,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <View
+                    style={{flexDirection: "row", alignItems: "center"}}
                   >
-                    <Text style={{fontSize: 16}}>Start:</Text>
-                    <DatePicker
-                      date={adhoc.startDatetime}
-                      onDateChange={(date) =>
-                        setAdhoc({...adhoc, startDatetime: date})
+                    <Text style={{fontSize: 15}}>Capacity: </Text>
+                    <TextInput
+                      value={adhoc.capacity ? String(adhoc.capacity) : ""}
+                      onChangeText={(text) =>
+                        setAdhoc({...adhoc, capacity: parseInt(text)})
                       }
-                      style={{
-                        height: 100,
-                        marginLeft: -15,
-                        transform: [{scale: 0.75}],
-                      }}
+                      style={styles.textInput}
                     />
                   </View>
                   <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginLeft: 40,
-                    }}
+                    style={{flexDirection: "row", alignItems: "center"}}
                   >
-                    <Text style={{fontSize: 16}}>End:</Text>
-                    <DatePicker
-                      date={adhoc.endDatetime}
-                      onDateChange={(date) => {
-                        setAdhoc({...adhoc, endDatetime: date});
-                      }}
-                      style={{
-                        height: 100,
-                        marginLeft: -15,
-                        transform: [{scale: 0.75}],
-                      }}
+                    <Text style={{fontSize: 15}}>Price: </Text>
+                    <TextInput
+                      value={adhoc.price ? String(adhoc.price) : ""}
+                      onChangeText={(text) =>
+                        setAdhoc({...adhoc, price: parseInt(text)})
+                      }
+                      style={styles.textInput}
                     />
                   </View>
-                  <View
-                    style={{
-                      width: screenWidth - 40,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-evenly",
+                </View>
+                <View>
+                  <PrimaryButton
+                    title={"Add Adhoc"}
+                    marginTop={30}
+                    paddingHorizontal={20}
+                    onPress={() => {
+                      handleAddAdhoc();
                     }}
-                  >
-                    <View
-                      style={{flexDirection: "row", alignItems: "center"}}
-                    >
-                      <Text style={{fontSize: 15}}>Capacity: </Text>
-                      <TextInput
-                        value={adhoc.capacity ? String(adhoc.capacity) : ""}
-                        onChangeText={(text) =>
-                          setAdhoc({...adhoc, capacity: parseInt(text)})
-                        }
-                        style={styles.textInput}
-                      />
-                    </View>
-                    <View
-                      style={{flexDirection: "row", alignItems: "center"}}
-                    >
-                      <Text style={{fontSize: 15}}>Price: </Text>
-                      <TextInput
-                        value={adhoc.price ? String(adhoc.price) : ""}
-                        onChangeText={(text) =>
-                          setAdhoc({...adhoc, price: parseInt(text)})
-                        }
-                        style={styles.textInput}
-                      />
-                    </View>
-                  </View>
-                  <View>
-                    <PrimaryButton
-                      title={"Add Adhoc"}
-                      marginTop={30}
-                      paddingHorizontal={20}
-                      onPress={() => {
-                        handleAddAdhoc();
-                      }}
-                    />
-                  </View>
-                </>
-              )}
-            </View>
+                  />
+                </View>
+              </>
+            )}
           </View>
         </View>
       </ScrollView>
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     paddingVertical: 5,
     marginBottom: 5,
     backgroundColor: "#ffffff",

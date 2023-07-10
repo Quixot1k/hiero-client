@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { View } from "react-native";
-import { Calendar } from "react-native-calendars";
-import { format } from "date-fns";
+import React from "react";
+import {View} from "react-native";
+import {Calendar} from "react-native-calendars";
+import {format} from "date-fns";
 
-function Schedule() {
+function WeeklyView() {
   return (
     <View>
       <Calendar
@@ -25,9 +25,9 @@ function Schedule() {
         firstDay={1}
         // Mark dates
         markedDates={{
-          "2023-05-18": { marked: true, dotColor: "#000" },
-          "2023-05-19": { marked: true, dotColor: "#000" },
-          "2023-05-20": { marked: true, dotColor: "#000" },
+          "2023-05-18": {marked: true, dotColor: "#000"},
+          "2023-05-19": {marked: true, dotColor: "#000"},
+          "2023-05-20": {marked: true, dotColor: "#000"},
           // "2023-05-19": { disabled: true, disableTouchEvent: true },
         }}
         style={{
@@ -63,4 +63,4 @@ function Schedule() {
   );
 }
 
-export default Schedule;
+export default WeeklyView;

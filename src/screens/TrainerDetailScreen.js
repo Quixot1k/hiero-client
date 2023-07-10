@@ -1,7 +1,7 @@
 import {MaterialIcons} from "@expo/vector-icons";
 import React, {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
-import Schedule from "../components/Schedule";
+import WeeklyView from "../components/WeeklyView";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import PrimaryButton from "../components/PrimaryButton";
 import {Dropdown} from "react-native-element-dropdown";
@@ -112,7 +112,7 @@ export default function TrainerDetailScreen({route}) {
           <View style={{alignItems: "center"}}>
             {visible.calendarVisible && (
               <View style={{marginTop: 6}}>
-                <Schedule/>
+                <WeeklyView/>
               </View>
             )}
           </View>

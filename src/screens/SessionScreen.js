@@ -1,4 +1,4 @@
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import SessionItem from "../components/SessionItem";
 import {useStore} from "../store";
@@ -28,7 +28,7 @@ export default function SessionScreen({navigation}) {
           <ScrollView
             contentContainerStyle={{alignItems: "center", marginTop: 3}}
           >
-            {isLoading && <Text style={styles.listContentText}>Loading...</Text>}
+            {isLoading && <ActivityIndicator style={{marginTop: 30}}/>}
             {error && <Text style={styles.listContentText}>{error.message}</Text>}
             {sessions && !sessions.length && <Text style={styles.listContentText}>No Sessions</Text>}
             {

@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useStore} from "../store";
 
-export default function IntSpecGrid({name, toggle}) {
+export default function IntSpecItem({name, toggle}) {
   const [pressed, setPressed] = useState(false);
   const intSpecs = useStore((state) => state.intSpecs);
   useEffect(() => {

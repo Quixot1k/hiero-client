@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 
-export default function LocationCard({
+export default function LocationItem({
                                        locationId,
                                        name,
                                        addr1,

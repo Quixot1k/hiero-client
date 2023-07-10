@@ -1,7 +1,7 @@
 import {CheckBox} from "@rneui/themed";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import axios from "axios";
-import IntSpecGrid from "../components/IntSpecGrid";
+import IntSpecItem from "../components/IntSpecItem";
 import PrimaryButton from "../components/PrimaryButton";
 import {useStore} from "../store";
 import {intSpecList} from "../constant/intSpecList";
@@ -85,7 +85,7 @@ export default function IntSpecScreen({navigation}) {
         </Text>
         <View style={styles.grids}>
           {intSpecList?.map((intSpecObj) => (
-            <IntSpecGrid
+            <IntSpecItem
               key={intSpecObj.categoryId}
               name={intSpecObj.categoryName}
               toggle={() => {

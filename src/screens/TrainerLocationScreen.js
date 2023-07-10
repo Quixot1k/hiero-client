@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import axios from "axios";
 import {CheckBox} from "@rneui/base";
-import LocationCard from "../components/LocationCard";
+import LocationItem from "../components/LocationItem";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import {useStore} from "../store";
@@ -228,11 +228,11 @@ export default function TrainerLocationScreen({navigation}) {
             <ScrollView
               contentContainerStyle={[
                 styles.scrollView,
-                {width: screenWidth - 30},
+                {width: 0.90 * screenWidth},
               ]}
             >
               {trainerLocations?.map((obj, index) => (
-                <LocationCard
+                <LocationItem
                   key={index}
                   locationId={obj.locationId}
                   name={obj.address.split(",")[0]}

@@ -122,6 +122,7 @@ export default function LoginScreen({navigation}) {
           if (res.status === 200) {
             // initialize all global states
             const trainerProfile = res.data.trainerProfile;
+            console.log(res.data);
             let trainerCategories = [];
             if (res.data.providerCategories) {
               trainerCategories = res.data.providerCategories.categories;
@@ -145,6 +146,7 @@ export default function LoginScreen({navigation}) {
             }
             updateCapacity(trainerProfile.maxClientsPerSession);
             updateAvatar(trainerProfile.imageName);
+            updateDistance(trainerProfile.maxTravelDistance);
             updateZoom(trainerProfile.zoomSession);
             updateHome(trainerProfile.homeSession);
             // trainer additional states

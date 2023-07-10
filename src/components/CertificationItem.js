@@ -1,11 +1,12 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-export default function CertificationCard({
-  CertificationId,
-  type,
-  number,
-  handleRemove,
-}) {
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {MaterialIcons} from "@expo/vector-icons";
+
+export default function CertificationItem({
+                                            CertificationId,
+                                            type,
+                                            number,
+                                            handleRemove,
+                                          }) {
   return (
     <View style={styles.container}>
       <View>
@@ -15,7 +16,7 @@ export default function CertificationCard({
       </View>
       <View>
         <TouchableOpacity onPress={() => handleRemove(CertificationId)}>
-          <MaterialIcons name="cancel" size={24} color="red" />
+          <MaterialIcons name="cancel" size={24} color="red"/>
         </TouchableOpacity>
       </View>
     </View>
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(160,160,160,0.1)",
     shadowColor: "black",
     shadowOpacity: 0.4,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowRadius: 2,
   },
   text: {

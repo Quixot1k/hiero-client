@@ -46,11 +46,22 @@ export const useStore = create((set) => ({
   updateCapacity: (newCapacity) => set(() => ({capacity: newCapacity})),
   avatarUri: "",
   updateAvatar: (newAvatarUri) => set(() => ({avatarUri: newAvatarUri})),
-  zoom: false,
-  updateZoom: () => set((state) => ({zoom: !state.zoom})),
-  home: false,
-  updateHome: () => set((state) => ({home: !state.home})),
-
+  zoom: null,
+  updateZoom: (newZoom) => set((state) => {
+    if (state.zoom === null) {
+      return {zoom: newZoom}
+    } else {
+      return {zoom: !state.zoom}
+    }
+  }),
+  home: null,
+  updateHome: (newHome) => set((state) => {
+    if (state.home === null) {
+      return {home: newHome}
+    } else {
+      return {home: !state.home}
+    }
+  }),
   // properties only for trainers
   business: "",
   updateBusiness: (newBusiness) => set(() => ({business: newBusiness})),

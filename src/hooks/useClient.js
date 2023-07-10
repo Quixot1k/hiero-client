@@ -8,10 +8,9 @@ const useClient = () => {
     let data = []
     const res = await axios.get(`http://localhost:10001/client/getall/${userId}`)
     data = res.data
-    const filteredData = data.filter((clientObj) => {
+    return data.filter((clientObj) => {
       return clientObj.clientId !== 0;
-    })
-    return filteredData;
+    });
   }
   return useQuery({
       queryKey: ["client"],

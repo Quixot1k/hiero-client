@@ -67,7 +67,7 @@ export default function Profile({navigation}) {
     updateZoom,
     updateHome,
   } = useStore((state) => state);
-  
+
   const handleClientSave = async () => {
     const clientProfile = {
       clientId: userId,
@@ -82,7 +82,7 @@ export default function Profile({navigation}) {
       zipcode: zip,
       maxTravelDistance: parseInt(distance),
       gender: "0",
-      imageName: "",
+      imageName: avatarUri,
       homeSession: home,
       zoomSession: zoom,
       maxOtherClientsToShareWith: capacity,
@@ -126,7 +126,7 @@ export default function Profile({navigation}) {
       clientsHomeSession: home,
       zoomSession: zoom,
       homeSession: home,
-      imageName: "",
+      imageName: avatarUri,
     };
     try {
       await axios
@@ -150,7 +150,7 @@ export default function Profile({navigation}) {
       console.log(JSON.stringify(err));
     }
   };
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -185,7 +185,7 @@ export default function Profile({navigation}) {
           <PrimaryButton
             title={"Update profile picture"}
             fontSize={12}
-            fontWeight={500}
+            fontWeight={"500"}
             marginTop={10}
             marginBottom={0}
             paddingVertical={4}
@@ -361,7 +361,7 @@ export default function Profile({navigation}) {
             />
           </MapView>
         </View>
-        {/* CheckBox & Radio */}
+        {/* Slider & CheckBox & Radio */}
         <View style={styles.textInputSection}>
           <Text style={{fontSize: 16, marginBottom: 6, fontWeight: "500"}}>
             {role === "client"

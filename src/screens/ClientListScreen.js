@@ -1,4 +1,4 @@
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {useEffect, useState} from "react";
 import ClientItem from "../components/ClientItem";
 import useClient from "../hooks/useClient";
@@ -38,7 +38,7 @@ export default function ClientListScreen({navigation}) {
         />
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
-            {isLoading && <Text>Loading...</Text>}
+            {isLoading && <ActivityIndicator style={{marginTop: 30}}/>}
             {error && <Text>{error.message}</Text>}
             {
               filteredClientList?.map((clientObj, index) => (

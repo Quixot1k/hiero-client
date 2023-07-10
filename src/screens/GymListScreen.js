@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Slider} from "@rneui/themed";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import GymItem from "../components/GymItem";
@@ -36,13 +36,13 @@ export default function GymListScreen({navigation}) {
         {/* List */}
         <View style={styles.listWrapper}>
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
-            {isLoading && <Text style={styles.listText}>Loading...</Text>}
+            {isLoading && <ActivityIndicator style={{marginTop: 30}}/>}
             {error && <Text style={styles.listText}>{error.message}</Text>}
             {filteredGyms?.map((gymObj, index) => {
               return (
                 <GymItem
                   key={index}
-                  gym={gymObj}
+                  gymObj={gymObj}
                   onPress={() =>
                     navigation.navigate("TrainerListScreen", {gymObj})
                   }

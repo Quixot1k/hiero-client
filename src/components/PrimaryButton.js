@@ -6,12 +6,13 @@ export default function PrimaryButton({
                                         height,
                                         width,
                                         fontSize = 16,
-                                        fontWeight = 700,
+                                        fontWeight = "700",
                                         marginTop = 20,
                                         marginBottom = 24,
                                         paddingVertical = 12,
                                         paddingHorizontal = 32,
                                         icon,
+                                        warning = false
                                       }) {
   return (
     <TouchableOpacity
@@ -27,6 +28,7 @@ export default function PrimaryButton({
           marginBottom: marginBottom,
           paddingVertical: paddingVertical,
           paddingHorizontal: paddingHorizontal,
+          backgroundColor: warning ? "#d0342c" : "#000000",
         },
       ]}
       onPress={onPress}

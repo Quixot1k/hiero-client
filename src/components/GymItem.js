@@ -2,7 +2,7 @@ import React from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
-export default function GymItem({gym, onPress}) {
+export default function gymObjItem({gymObj, onPress}) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
@@ -10,10 +10,10 @@ export default function GymItem({gym, onPress}) {
           {/* info */}
           <View>
             <Text style={[{marginBottom: 3}, styles.textStyle]}>
-              Address: {gym.address.length < 24 ? gym.address : gym.address.substring(0, 24) + "..."}
+              Address: {gymObj.address.length < 24 ? gymObj.address : gymObj.address.substring(0, 24) + "..."}
             </Text>
             <Text style={[{marginTop: 3}, styles.textStyle]}>
-              Distance: {gym.distance.toFixed(2)} mi
+              Distance: {gymObj.distance.toFixed(2)} mi
             </Text>
           </View>
           <View>
