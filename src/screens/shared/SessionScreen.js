@@ -15,7 +15,6 @@ const convertMilitaryTime = (dateString, timeString) => {
 
 export default function SessionScreen({navigation}) {
   const role = useStore((state) => state.role);
-
   const {data: sessions, error, isLoading} = useTodaySession()
 
   return (

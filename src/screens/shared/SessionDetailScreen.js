@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import {add, format} from "date-fns";
 import {FontAwesome, FontAwesome5, MaterialIcons} from '@expo/vector-icons';
 import PrimaryButton from "../../components/PrimaryButton";
+import useRemoveSession from "../../hooks/useRemoveSession";
+import {useStore} from "../../store";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 const SessionDetailScreen = ({navigation, route}) => {
@@ -15,6 +17,7 @@ const SessionDetailScreen = ({navigation, route}) => {
   const city = sessionObj.sessionObj.location.city
   const state = sessionObj.sessionObj.location.state
   const zipcode = sessionObj.sessionObj.location.zipcode
+  const {userId} = useStore((state) => state);
 
   const convertMilitaryTime = (dateString, timeString) => {
     const hour = timeString.substring(0, 2);
@@ -79,7 +82,7 @@ const SessionDetailScreen = ({navigation, route}) => {
               <TouchableOpacity style={styles.imageWrapper} onPress={() => {
                 navigation.navigate("ClientDetailScreen", {clientObj})
               }}>
-                <Image source={{uri: sessionObj.sessionObj.clientProfileList[0].imageName}} style={{
+                <Image source={{uri: clientObj.imageName}} style={{
                   width: 120,
                   height: 120,
                   borderRadius: 60,
@@ -99,6 +102,8 @@ const SessionDetailScreen = ({navigation, route}) => {
       </View>
     )
   }
+
+  const removeSession = useRemoveSession();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -139,6 +144,14 @@ const SessionDetailScreen = ({navigation, route}) => {
                            marginBottom={5}
                            fontSize={17}
                            warning={true}
+                           onPress={() => {
+                             removeSession.mutate({
+                               id: userId,
+                               startDate: startDate,
+                               startTime: startTime
+                             })
+                             console.log(startDate, startTime)
+                           }}
             />
           </View>
         </View>

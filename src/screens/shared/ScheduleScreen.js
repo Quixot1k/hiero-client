@@ -1,5 +1,5 @@
-import {Dimensions, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
-import React, {useMemo, useState} from "react";
+import {Dimensions, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, {useEffect, useMemo, useState} from "react";
 import DatePicker from "react-native-date-picker";
 import WeekView from "react-native-week-view";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -39,18 +39,31 @@ const EventComponent = ({event, position}) => {
 };
 
 export default function ScheduleScreen() {
-  const userId = useStore((state) => state.userId);
+  const {userId} = useStore((state) => state);
   const [event, setEvent] = useState();
   const [startDatetime, setStartDatetime] = useState(new Date());
   const [endDatetime, setEndDatetime] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(0);
   const snapPoints = useMemo(() => ["10%", "50%"], []);
-
-  const {data: sessions, error, isLoading} = useSession();
+  const [sessionQuery, setSessionQuery] = useState({
+    id: userId,
+    offset: 0,
+    range: 7,
+  });
+  const {data: sessions, error, isLoading, refetch} = useSession(sessionQuery);
   const blockSession = useBlockSession();
   const removeSession = useRemoveSession();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await refetch();
+    };
+    // Call the fetchData function whenever the offset value changes
+    fetchData().catch(err => {
+      console.log(err);
+    });
+  }, [sessionQuery.offset])
   return (
     <SafeAreaView style={styles.container}>
       {/* WeeklyView */}
@@ -59,50 +72,39 @@ export default function ScheduleScreen() {
           events={sessions}
           selectedDate={new Date()}
           fixedHorizontally={false}
-          allowScrollByDay={true}
           showTitle={true} // if true, shows this month and year
-          numberOfDays={5}
+          numberOfDays={7}
           formatDateHeader="D ddd" // display short name days, e.g. Mon, Tue, etc
-          pageStartAt={{left: 0, weekday: 1}} // start week on mondays
-          // head
-          headerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-            borderColor: "rgba(0,0,0,0)",
-          }}
-          headerTextStyle={{
-            fontSize: 12,
-            fontWeight: "500",
-            color: "#000",
-          }}
-          // left hours
-          hourTextStyle={{
-            fontSize: 12,
-            fontWeight: "500",
-          }}
-          // selected grid
-          eventContainerStyle={{
-            borderRadius: 6,
-            shadowColor: "black",
-            shadowOpacity: 0.5,
-            shadowOffset: {width: 2, height: 2},
-            shadowRadius: 2,
-          }}
+          pageStartAt={{left: 0, weekday: 1}}
           beginAgendaAt={8 * 60}
-          endAgendaAt={24 * 60}
+          endAgendaAt={18.5 * 60}
           timesColumnWidth={0.12}
           showNowLine={true}
+          // head
+          headerStyle={styles.headerStyle}
+          headerTextStyle={styles.hourTextStyle}
+          // left hours
+          hourTextStyle={styles.hourTextStyle}
+          // selected grid
+          eventContainerStyle={styles.eventContainerStyle}
           // customize
           TodayHeaderComponent={TodayHeaderComponent}
           EventComponent={EventComponent}
           onEventPress={(event) => {
             setEvent(event);
             setModalVisible(true);
+            // console.log(event);
           }}
           onGridClick={(pressEvent, startHour, date) => {
             setStartDatetime(date);
             setEndDatetime(date);
             setBottomSheetVisible(1);
+          }}
+          onSwipeNext={() => {
+            setSessionQuery({...sessionQuery, offset: sessionQuery.offset + 1});
+          }}
+          onSwipePrev={() => {
+            setSessionQuery({...sessionQuery, offset: sessionQuery.offset - 1});
           }}
         />
       </View>
@@ -164,8 +166,8 @@ export default function ScheduleScreen() {
           setBottomSheetVisible(index);
         }}
       >
-        <View style={{marginBottom: 15, marginHorizontal: 12}}>
-          <Text style={{fontWeight: "700", fontSize: 26, marginBottom: 15}}>
+        <View style={{marginHorizontal: 12}}>
+          <Text style={{fontWeight: "700", fontSize: 26}}>
             Block
           </Text>
           <View style={{flexDirection: "row", alignItems: "center"}}>
@@ -189,33 +191,15 @@ export default function ScheduleScreen() {
               style={{height: 100, transform: [{scale: 0.875}]}}
             />
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              width: 240,
-              alignSelf: "center",
-            }}
-          >
-            <PrimaryButton
-              title={"Add"}
-              width={90}
-              fontSize={16}
-              paddingVertical={10}
-              paddingHorizontal={4}
-              marginTop={20}
-              marginBottom={10}
-              onPress={() => {
-              }}
-            />
+          <View style={{alignItems: "center", marginTop: 12}}>
             <PrimaryButton
               title={"Block"}
-              width={90}
-              fontSize={16}
-              paddingVertical={8}
-              paddingHorizontal={4}
-              marginTop={20}
-              marginBottom={10}
+              width={110}
+              fontSize={18}
+              paddingVertical={12}
+              paddingHorizontal={5}
+              marginTop={0}
+              marginBottom={0}
               onPress={() => {
                 blockSession.mutate({
                   trainerId: userId,
@@ -236,11 +220,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
   },
   weekView: {
-    marginTop: -40,
-    transform: [{scale: 0.85}],
+    marginTop: -5,
+    transform: [{scale: 0.95}],
     borderColor: "rgba(0,0,0,0)",
     borderRadius: 16,
     height: 0.9375 * screenHeight,
@@ -249,6 +233,27 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
+  },
+  headerStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "rgba(0,0,0,0)",
+  },
+  headerTextStyle: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#000",
+  },
+  hourTextStyle: {
+    fontSize: 12,
+    fontWeight: "500",
+  },
+  eventContainerStyle: {
+    borderRadius: 4,
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowOffset: {width: 2, height: 2},
+    shadowRadius: 2,
   },
   panelWrapper: {
     width: screenWidth,
@@ -310,5 +315,4 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
   },
-  datePickerWrapper: {},
 });

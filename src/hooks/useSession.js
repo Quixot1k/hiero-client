@@ -4,19 +4,53 @@ import {useStore} from "../store";
 import {add} from "date-fns";
 import {v4 as uuid} from "uuid";
 
-const useSession = () => {
-  const role = useStore((state) => state.role);
-  const userId = useStore((state) => state.userId);
+const useSession = (sessionQuery) => {
+  const {role} = useStore((state) => state);
   const fetchSession = async () => {
     let data = []
-    const res = await axios.get(`http://127.0.0.1:10001/schedule/${role}?id=${userId}&week=0`);
-    for (const item of res.data) {
-      const year = parseInt(item.startDate.split("-")[0]);
-      const month = parseInt(item.startDate.split("-")[1]);
-      const day = parseInt(item.startDate.split("-")[2]);
-      const hour = parseInt(item.startTime.substring(0, 2));
-      const minute = parseInt(item.startTime.substring(2, 4));
-      const duration = parseInt(item.sessionTimeLength);
+    let currWeek = [];
+    let prevWeek = [];
+    let prevPrevWeek = [];
+    let nextWeek = [];
+    let nextNextWeek = [];
+    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+      params: sessionQuery,
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      currWeek = res.data.length > 0 ? res.data : []
+    });
+    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+      params: {...sessionQuery, offset: sessionQuery.offset - 1},
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      prevWeek = res.data.length > 0 ? res.data : []
+    })
+    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+      params: {...sessionQuery, offset: sessionQuery.offset - 2},
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      prevPrevWeek = res.data.length > 0 ? res.data : []
+    })
+    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+      params: {...sessionQuery, offset: sessionQuery.offset + 1},
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      nextWeek = res.data.length > 0 ? res.data : []
+    })
+    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+      params: {...sessionQuery, offset: sessionQuery.offset + 2},
+      headers: {"Content-Type": "application/json"},
+    }).then(res => {
+      nextNextWeek = res.data.length > 0 ? res.data : []
+    })
+    const concat = [].concat(...prevPrevWeek, ...prevWeek, ...currWeek, ...nextWeek, ...nextNextWeek);
+    for (const item of concat) {
+      const year = parseInt(item.session.startDate.split("-")[0]);
+      const month = parseInt(item.session.startDate.split("-")[1]);
+      const day = parseInt(item.session.startDate.split("-")[2]);
+      const hour = parseInt(item.session.startTime.substring(0, 2));
+      const minute = parseInt(item.session.startTime.substring(2, 4));
+      const duration = parseInt(item.session.sessionTimeLength);
       const startDate = new Date(year, month - 1, day, hour, minute);
       const endDate = add(
         new Date(year, month - 1, day, hour, minute),
@@ -25,14 +59,22 @@ const useSession = () => {
         }
       );
       data.push({
+        // weekView needed
         id: uuid(),
         startDate: startDate,
         endDate: endDate,
-        clientId: item.clientId,
         description:
           item.clientId === 0 ? "Block" : "client" + item.clientId,
         color: item.clientId === 0 ? "#000000" : "#005A9C",
         resolveOverlap: "stack",
+        // navigation needed
+        sessionObj: {
+          sessionObj: {
+            clientProfileList: item.clientProfileList,
+            session: item.session,
+            location: item.location
+          }
+        }
       });
     }
     return data;
