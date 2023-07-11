@@ -6,8 +6,8 @@ import URL from "../constant/config";
 const useAddSession = () => {
   const queryClient = useQueryClient();
   const {role, userId} = useStore((state) => state);
-  const addSession = async (addSessionQuery) => {
-    await axios.post(`${URL}/schedule/adhoc`, addSessionQuery, {
+  const addSession = async (sessionObj) => {
+    await axios.post(`${URL}/schedule/adhoc`, sessionObj, {
       headers: {
         "Content-Type": "application/json",
       },
