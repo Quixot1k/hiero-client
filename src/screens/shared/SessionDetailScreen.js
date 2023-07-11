@@ -10,13 +10,7 @@ import useRemoveClientFromSession from "../../hooks/useRemoveClientFromSession";
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 const SessionDetailScreen = ({navigation, route}) => {
   const sessionObj = route.params;
-  const startDate = sessionObj.sessionObj.session.startDate
-  const startTime = sessionObj.sessionObj.session.startTime
-  const sessionLength = sessionObj.sessionObj.session.sessionTimeLength
-  const address = sessionObj.sessionObj.location.address
-  const city = sessionObj.sessionObj.location.city
-  const state = sessionObj.sessionObj.location.state
-  const zipcode = sessionObj.sessionObj.location.zipcode
+  const [clientProfileListCopy, setClientProfileListCopy] = useState(sessionObj.clientProfileList);
   const {userId} = useStore((state) => state);
   const removeSession = useRemoveSession();
   const removeClientFromSession = useRemoveClientFromSession();
@@ -117,8 +111,17 @@ const SessionDetailScreen = ({navigation, route}) => {
                              onPress={() => {
                                removeClientFromSession.mutate({
                                  id: clientObj.clientId,
-                                 startDate: startDate,
-                                 startTime: startTime,
+                                 startDate: sessionObj.session.startDate,
+                                 startTime: sessionObj.session.startTime,
+                               }, {
+                                 onSuccess: () => {
+                                   // remove the client from clientProfileListCopy by clientId
+                                   setClientProfileListCopy((prev) => {
+                                     return prev.filter((client) => {
+                                       return client.clientId !== clientObj.clientId;
+                                     })
+                                   })
+                                 }
                                });
                              }}/>
             </View>
@@ -137,21 +140,25 @@ const SessionDetailScreen = ({navigation, route}) => {
             <View style={{marginRight: 12}}>
               <FontAwesome5 name="calendar-alt" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 16}}>{startDate}</Text>
+            <Text style={{fontSize: 16}}>{sessionObj.session.startDate}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 12, marginLeft: -1.5}}>
               <FontAwesome5 name="clock" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 16}}>From {format(convertMilitaryTime(startDate, startTime), "HH:mm")}</Text>
             <Text
-              style={{fontSize: 16}}> to {format(add(convertMilitaryTime(startDate, startTime), {minutes: sessionLength}), "HH:mm")}</Text>
+              style={{fontSize: 16}}>From {format(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), "HH:mm")}</Text>
+            <Text
+              style={{fontSize: 16}}> to {format(add(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), {minutes: sessionObj.session.sessionTimeLength}), "HH:mm")}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 16, marginLeft: 2}}>
               <FontAwesome5 name="map-pin" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 16, width: 0.725 * screenWidth}}>{address}, {city}, {state}, {zipcode}</Text>
+            <Text style={{
+              fontSize: 16,
+              width: 0.725 * screenWidth
+            }}>{sessionObj.location.address}, {sessionObj.location.city}, {sessionObj.location.state}, {sessionObj.location.zipcode}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 14}}>
@@ -170,15 +177,15 @@ const SessionDetailScreen = ({navigation, route}) => {
                            onPress={() => {
                              removeSession.mutate({
                                id: userId,
-                               startDate: startDate,
-                               startTime: startTime
+                               startDate: sessionObj.session.startDate,
+                               startTime: sessionObj.session.startTime
                              })
                            }}
             />
           </View>
         </View>
         {/*clients */}
-        {sessionObj.sessionObj.clientProfileList.map((clientObj, index) => (
+        {clientProfileListCopy?.map((clientObj, index) => (
           <ClientDetails clientObj={clientObj} key={index}/>
         ))}
       </ScrollView>
