@@ -51,7 +51,7 @@ export default function SessionScreen({navigation}) {
                     ", " +
                     sessionObj.location.state).substring(0, 40) + "..."}
                   onPress={() => {
-                    navigation.navigate("SessionDetailScreen", {sessionObj});
+                    navigation.navigate("SessionDetailScreen", sessionObj);
                   }}
                 />
               ))
