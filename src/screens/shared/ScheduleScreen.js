@@ -91,11 +91,13 @@ export default function ScheduleScreen({navigation}) {
           TodayHeaderComponent={TodayHeaderComponent}
           EventComponent={EventComponent}
           onEventPress={(event) => {
-            // setEvent(event);
-            // setModalVisible(true);
-            // console.log(event);
+            setEvent(event);
             const sessionObj = event.sessionObj;
-            navigation.navigate("SessionDetailScreen", {sessionObj})
+            if (event.sessionObj.clientProfileList[0].clientId === 0) {
+              setModalVisible(true);
+            } else {
+              navigation.navigate("SessionDetailScreen", {sessionObj})
+            }
           }}
           onGridClick={(pressEvent, startHour, date) => {
             setStartDatetime(date);
@@ -133,9 +135,6 @@ export default function ScheduleScreen({navigation}) {
             <Text style={styles.modalText}>
               End Time: {event && format(event.endDate, "yyyy-M-dd h:mm")}
             </Text>
-            <Text style={styles.modalText}>Training Location: </Text>
-            <Text style={styles.modalText}>Trainer: </Text>
-            <Text style={styles.modalText}>Trainee: </Text>
             <View style={{alignItems: "center"}}>
               <PrimaryButton
                 fontSize={16}
@@ -143,7 +142,7 @@ export default function ScheduleScreen({navigation}) {
                 paddingVertical={8}
                 marginBottom={5}
                 marginTop={15}
-                title={"Remove"}
+                title={"Unblock"}
                 onPress={() => {
                   // function to delete this event and send to backend
                   removeSession.mutate({
@@ -283,11 +282,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.35,
-    shadowOffset: {width: 3, height: 4},
-    shadowRadius: 4,
+    shadowOffset: {width: 1, height: 2},
+    shadowRadius: 5,
     paddingVertical: 14,
     paddingHorizontal: 30,
-    borderRadius: 6,
+    borderRadius: 8,
   },
   modalText: {
     fontSize: 17,

@@ -64,8 +64,8 @@ const useSession = (sessionQuery) => {
         startDate: startDate,
         endDate: endDate,
         description:
-          item.clientId === 0 ? "Block" : "client" + item.clientId,
-        color: item.clientId === 0 ? "#000000" : "#005A9C",
+          item.clientProfileList[0].clientId === 0 ? "Block" : "client" + item.clientProfileList[0].clientId,
+        color: item.clientProfileList[0].clientId === 0 ? "#000000" : "#005A9C",
         resolveOverlap: "stack",
         // navigation needed
         sessionObj: {

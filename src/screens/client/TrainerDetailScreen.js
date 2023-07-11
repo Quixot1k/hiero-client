@@ -156,8 +156,8 @@ export default function TrainerDetailScreen({route}) {
                           placeholder={"Select a location"}
                           value={session.locationId}
                           style={{
-                            paddingHorizontal: 10,
-                            paddingVertical: 1,
+                            paddingHorizontal: 15,
+                            paddingVertical: 2,
                             marginBottom: 5,
                             borderRadius: 9,
                             backgroundColor: "#efeff0",
@@ -178,7 +178,8 @@ export default function TrainerDetailScreen({route}) {
                   </View>
                   <RNDateTimePicker
                     value={session.startTime}
-                    visible={"datetime"}
+                    mode={"datetime"}
+                    minuteInterval={15}
                     onChange={(event, selectedDate) => {
                       setSession({...session, startTime: selectedDate});
                     }}
@@ -198,7 +199,8 @@ export default function TrainerDetailScreen({route}) {
                   </View>
                   <RNDateTimePicker
                     value={session.endTime}
-                    visible={"datetime"}
+                    mode={"datetime"}
+                    minuteInterval={15}
                     onChange={(event, selectedDate) => {
                       setSession({...session, endTime: selectedDate});
                     }}

@@ -5,8 +5,8 @@ import {MaterialIcons} from "@expo/vector-icons";
 const {width: screenWidth} = Dimensions.get("window");
 export default function SessionItem({name, startTime, endTime, location, onPress}) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.container}>
+    <TouchableOpacity onPress={onPress} disabled={name === "Unavailable"}>
+      <View style={[styles.container, name === "Unavailable" && {backgroundColor: "#efefef"}]}>
         <View>
           <View style={styles.firstRow}>
             <Text style={styles.name}>{name + " " + " "}</Text>

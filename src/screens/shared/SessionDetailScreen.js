@@ -39,12 +39,8 @@ const SessionDetailScreen = ({navigation, route}) => {
             <View style={{
               width: 50,
               height: 50,
-              borderRadius: 25,
-              borderWidth: 1,
               justifyContent: "center",
               alignItems: "center",
-              marginRight: 0.025 * screenWidth
-
             }}>
               <Image source={{uri: clientObj.imageName}} style={{
                 width: 50,
@@ -53,11 +49,12 @@ const SessionDetailScreen = ({navigation, route}) => {
               }}/>
             </View>}
           <View style={{
-            width: 150,
+            width: 130,
             height: 50,
             alignItems: "center",
             justifyContent: "center",
-            marginRight: visible ? 0.425 * screenWidth : 0.235 * screenWidth
+            marginRight: 0.25 * screenWidth,
+            display: visible && "none"
           }}>
             <Text style={{
               fontSize: 24,
@@ -66,6 +63,8 @@ const SessionDetailScreen = ({navigation, route}) => {
             </Text>
           </View>
           <TouchableOpacity style={{
+            height: 50,
+            justifyContent: "center",
             transform: [visible ? {rotate: "180deg"} : {rotate: "0deg"}],
           }} onPress={() => {
             setVisible(!visible)
@@ -76,27 +75,42 @@ const SessionDetailScreen = ({navigation, route}) => {
         </View>
         {/* visible === true*/}
         {visible && (
-          <>
-            <View style={{paddingHorizontal: 32.5, paddingBottom: 15, flexDirection: "row"}}>
-              <TouchableOpacity style={styles.imageWrapper} onPress={() => {
-                navigation.navigate("ClientDetailScreen", {clientObj})
-              }}>
-                <Image source={{uri: clientObj.imageName}} style={{
-                  width: 120,
-                  height: 120,
-                  borderRadius: 60,
-                }}/>
-              </TouchableOpacity>
-              <View style={{marginLeft: 50}}>
+          <View marginTop={-20}>
+            <View style={{
+              paddingHorizontal: 26,
+              paddingBottom: 15,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}>
+              <View style={{alignItems: "center"}}>
+                <Text style={{
+                  fontSize: 24,
+                  fontWeight: "500",
+                  marginBottom: 15,
+                }}>{clientObj.name}
+                </Text>
+                <TouchableOpacity style={styles.imageWrapper} onPress={() => {
+                  navigation.navigate("ClientDetailScreen", {clientObj})
+                }}>
+                  <Image source={{uri: clientObj.imageName}} style={{
+                    width: 120,
+                    height: 120,
+                    borderRadius: 60,
+                  }}/>
+                </TouchableOpacity>
+              </View>
+              <View style={{marginTop: 30}}>
                 <Text style={styles.info}>Gender: {clientObj.gender}</Text>
                 <Text style={styles.info}>Email: {clientObj.emailAddress}</Text>
                 <Text style={styles.info}>Mobile: {clientObj.phone}</Text>
               </View>
             </View>
             <View style={{alignItems: "center"}}>
-              <PrimaryButton title="Cancel His/Her Session" paddingHorizontal={20} paddingVertical={10} fontSize={17}/>
+              <PrimaryButton title="Cancel His/Her Session" paddingHorizontal={20} paddingVertical={10} marginTop={10}
+                             fontSize={17}/>
             </View>
-          </>
+          </View>
         )}
       </View>
     )
@@ -204,16 +218,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    fontSize: 16,
-    fontWeight: "500",
-    textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 1.5,
-    marginHorizontal: 30,
-  },
   info: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "400",
     textShadowColor: "rgba(0, 0, 0, 0.1)",
     textShadowOffset: {width: 1, height: 1},
