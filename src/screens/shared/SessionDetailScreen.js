@@ -53,7 +53,7 @@ const SessionDetailScreen = ({navigation, route}) => {
             height: 50,
             alignItems: "center",
             justifyContent: "center",
-            marginRight: 0.25 * screenWidth,
+            marginRight: 0.275 * screenWidth,
             display: visible && "none"
           }}>
             <Text style={{
@@ -100,7 +100,7 @@ const SessionDetailScreen = ({navigation, route}) => {
                   }}/>
                 </TouchableOpacity>
               </View>
-              <View style={{marginTop: 30}}>
+              <View style={{marginTop: 30, width: 175}}>
                 <Text style={styles.info}>Gender: {clientObj.gender}</Text>
                 <Text style={styles.info}>Email: {clientObj.emailAddress}</Text>
                 <Text style={styles.info}>Mobile: {clientObj.phone}</Text>
