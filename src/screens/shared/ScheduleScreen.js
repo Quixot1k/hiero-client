@@ -75,7 +75,7 @@ export default function ScheduleScreen({navigation}) {
           showTitle={true} // if true, shows this month and year
           numberOfDays={7}
           formatDateHeader="D ddd" // display short name days, e.g. Mon, Tue, etc
-          pageStartAt={{left: 0, weekday: 1}}
+          pageStartAt={{left: 1, weekday: 1}}
           beginAgendaAt={8 * 60}
           endAgendaAt={18.5 * 60}
           timesColumnWidth={0.12}
@@ -96,7 +96,7 @@ export default function ScheduleScreen({navigation}) {
             if (event.sessionObj.clientProfileList[0].clientId === 0) {
               setModalVisible(true);
             } else {
-              navigation.navigate("SessionDetailScreen", {sessionObj})
+              navigation.navigate("SessionDetailScreen", sessionObj);
             }
           }}
           onGridClick={(pressEvent, startHour, date) => {
