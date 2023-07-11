@@ -2,9 +2,10 @@ import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, Touchable
 import React, {useState} from "react";
 import {FontAwesome, FontAwesome5, MaterialIcons} from '@expo/vector-icons';
 import PrimaryButton from "../../components/PrimaryButton";
-import useRemoveSession from "../../hooks/useRemoveSession";
 import {add, format} from "date-fns";
 import {useStore} from "../../store";
+import useRemoveSession from "../../hooks/useRemoveSession";
+import useRemoveClientFromSession from "../../hooks/useRemoveClientFromSession";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 const SessionDetailScreen = ({navigation, route}) => {
@@ -17,7 +18,8 @@ const SessionDetailScreen = ({navigation, route}) => {
   const state = sessionObj.sessionObj.location.state
   const zipcode = sessionObj.sessionObj.location.zipcode
   const {userId} = useStore((state) => state);
-
+  const removeSession = useRemoveSession();
+  const removeClientFromSession = useRemoveClientFromSession();
   const convertMilitaryTime = (dateString, timeString) => {
     const hour = timeString.substring(0, 2);
     const minute = timeString.substring(2, 4);
@@ -107,16 +109,24 @@ const SessionDetailScreen = ({navigation, route}) => {
               </View>
             </View>
             <View style={{alignItems: "center"}}>
-              <PrimaryButton title="Cancel His/Her Session" paddingHorizontal={20} paddingVertical={10} marginTop={10}
-                             fontSize={17}/>
+              <PrimaryButton title="Cancel His/Her Session"
+                             paddingHorizontal={20}
+                             paddingVertical={10}
+                             marginTop={10}
+                             fontSize={17}
+                             onPress={() => {
+                               removeClientFromSession.mutate({
+                                 id: clientObj.clientId,
+                                 startDate: startDate,
+                                 startTime: startTime,
+                               });
+                             }}/>
             </View>
           </View>
         )}
       </View>
     )
   }
-
-  const removeSession = useRemoveSession();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -141,7 +151,7 @@ const SessionDetailScreen = ({navigation, route}) => {
             <View style={{marginRight: 16, marginLeft: 2}}>
               <FontAwesome5 name="map-pin" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 16, width: 320}}>{address}, {city}, {state}, {zipcode}</Text>
+            <Text style={{fontSize: 16, width: 0.725 * screenWidth}}>{address}, {city}, {state}, {zipcode}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 14}}>
