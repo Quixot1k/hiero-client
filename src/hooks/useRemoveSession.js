@@ -9,13 +9,9 @@ const useRemoveSession = () => {
   const route = useRoute();
   const role = useStore((state) => state.role);
   const removeSession = async (sessionObj) => {
-    if (role === "client") {
-    } else if (role === "trainer") {
-      await axios
-        .delete("http://localhost:10001/schedule/deleteByTrainer", {
-          data: sessionObj,
-        }).then(res => res.data);
-    }
+    await axios.delete("http://localhost:10001/schedule/deleteByTrainer", {
+      data: sessionObj,
+    }).then(res => res.data);
   }
   return useMutation({
     mutationFn: removeSession,
@@ -23,7 +19,6 @@ const useRemoveSession = () => {
       queryClient.invalidateQueries({
         queryKey: ["session"],
       }).then(() => {
-        console.log(route.name);
         if (route.name === "SessionDetailScreen") {
           navigation.goBack();
         }
