@@ -289,15 +289,6 @@ export default function ProfileCreateScreen({navigation}) {
             }}
           />
         </View>
-        {/*<TextInput*/}
-        {/*  value={password}*/}
-        {/*  style={styles.textInput}*/}
-        {/*  placeholder={"Password"}*/}
-        {/*  onChangeText={(text) => {*/}
-        {/*    updatePassword(text);*/}
-        {/*    updatePassword2(text);*/}
-        {/*  }}*/}
-        {/*/>*/}
         <TextInput
           editable={false}
           value={mobile}
@@ -307,53 +298,57 @@ export default function ProfileCreateScreen({navigation}) {
             updateMobile(text);
           }}
         />
-        <TextInput
-          editable={false}
-          value={addr1}
-          style={styles.textInput}
-          placeholder={"Address 1"}
-          onChangeText={(text) => {
-            updateAddr1(text);
-          }}
-        />
-        <TextInput
-          editable={false}
-          value={addr2}
-          style={styles.textInput}
-          placeholder={"Address 2"}
-          onChangeText={(text) => {
-            updateAddr2(text);
-          }}
-        />
-        <View style={{flexDirection: "row"}}>
-          <TextInput
-            editable={false}
-            value={city}
-            style={[styles.textInput, {width: 122}]}
-            placeholder={"City"}
-            onChangeText={(text) => {
-              updateCity(text);
-            }}
-          />
-          <TextInput
-            editable={false}
-            value={state}
-            style={[styles.textInput, {width: 92}]}
-            placeholder={"State"}
-            onChangeText={(text) => {
-              updateState(text);
-            }}
-          />
-          <TextInput
-            editable={false}
-            value={zip}
-            style={[styles.textInput, {width: 92}]}
-            placeholder={"Zip Code"}
-            onChangeText={(text) => {
-              updateZip(text);
-            }}
-          />
-        </View>
+        {role === "client" && (
+          <>
+            <TextInput
+              editable={false}
+              value={addr1}
+              style={styles.textInput}
+              placeholder={"Address 1"}
+              onChangeText={(text) => {
+                updateAddr1(text);
+              }}
+            />
+            <TextInput
+              editable={false}
+              value={addr2}
+              style={styles.textInput}
+              placeholder={"Address 2"}
+              onChangeText={(text) => {
+                updateAddr2(text);
+              }}
+            />
+            <View style={{flexDirection: "row"}}>
+              <TextInput
+                editable={false}
+                value={city}
+                style={[styles.textInput, {width: 122}]}
+                placeholder={"City"}
+                onChangeText={(text) => {
+                  updateCity(text);
+                }}
+              />
+              <TextInput
+                editable={false}
+                value={state}
+                style={[styles.textInput, {width: 92}]}
+                placeholder={"State"}
+                onChangeText={(text) => {
+                  updateState(text);
+                }}
+              />
+              <TextInput
+                editable={false}
+                value={zip}
+                style={[styles.textInput, {width: 92}]}
+                placeholder={"Zip Code"}
+                onChangeText={(text) => {
+                  updateZip(text);
+                }}
+              />
+            </View>
+          </>
+        )}
         <TextInput
           editable={false}
           value={distance ? "Distance: " + String(distance) : ""}

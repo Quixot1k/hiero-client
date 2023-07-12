@@ -285,56 +285,60 @@ export default function Profile({navigation}) {
               />
             </View>
           )}
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Address 1</Text>
-            <TextInput
-              style={styles.textInput}
-              value={addr1}
-              onChangeText={(text) => {
-                updateAddr1(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Address 2</Text>
-            <TextInput
-              style={styles.textInput}
-              value={addr2}
-              onChangeText={(text) => {
-                updateAddr2(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>City</Text>
-            <TextInput
-              style={styles.textInput}
-              value={city}
-              onChangeText={(text) => {
-                updateCity(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>State</Text>
-            <TextInput
-              style={styles.textInput}
-              value={state}
-              onChangeText={(text) => {
-                updateState(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Zip Code</Text>
-            <TextInput
-              style={styles.textInput}
-              value={zip}
-              onChangeText={(text) => {
-                updateZip(text);
-              }}
-            />
-          </View>
+          {role === "client" && (
+            <>
+              <View style={styles.inputWrapper}>
+                <Text style={styles.text}>Address 1</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={addr1}
+                  onChangeText={(text) => {
+                    updateAddr1(text);
+                  }}
+                />
+              </View>
+              <View style={styles.inputWrapper}>
+                <Text style={styles.text}>Address 2</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={addr2}
+                  onChangeText={(text) => {
+                    updateAddr2(text);
+                  }}
+                />
+              </View>
+              <View style={styles.inputWrapper}>
+                <Text style={styles.text}>City</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={city}
+                  onChangeText={(text) => {
+                    updateCity(text);
+                  }}
+                />
+              </View>
+              <View style={styles.inputWrapper}>
+                <Text style={styles.text}>State</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={state}
+                  onChangeText={(text) => {
+                    updateState(text);
+                  }}
+                />
+              </View>
+              <View style={styles.inputWrapper}>
+                <Text style={styles.text}>Zip Code</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={zip}
+                  onChangeText={(text) => {
+                    updateZip(text);
+                  }}
+                />
+              </View>
+            </>
+          )}
         </View>
         {/* Map */}
         <View style={styles.mapWrapper}>
@@ -428,7 +432,7 @@ export default function Profile({navigation}) {
         <PrimaryButton
           title={"Save"}
           fontSize={16}
-          fontWeight={500}
+          fontWeight={"500"}
           paddingVertical={8}
           onPress={() => {
             console.log(role);
