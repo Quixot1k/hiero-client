@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   btnWrapper: {
     width: 0.85 * screenWidth,
-    height: 0.0575 * screenHeight,
+    height: 45,
     marginVertical: 5,
     borderRadius: 10,
     flexDirection: "row",
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   btnTitle: {
-    fontSize: 20,
+    fontSize: 17.5,
     fontWeight: "500",
     paddingLeft: 10,
   },
