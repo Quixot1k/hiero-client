@@ -1,6 +1,6 @@
 import {CommonActions, useNavigation} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import ScreenHeaderBtn from "../components/ScreenHeaderBtn";
+import ScreenHeaderButton from "../components/ScreenHeaderButton";
 import AvatarScreen from "../screens/shared/AvatarScreen";
 import BioScreen from "../screens/trainer/BioScreen";
 import CapacityScreen from "../screens/shared/CapacityScreen";
@@ -21,7 +21,7 @@ export default function StackNavigator() {
   const Stack = createNativeStackNavigator();
   const {role, isLogged} = useStore((state) => state);
   const headRightButton = () => (
-    <ScreenHeaderBtn
+    <ScreenHeaderButton
       handlePress={() => {
         console.log("go back to LoginScreen and clear navigation stack");
         navigation.dispatch(
