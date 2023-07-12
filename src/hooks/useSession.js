@@ -3,6 +3,7 @@ import axios from "axios";
 import {useStore} from "../store";
 import {add} from "date-fns";
 import {v4 as uuid} from "uuid";
+import URL from "../config/config";
 
 const useSession = (sessionQuery) => {
   const {role} = useStore((state) => state);
@@ -13,31 +14,31 @@ const useSession = (sessionQuery) => {
     let prevPrevWeek = [];
     let nextWeek = [];
     let nextNextWeek = [];
-    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+    await axios.get(`${URL}/schedule/${role}/offset/range`, {
       params: sessionQuery,
       headers: {"Content-Type": "application/json"},
     }).then(res => {
       currWeek = res.data.length > 0 ? res.data : []
     });
-    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+    await axios.get(`${URL}/schedule/${role}/offset/range`, {
       params: {...sessionQuery, offset: sessionQuery.offset - 1},
       headers: {"Content-Type": "application/json"},
     }).then(res => {
       prevWeek = res.data.length > 0 ? res.data : []
     })
-    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+    await axios.get(`${URL}/schedule/${role}/offset/range`, {
       params: {...sessionQuery, offset: sessionQuery.offset - 2},
       headers: {"Content-Type": "application/json"},
     }).then(res => {
       prevPrevWeek = res.data.length > 0 ? res.data : []
     })
-    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+    await axios.get(`${URL}/schedule/${role}/offset/range`, {
       params: {...sessionQuery, offset: sessionQuery.offset + 1},
       headers: {"Content-Type": "application/json"},
     }).then(res => {
       nextWeek = res.data.length > 0 ? res.data : []
     })
-    await axios.get(`http://127.0.0.1:10001/schedule/${role}/offset/range`, {
+    await axios.get(`${URL}/schedule/${role}/offset/range`, {
       params: {...sessionQuery, offset: sessionQuery.offset + 2},
       headers: {"Content-Type": "application/json"},
     }).then(res => {

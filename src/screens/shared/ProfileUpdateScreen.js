@@ -17,6 +17,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
+import URL from "../../config/config";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function Profile({navigation}) {
@@ -140,7 +141,7 @@ export default function Profile({navigation}) {
     };
     try {
       await axios
-        .put(`http://127.0.0.1:10001/trainer/profile`, {trainerProfile})
+        .put(`${URL}/trainer/profile`, {trainerProfile})
         .then((res) => {
           if (res.status === 200) {
             console.log("Update Successfully");

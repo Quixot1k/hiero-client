@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
-import URL from "../constant/config";
+import URL from "../config/config";
 
 const useGym = (radius) => {
   const fetchGym = async () => {
