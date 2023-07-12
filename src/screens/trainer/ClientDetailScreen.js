@@ -307,11 +307,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   info: {
-    fontSize: 15,
+    fontSize: 14.5,
     fontWeight: "400",
-    textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 1.5,
+    // textShadowColor: "rgba(0, 0, 0, 0.1)",
+    // textShadowOffset: {width: 1, height: 1},
+    // textShadowRadius: 1.5,
     marginVertical: 8,
   },
   section: {

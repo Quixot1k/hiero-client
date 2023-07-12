@@ -54,7 +54,7 @@ const SessionDetailScreen = ({navigation, route}) => {
           }}>
             <Text style={{
               fontSize: 24,
-              fontWeight: visible ? "500" : "400",
+              fontWeight: "400",
             }}>{clientObj.name}
             </Text>
           </View>
@@ -73,7 +73,7 @@ const SessionDetailScreen = ({navigation, route}) => {
         {visible && (
           <View marginTop={-20}>
             <View style={{
-              paddingHorizontal: 26,
+              paddingHorizontal: 20,
               paddingBottom: 15,
               flexDirection: "row",
               alignItems: "center",
@@ -82,7 +82,7 @@ const SessionDetailScreen = ({navigation, route}) => {
               <View style={{alignItems: "center"}}>
                 <Text style={{
                   fontSize: 24,
-                  fontWeight: "500",
+                  fontWeight: "400",
                   marginBottom: 15,
                 }}>{clientObj.name}
                 </Text>
@@ -96,7 +96,7 @@ const SessionDetailScreen = ({navigation, route}) => {
                   }}/>
                 </TouchableOpacity>
               </View>
-              <View style={{marginTop: 30, width: 175}}>
+              <View style={{marginTop: 30}}>
                 <Text style={styles.info}>Gender: {clientObj.gender}</Text>
                 <Text style={styles.info}>Email: {clientObj.emailAddress}</Text>
                 <Text style={styles.info}>Mobile: {clientObj.phone}</Text>
@@ -104,10 +104,10 @@ const SessionDetailScreen = ({navigation, route}) => {
             </View>
             <View style={{alignItems: "center"}}>
               <PrimaryButton title="Cancel His/Her Session"
-                             paddingHorizontal={20}
-                             paddingVertical={10}
+                             paddingHorizontal={10}
+                             paddingVertical={8}
                              marginTop={10}
-                             fontSize={17}
+                             fontSize={15}
                              onPress={() => {
                                removeClientFromSession.mutate({
                                  id: clientObj.clientId,
@@ -140,23 +140,23 @@ const SessionDetailScreen = ({navigation, route}) => {
             <View style={{marginRight: 12}}>
               <FontAwesome5 name="calendar-alt" size={20} color="black"/>
             </View>
-            <Text style={{fontSize: 16}}>{sessionObj.session.startDate}</Text>
+            <Text style={{fontSize: 15}}>{sessionObj.session.startDate}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 12, marginLeft: -1.5}}>
               <FontAwesome5 name="clock" size={20} color="black"/>
             </View>
             <Text
-              style={{fontSize: 16}}>From {format(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), "HH:mm")}</Text>
+              style={{fontSize: 15}}>From {format(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), "HH:mm")}</Text>
             <Text
-              style={{fontSize: 16}}> to {format(add(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), {minutes: sessionObj.session.sessionTimeLength}), "HH:mm")}</Text>
+              style={{fontSize: 15}}> to {format(add(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), {minutes: sessionObj.session.sessionTimeLength}), "HH:mm")}</Text>
           </View>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
             <View style={{marginRight: 16, marginLeft: 2}}>
               <FontAwesome5 name="map-pin" size={20} color="black"/>
             </View>
             <Text style={{
-              fontSize: 16,
+              fontSize: 15,
               width: 0.725 * screenWidth
             }}>{sessionObj.location.address}, {sessionObj.location.city}, {sessionObj.location.state}, {sessionObj.location.zipcode}</Text>
           </View>
@@ -164,15 +164,15 @@ const SessionDetailScreen = ({navigation, route}) => {
             <View style={{marginRight: 14}}>
               <FontAwesome name="group" size={16} color="black"/>
             </View>
-            <Text style={{fontSize: 16}}>1/5</Text>
+            <Text style={{fontSize: 15}}>1/5</Text>
           </View>
           <View style={{alignItems: "center"}}>
             <PrimaryButton title={"Cancel Entire Session"}
                            paddingHorizontal={10}
-                           paddingVertical={10}
+                           paddingVertical={8}
                            marginTop={10}
                            marginBottom={5}
-                           fontSize={17}
+                           fontSize={15}
                            warning={true}
                            onPress={() => {
                              removeSession.mutate({
@@ -227,16 +227,16 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   imageWrapper: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     borderWidth: 1,
     marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
   },
   info: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "400",
     textShadowColor: "rgba(0, 0, 0, 0.1)",
     textShadowOffset: {width: 1, height: 1},
