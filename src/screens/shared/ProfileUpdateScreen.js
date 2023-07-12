@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo, useRef, useState} from "react";
 import {
   Dimensions,
   Image,
@@ -15,6 +15,8 @@ import {CheckBox, Slider} from "@rneui/themed";
 import axios from "axios";
 import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
+import validator from "validator/es";
+import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function Profile({navigation}) {
@@ -54,8 +56,8 @@ export default function Profile({navigation}) {
     updateBirth,
     updateGender,
     updateEmail,
-    // updatePassword,
-    // updatePassword2,
+    updatePassword,
+    updatePassword2,
     updateMobile,
     updateAddr1,
     updateAddr2,
@@ -67,6 +69,15 @@ export default function Profile({navigation}) {
     updateZoom,
     updateHome,
   } = useStore((state) => state);
+
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(-1);
+  const [passwords, setPasswords] = useState({
+    oldPassword: "",
+    newPassword: "",
+    newPassword2: "",
+  })
+  const snapPoints = useMemo(() => ["97.5%"], []);
+  const bottomSheetRef = useRef(null);
 
   const handleClientSave = async () => {
     const clientProfile = {
@@ -81,7 +92,7 @@ export default function Profile({navigation}) {
       state: state,
       zipcode: zip,
       maxTravelDistance: parseInt(distance),
-      gender: "0",
+      gender: "1",
       imageName: avatarUri,
       homeSession: home,
       zoomSession: zoom,
@@ -109,7 +120,7 @@ export default function Profile({navigation}) {
     } catch (err) {
       console.log(JSON.stringify(err));
     }
-  }
+  };
   const handleTrainerSave = async () => {
     const trainerProfile = {
       trainerId: userId,
@@ -118,27 +129,18 @@ export default function Profile({navigation}) {
       password: password,
       phone: mobile,
       age: parseInt(birth),
-      gender: gender,
+      gender: "1",
       bio: bio,
       minimumBid: parseInt(bid),
       maxTravelDistance: parseInt(distance),
       maxClientsPerSession: parseInt(capacity),
-      clientsHomeSession: home,
       zoomSession: zoom,
       homeSession: home,
       imageName: avatarUri,
     };
     try {
       await axios
-        .put(
-          `${URL}/trainer/profile`,
-          {trainerProfile},
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
+        .put(`http://127.0.0.1:10001/trainer/profile`, {trainerProfile})
         .then((res) => {
           if (res.status === 200) {
             console.log("Update Successfully");
@@ -151,304 +153,367 @@ export default function Profile({navigation}) {
     }
   };
 
+  const handleUpdatePassword = () => {
+    if (passwords.oldPassword !== password) {
+      console.log("wrong old password");
+    } else if (passwords.newPassword === passwords.oldPassword) {
+      console.log("new password must be different from old password");
+    } else if (!validator.isStrongPassword(passwords.newPassword)) {
+      console.log("new password is not strong");
+    } else if (passwords.newPassword2 !== passwords.newPassword) {
+      console.log("new password does not match");
+    } else {
+      updatePassword(passwords.newPassword);
+      updatePassword2(passwords.newPassword);
+    }
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        {/* Header */}
-        <View style={styles.headerSection}>
-          <View style={{flexDirection: "row", alignItems: "center"}}>
-            {avatarUri ? (
-              <Image
-                source={{uri: avatarUri}}
-                style={{width: 120, height: 120, borderRadius: 60}}
-              />
-            ) : (
-              <View style={styles.profileCircle}></View>
-            )}
-            {role === "trainer" && (
-              <TextInput
-                style={{
-                  height: 104,
-                  width: 140,
-                  borderWidth: 0.5,
-                  marginHorizontal: 20,
-                  paddingHorizontal: 6,
-                  paddingVertical: 6,
-                }}
-                value={bio}
-                onChangeText={(text) => {
-                  updateBio(text);
-                }}
-              ></TextInput>
-            )}
-          </View>
-          <PrimaryButton
-            title={"Update profile picture"}
-            fontSize={12}
-            fontWeight={"500"}
-            marginTop={10}
-            marginBottom={0}
-            paddingVertical={4}
-            paddingHorizontal={14}
-          />
-        </View>
-        {/* TextInput */}
-        <View style={styles.textInputSection}>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>First Name</Text>
-            <TextInput
-              style={styles.textInput}
-              value={firstName}
-              onChangeText={(text) => {
-                updateFirstName(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Last Name</Text>
-            <TextInput
-              style={styles.textInput}
-              value={lastName}
-              onChangeText={(text) => {
-                updateLastName(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Email Address</Text>
-            <TextInput
-              style={styles.textInput}
-              value={email}
-              onChangeText={(text) => {
-                updateEmail(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Phone Number</Text>
-            <TextInput
-              style={styles.textInput}
-              value={mobile}
-              onChangeText={(text) => {
-                updateMobile(text);
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Age</Text>
-            <TextInput
-              style={styles.textInput}
-              value={String(birth)}
-              onChangeText={(text) => {
-                updateBirth(parseInt(text));
-              }}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>Gender</Text>
-            <TextInput
-              style={styles.textInput}
-              value={gender}
-              onChangeText={(text) => {
-                updateGender(text);
-              }}
-            />
-          </View>
-          {role === "trainer" && (
-            <View style={styles.inputWrapper}>
-              <Text style={styles.text}>Certification</Text>
-              <TouchableOpacity
-                style={{alignItems: "center", width: 300}}
-                onPress={() => navigation.navigate("CertificationScreen")}
-              >
-                <Text
+    <>
+      <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          {/* Header */}
+          <View style={styles.headerSection}>
+            <View style={{flexDirection: "row", alignItems: "center"}}>
+              {avatarUri ? (
+                <Image
+                  source={{uri: avatarUri}}
+                  style={{width: 120, height: 120, borderRadius: 60}}
+                />
+              ) : (
+                <View style={styles.profileCircle}></View>
+              )}
+              {role === "trainer" && (
+                <TextInput
                   style={{
-                    fontSize: 18,
-                    fontWeight: "500",
-                    textDecorationLine: "underline",
+                    height: 104,
+                    width: 140,
+                    borderWidth: 0.5,
+                    marginHorizontal: 20,
+                    paddingHorizontal: 6,
+                    paddingVertical: 6,
                   }}
-                >
-                  Go to Certification
-                </Text>
-              </TouchableOpacity>
+                  value={bio}
+                  onChangeText={(text) => {
+                    updateBio(text);
+                  }}
+                ></TextInput>
+              )}
             </View>
-          )}
-          {role === "trainer" && (
+            <PrimaryButton
+              title={"Update profile picture"}
+              paddingVertical={6}
+              paddingHorizontal={20}
+              marginTop={25}
+              fontSize={14}
+              fontWeight={"500"}
+              marginBottom={5}
+            />
+          </View>
+          {/* TextInput */}
+          <View style={styles.textInputSection}>
             <View style={styles.inputWrapper}>
-              <Text style={styles.text}>Bid</Text>
+              <Text style={styles.text}>First Name</Text>
               <TextInput
                 style={styles.textInput}
-                value={String(bid)}
+                value={firstName}
                 onChangeText={(text) => {
-                  updateBid(parseInt(text));
+                  updateFirstName(text);
                 }}
               />
             </View>
-          )}
-          {role === "client" && (
-            <>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.text}>Last Name</Text>
+              <TextInput
+                style={styles.textInput}
+                value={lastName}
+                onChangeText={(text) => {
+                  updateLastName(text);
+                }}
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.text}>Email Address</Text>
+              <TextInput
+                style={styles.textInput}
+                value={email}
+                onChangeText={(text) => {
+                  updateEmail(text);
+                }}
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.text}>Phone Number</Text>
+              <TextInput
+                style={styles.textInput}
+                value={mobile}
+                onChangeText={(text) => {
+                  updateMobile(text);
+                }}
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.text}>Age</Text>
+              <TextInput
+                style={styles.textInput}
+                value={String(birth)}
+                onChangeText={(text) => {
+                  updateBirth(parseInt(text));
+                }}
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.text}>Gender</Text>
+              <TextInput
+                style={styles.textInput}
+                value={gender}
+                onChangeText={(text) => {
+                  updateGender(text);
+                }}
+              />
+            </View>
+            {role === "trainer" && (
               <View style={styles.inputWrapper}>
-                <Text style={styles.text}>Address 1</Text>
+                <Text style={styles.text}>Certification</Text>
+                <TouchableOpacity
+                  style={{alignItems: "center", width: 300}}
+                  onPress={() => navigation.navigate("CertificationScreen")}
+                >
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "500",
+                      textDecorationLine: "underline",
+                    }}
+                  >
+                    Go to Certification
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            {role === "trainer" && (
+              <View style={styles.inputWrapper}>
+                <Text style={styles.text}>Bid</Text>
                 <TextInput
                   style={styles.textInput}
-                  value={addr1}
+                  value={String(bid)}
                   onChangeText={(text) => {
-                    updateAddr1(text);
+                    updateBid(parseInt(text));
                   }}
                 />
               </View>
-              <View style={styles.inputWrapper}>
-                <Text style={styles.text}>Address 2</Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={addr2}
-                  onChangeText={(text) => {
-                    updateAddr2(text);
-                  }}
-                />
-              </View>
-              <View style={styles.inputWrapper}>
-                <Text style={styles.text}>City</Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={city}
-                  onChangeText={(text) => {
-                    updateCity(text);
-                  }}
-                />
-              </View>
-              <View style={styles.inputWrapper}>
-                <Text style={styles.text}>State</Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={state}
-                  onChangeText={(text) => {
-                    updateState(text);
-                  }}
-                />
-              </View>
-              <View style={styles.inputWrapper}>
-                <Text style={styles.text}>Zip Code</Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={zip}
-                  onChangeText={(text) => {
-                    updateZip(text);
-                  }}
-                />
-              </View>
-            </>
-          )}
-        </View>
-        {/* Map */}
-        <View style={styles.mapWrapper}>
-          <MapView
-            style={{width: "100%", height: "100%", borderRadius: 10}}
-            initialRegion={{
-              latitude: latitude,
-              longitude: longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            region={{
-              latitude: latitude,
-              longitude: longitude,
-              latitudeDelta: distance / 30,
-              longitudeDelta: distance / 30,
-            }}
-          >
-            <Marker coordinate={{latitude: latitude, longitude: longitude}}/>
-            <Circle
-              center={{latitude: latitude, longitude: longitude}}
-              radius={1609 * distance}
-              fillColor={"rgba(255,255,255,0.3)"}
-            />
-          </MapView>
-        </View>
-        {/* Slider & CheckBox & Radio */}
-        <View style={styles.textInputSection}>
-          <Text style={{fontSize: 16, marginBottom: 6, fontWeight: "500"}}>
-            {role === "client"
-              ? "How far are you willing to go for service?"
-              : "How far are you willing to travel to clients?"}
-          </Text>
-          <Slider
-            value={distance}
-            minimumValue={1}
-            maximumValue={90}
-            minimumTrackTintColor="#000"
-            maximumTrackTintColor="#ccc"
-            allowTouchTrack={true}
-            thumbStyle={{height: 20, width: 20, backgroundColor: "#000"}}
-            trackStyle={{height: 6, width: 250, borderRadius: 10}}
-            step={1}
-            onValueChange={(value) => {
-              updateDistance(value);
-            }}
-          />
-          <Text
-            style={{
-              fontSize: 16,
-              marginBottom: 6,
-              marginTop: 6,
-              fontWeight: "500",
-            }}
-          >
-            Distance
-            <Text
-              style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}
+            )}
+            {role === "client" && (
+              <>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.text}>Address 1</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={addr1}
+                    onChangeText={(text) => {
+                      updateAddr1(text);
+                    }}
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.text}>Address 2</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={addr2}
+                    onChangeText={(text) => {
+                      updateAddr2(text);
+                    }}
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.text}>City</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={city}
+                    onChangeText={(text) => {
+                      updateCity(text);
+                    }}
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.text}>State</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={state}
+                    onChangeText={(text) => {
+                      updateState(text);
+                    }}
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.text}>Zip Code</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={zip}
+                    onChangeText={(text) => {
+                      updateZip(text);
+                    }}
+                  />
+                </View>
+              </>
+            )}
+            <PrimaryButton title={"Update Password"}
+                           fontSize={16}
+                           fontWeight={"500"}
+                           paddingVertical={8}
+                           marginBottom={5}
+                           onPress={() =>
+                             bottomSheetRef.current?.expand()
+                           }/>
+          </View>
+          {/* Map */}
+          <View style={styles.mapWrapper}>
+            <MapView
+              style={{width: "100%", height: "100%", borderRadius: 10}}
+              initialRegion={{
+                latitude: latitude,
+                longitude: longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+              region={{
+                latitude: latitude,
+                longitude: longitude,
+                latitudeDelta: distance / 30,
+                longitudeDelta: distance / 30,
+              }}
             >
-              {" "}
-              {distance < 90 ? distance : 90}
-              {distance >= 90 ? "+ " : " "}
+              <Marker coordinate={{latitude: latitude, longitude: longitude}}/>
+              <Circle
+                center={{latitude: latitude, longitude: longitude}}
+                radius={1609 * distance}
+                fillColor={"rgba(255,255,255,0.3)"}
+              />
+            </MapView>
+          </View>
+          {/* Slider & CheckBox & Radio */}
+          <View style={styles.textInputSection}>
+            <Text style={{fontSize: 16, marginBottom: 6, fontWeight: "500"}}>
+              {role === "client"
+                ? "How far are you willing to go for service?"
+                : "How far are you willing to travel to clients?"}
             </Text>
-            miles
-          </Text>
-          <View>
-            <CheckBox
-              size={22}
-              checked={zoom === true}
-              checkedColor="#000"
-              title={"Online session possible?"}
-              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
-              containerStyle={{marginBottom: -15, backgroundColor: "#fcfcfc"}}
-              onPress={() => {
-                updateZoom();
+            <Slider
+              value={distance}
+              minimumValue={1}
+              maximumValue={90}
+              minimumTrackTintColor="#000"
+              maximumTrackTintColor="#ccc"
+              allowTouchTrack={true}
+              thumbStyle={{height: 20, width: 20, backgroundColor: "#000"}}
+              trackStyle={{height: 6, width: 250, borderRadius: 10}}
+              step={1}
+              onValueChange={(value) => {
+                updateDistance(value);
               }}
             />
-            <CheckBox
-              size={22}
-              checked={home === true}
-              checkedColor="#000"
-              title={"Home session possible?"}
-              textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
-              containerStyle={{backgroundColor: "#fcfcfc"}}
+            <Text
+              style={{
+                fontSize: 16,
+                marginBottom: 6,
+                marginTop: 6,
+                fontWeight: "500",
+              }}
+            >
+              Distance
+              <Text
+                style={{fontSize: 18, fontStyle: "italic", fontWeight: "800"}}
+              >
+                {" "}
+                {distance < 90 ? distance : 90}
+                {distance >= 90 ? "+ " : " "}
+              </Text>
+              miles
+            </Text>
+            <View>
+              <CheckBox
+                size={22}
+                checked={zoom === true}
+                checkedColor="#000"
+                title={"Online session possible?"}
+                textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
+                containerStyle={{marginBottom: -15, backgroundColor: "#fcfcfc"}}
+                onPress={() => {
+                  updateZoom();
+                }}
+              />
+              <CheckBox
+                size={22}
+                checked={home === true}
+                checkedColor="#000"
+                title={"Home session possible?"}
+                textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
+                containerStyle={{backgroundColor: "#fcfcfc"}}
+                onPress={() => {
+                  updateHome();
+                }}
+              />
+            </View>
+          </View>
+          <View style={{paddingBottom: 20}}>
+            <PrimaryButton
+              title={"Save"}
+              paddingVertical={10}
+              paddingHorizontal={30}
+              marginTop={25}
+              fontSize={17}
+              fontWeight={"500"}
               onPress={() => {
-                updateHome();
+                console.log(role);
+                if (role === "client") {
+                  handleClientSave().catch((err) => {
+                    console.log(err);
+                  });
+                } else if (role === "trainer") {
+                  handleTrainerSave().catch((err) => {
+                    console.log(err);
+                  });
+                }
               }}
             />
           </View>
+        </ScrollView>
+      </SafeAreaView>
+      {/*bottomSheet*/}
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={bottomSheetVisible}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        style={{paddingHorizontal: 20}}
+        backgroundStyle={[styles.bottomSheet,
+        ]}
+        onChange={(index) => {
+          setBottomSheetVisible(index);
+        }}
+      >
+        <View style={{alignItems: "center", marginTop: 30}}>
+          <Text style={{fontSize: 22, fontWeight: "600"}}>Update Your Password</Text>
+          <View style={{marginTop: 20}}>
+            <BottomSheetTextInput placeholder={"Old Password"} style={styles.bottomSheetTextInput}
+                                  onChangeText={(text) => {
+                                    setPasswords({...passwords, oldPassword: text})
+                                  }}/>
+            <BottomSheetTextInput placeholder={"New Password"} style={styles.bottomSheetTextInput}
+                                  onChangeText={(text) => {
+                                    setPasswords({...passwords, newPassword: text})
+                                  }}/>
+            <BottomSheetTextInput placeholder={"Confirm New Password"} style={styles.bottomSheetTextInput}
+                                  onChangeText={(text) => {
+                                    setPasswords({...passwords, newPassword2: text})
+                                  }}/>
+          </View>
+          <PrimaryButton title={"Confirm"} paddingVertical={10} paddingHorizontal={20} marginTop={25} fontSize={17}
+                         onPress={handleUpdatePassword}
+          />
         </View>
-        <PrimaryButton
-          title={"Save"}
-          fontSize={16}
-          fontWeight={"500"}
-          paddingVertical={8}
-          onPress={() => {
-            console.log(role);
-            if (role === "client") {
-              handleClientSave().catch((err) => {
-                console.log(err);
-              });
-            } else if (role === "trainer") {
-              handleTrainerSave().catch((err) => {
-                console.log(err);
-              });
-            }
-          }}
-        />
-      </ScrollView>
-    </SafeAreaView>
+      </BottomSheet>
+    </>
   );
 }
 
@@ -517,6 +582,28 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 17,
     backgroundColor: "#rgba(0,0,0,0)",
+  },
+  bottomSheet: {
+    backgroundColor: "#fcfcfc",
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 10,
+  },
+  bottomSheetTextInput: {
+    width: 0.75 * screenWidth,
+    height: 45,
+    fontSize: 17,
+    marginVertical: 8,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 15,
+    backgroundColor: "#ffffff",
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 2, height: 2},
+    shadowRadius: 3,
   },
   mapWrapper: {
     borderRadius: 10,
