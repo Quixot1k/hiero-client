@@ -4,7 +4,7 @@ import axios from "axios";
 import IntSpecItem from "../../components/IntSpecItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
-import {intSpecList} from "../../constant/intSpecList";
+import INT_SPEC_LIST from "../../constant/INT_SPEC_LIST";
 import URL from "../../config/config";
 
 const {width: screenWidth} = Dimensions.get("window");
@@ -85,7 +85,7 @@ export default function IntSpecScreen({navigation}) {
             : "What are your specialities"}
         </Text>
         <View style={styles.grids}>
-          {intSpecList?.map((intSpecObj) => (
+          {INT_SPEC_LIST?.map((intSpecObj) => (
             <IntSpecItem
               key={intSpecObj.categoryId}
               name={intSpecObj.categoryName}

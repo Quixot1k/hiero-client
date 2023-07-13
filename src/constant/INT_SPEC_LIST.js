@@ -1,4 +1,4 @@
-export const intSpecList = [
+const INT_SPEC_LIST = [
   {
     categoryId: 1,
     providerType: "Gym",
@@ -90,3 +90,5 @@ export const intSpecList = [
     categoryName: "Other",
   },
 ];
+
+export default INT_SPEC_LIST;
