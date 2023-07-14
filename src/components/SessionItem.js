@@ -1,20 +1,48 @@
 import React from "react";
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
+import {useStore} from "../store";
+import {add, format} from "date-fns";
 
 const {width: screenWidth} = Dimensions.get("window");
-export default function SessionItem({name, startTime, endTime, location, onPress}) {
+export default function SessionItem({onPress, sessionObj}) {
+
+  const convertMilitaryTime = (dateString, timeString) => {
+    const hour = timeString.substring(0, 2);
+    const minute = timeString.substring(2, 4);
+    return new Date(dateString + "T" + hour + ":" + minute);
+  }
+
+  const {role} = useStore((state) => state);
+  const name = role === "client" ? sessionObj.trainerProfile.name : sessionObj.clientProfileList[0].name
+  const startTime = format(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), "HH:mm");
+  const endTime = format(add(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), {minutes: sessionObj.session.sessionTimeLength}), "HH:mm");
+
   return (
     <TouchableOpacity onPress={onPress} disabled={name === "Unavailable"}>
       <View style={[styles.container, name === "Unavailable" && {backgroundColor: "#efefef"}]}>
-        <View>
+        <View style={{width: 0.675 * screenWidth}}>
           <View style={styles.firstRow}>
             <Text style={styles.name}>{name + " " + " "}</Text>
             <Text style={styles.duration}>
               {startTime} to {endTime}
             </Text>
           </View>
-          <Text style={styles.location}>{location}</Text>
+          <View>
+            <Text style={styles.location}>{(sessionObj.location.address +
+              ", " +
+              sessionObj.location.city +
+              ", " +
+              sessionObj.location.state).length < 36 ? (sessionObj.location.address +
+              ", " +
+              sessionObj.location.city +
+              ", " +
+              sessionObj.location.state) : (sessionObj.location.address +
+              ", " +
+              sessionObj.location.city +
+              ", " +
+              sessionObj.location.state).substring(0, 36) + "..."}</Text>
+          </View>
         </View>
         <View>
           <MaterialIcons name="more-vert" size={20} color="black"/>

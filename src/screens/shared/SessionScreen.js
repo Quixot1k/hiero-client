@@ -2,7 +2,6 @@ import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Tex
 import PrimaryButton from "../../components/PrimaryButton";
 import SessionItem from "../../components/SessionItem";
 import {useStore} from "../../store";
-import {add, format} from "date-fns";
 import useTodaySession from "../../hooks/useTodaySession";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
@@ -34,22 +33,7 @@ export default function SessionScreen({navigation}) {
               sessions?.map((sessionObj, index) => (
                 <SessionItem
                   key={index}
-                  name={role === "client" ? sessionObj.trainerProfile.name : sessionObj.clientProfileList[0].name}
-                  startTime={format(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), "HH:mm")}
-                  endTime={format(add(convertMilitaryTime(sessionObj.session.startDate, sessionObj.session.startTime), {minutes: sessionObj.session.sessionTimeLength}), "HH:mm")}
-                  location={(sessionObj.location.address +
-                    ", " +
-                    sessionObj.location.city +
-                    ", " +
-                    sessionObj.location.state).length < 40 ? (sessionObj.location.address +
-                    ", " +
-                    sessionObj.location.city +
-                    ", " +
-                    sessionObj.location.state) : (sessionObj.location.address +
-                    ", " +
-                    sessionObj.location.city +
-                    ", " +
-                    sessionObj.location.state).substring(0, 40) + "..."}
+                  sessionObj={sessionObj}
                   onPress={() => {
                     navigation.navigate("SessionDetailScreen", sessionObj);
                   }}
