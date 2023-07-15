@@ -3,6 +3,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import SessionItem from "../../components/SessionItem";
 import {useStore} from "../../store";
 import useTodaySession from "../../hooks/useTodaySession";
+import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
@@ -46,7 +47,9 @@ export default function SessionScreen({navigation}) {
           {role === "client" && (
             <PrimaryButton
               title="Search"
+              icon={<MaterialIcons name="search" size={26} color="#ffffff" style={{marginLeft: -10, marginRight: 3}}/>}
               marginBottom={14}
+              width={150}
               onPress={() => {
                 navigation.navigate("GymListScreen");
               }}
@@ -54,16 +57,20 @@ export default function SessionScreen({navigation}) {
           )}
           {role === "trainer" && (
             <PrimaryButton
-              title="My Clients"
+              title="Clients"
+              icon={<MaterialIcons name="people-alt" size={24} color="#ffffff" style={{marginRight: 5}}/>}
               marginBottom={14}
+              width={150}
               onPress={() => {
                 navigation.navigate("ClientListScreen");
               }}
             />
           )}
           <PrimaryButton
-            title={"My Schedule"}
-            paddingHorizontal={0}
+            title={"Schedule"}
+            icon={<MaterialCommunityIcons name="calendar-multiselect" size={24} color="#ffffff"
+                                          style={{marginRight: 5}}/>}
+            width={150}
             onPress={() => {
               navigation.navigate("ScheduleScreen");
             }}
