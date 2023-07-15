@@ -207,7 +207,7 @@ export default function ProfileCreateScreen({navigation}) {
               style={{width: 120, height: 120, borderRadius: 60}}
             />
           ) : (
-            <View style={styles.circle}></View>
+            <View style={styles.defaultAvatar}></View>
           )}
           {role === "trainer" && (
             <TextInput
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: screenWidth,
   },
-  circle: {
+  defaultAvatar: {
     borderWidth: 0.2,
     height: 120,
     width: 120,

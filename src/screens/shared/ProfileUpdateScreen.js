@@ -18,6 +18,9 @@ import {useStore} from "../../store";
 import validator from "validator/es";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import URL from "../../config/config";
+import GENDER_OPTION from "../../constant/GENDER_OPTION";
+import {Dropdown} from "react-native-element-dropdown";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function Profile({navigation}) {
@@ -182,7 +185,7 @@ export default function Profile({navigation}) {
                   style={{width: 120, height: 120, borderRadius: 60}}
                 />
               ) : (
-                <View style={styles.profileCircle}></View>
+                <View style={styles.defaultAvatar}></View>
               )}
               {role === "trainer" && (
                 <TextInput
@@ -254,22 +257,49 @@ export default function Profile({navigation}) {
               />
             </View>
             <View style={styles.inputWrapper}>
-              <Text style={styles.text}>Age</Text>
-              <TextInput
-                style={styles.textInput}
-                value={String(birth)}
-                onChangeText={(text) => {
-                  updateBirth(parseInt(text));
+              <Text style={styles.text}>Birth</Text>
+              <RNDateTimePicker
+                value={new Date()}
+                mode={"date"}
+                onChange={(event, selectedDate) => {
+                  updateBirth(selectedDate);
                 }}
               />
+              {/*<TextInput*/}
+              {/*  style={styles.textInput}*/}
+              {/*  value={String(birth)}*/}
+              {/*  onChangeText={(text) => {*/}
+              {/*    updateBirth(parseInt(text));*/}
+              {/*  }}*/}
+              {/*/>*/}
             </View>
             <View style={styles.inputWrapper}>
               <Text style={styles.text}>Gender</Text>
-              <TextInput
-                style={styles.textInput}
+              <Dropdown
+                style={[styles.dropdown]}
+                selectedTextStyle={{
+                  fontSize: 16,
+                  textAlign: "center",
+                  marginLeft: 12,
+                }}
+                iconStyle={{
+                  marginRight: 12,
+                  height: 20,
+                  width: 20,
+                }}
+                iconColor={"#3f3f3f"}
+                placeholderStyle={{
+                  color: "rgb(200, 200, 200)",
+                  paddingLeft: 10,
+                  fontSize: 16,
+                }}
                 value={gender}
-                onChangeText={(text) => {
-                  updateGender(text);
+                data={GENDER_OPTION}
+                labelField="label"
+                valueField="value"
+                placeholder={"Select your gender"}
+                onChange={(item) => {
+                  updateGender(item.value);
                 }}
               />
             </View>
@@ -542,8 +572,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
   },
-  profileCircle: {
-    borderWidth: 0.2,
+  defaultAvatar: {
     height: 140,
     width: 140,
     borderRadius: 70,
@@ -574,15 +603,19 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: "400",
   },
   textInput: {
-    width: 200,
+    width: 195,
     height: 35,
-    borderBottomWidth: 1,
     paddingLeft: 10,
-    fontSize: 17,
-    backgroundColor: "#rgba(0,0,0,0)",
+    fontSize: 16,
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 5,
   },
   bottomSheet: {
     backgroundColor: "#fcfcfc",
@@ -616,5 +649,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowOffset: {width: 1, height: 2},
     shadowRadius: 3,
+  },
+  dropdown: {
+    borderRadius: 10,
+    width: 195,
+    height: 35,
+    paddingLeft: 10,
+    backgroundColor: "#fefefe",
+    shadowColor: "#000000",
+    shadowOpacity: 0.25,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 5,
   },
 });

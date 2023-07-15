@@ -7,14 +7,9 @@ import {useState} from "react";
 import DatePicker from "react-native-date-picker";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {format} from "date-fns";
+import GENDER_OPTION from "../../constant/GENDER_OPTION";
 
 const {width: screenWidth} = Dimensions.get("window");
-
-const genderOptions = [
-  {label: "Male", value: "0"},
-  {label: "Female", value: "1"},
-  {label: "Other", value: "2"},
-];
 
 export default function InfoScreen({navigation}) {
   const {role, firstName, lastName, birth, gender, mobile, business} =
@@ -146,7 +141,7 @@ export default function InfoScreen({navigation}) {
             paddingLeft: 10,
             fontSize: 17,
           }}
-          data={genderOptions}
+          data={GENDER_OPTION}
           labelField="label"
           valueField="value"
           placeholder={"Select your gender"}
