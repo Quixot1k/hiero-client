@@ -3,7 +3,7 @@ import {MaterialIcons} from "@expo/vector-icons";
 import SessionScreen from "../screens/shared/SessionScreen";
 import SettingScreen from "../screens/shared/SettingScreen";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import GymListScreen from "../screens/trainer/GymListScreen";
+import GymListScreen from "../screens/client/GymListScreen";
 import TrainerListScreen from "../screens/client/TrainerListScreen";
 import ClientListScreen from "../screens/trainer/ClientListScreen";
 import ProfileUpdateScreen from "../screens/shared/ProfileUpdateScreen";
