@@ -52,7 +52,7 @@ export default function AvatarScreen({navigation}) {
             style={{width: 240, height: 240, borderRadius: 120}}
           />
         ) : (
-          <View style={styles.circle}></View>
+          <View style={styles.defaultAvatar}></View>
         )}
         <View style={{marginTop: 6}}>
           <SecondaryButton
@@ -97,11 +97,11 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 40,
   },
-  circle: {
+  defaultAvatar: {
     height: 240,
     width: 240,
     borderWidth: 0.2,
-    borderRadius: 250,
+    borderRadius: 120,
     backgroundColor: "#ccc",
   },
 });
