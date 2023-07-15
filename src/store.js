@@ -13,9 +13,9 @@ export const useStore = create((set) => ({
   // properties for both trainers and clients
   userId: -1,
   updateUserId: (newUserId) => set(() => ({userId: newUserId})),
-  email: "shawn@gmail.com",
+  email: "mat@gmail.com",
   updateEmail: (newEmail) => set(() => ({email: newEmail})),
-  password: "shawn@123",
+  password: "mat@123",
   updatePassword: (newPassword) => set(() => ({password: newPassword})),
   password2: "",
   updatePassword2: (newPassword2) => set(() => ({password2: newPassword2})),
@@ -46,22 +46,10 @@ export const useStore = create((set) => ({
   updateCapacity: (newCapacity) => set(() => ({capacity: newCapacity})),
   avatarUri: "",
   updateAvatar: (newAvatarUri) => set(() => ({avatarUri: newAvatarUri})),
-  zoom: null,
-  updateZoom: (newZoom) => set((state) => {
-    if (state.zoom === null) {
-      return {zoom: newZoom}
-    } else {
-      return {zoom: !state.zoom}
-    }
-  }),
-  home: null,
-  updateHome: (newHome) => set((state) => {
-    if (state.home === null) {
-      return {home: newHome}
-    } else {
-      return {home: !state.home}
-    }
-  }),
+  zoom: false,
+  updateZoom: (newZoom) => set((state) => ({zoom: newZoom})),
+  home: false,
+  updateHome: (newHome) => set((state) => ({home: newHome})),
   // properties only for trainers
   business: "",
   updateBusiness: (newBusiness) => set(() => ({business: newBusiness})),

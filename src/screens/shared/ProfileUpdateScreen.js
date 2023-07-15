@@ -470,7 +470,7 @@ export default function Profile({navigation}) {
                 textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
                 containerStyle={{marginBottom: -15, backgroundColor: "#fcfcfc"}}
                 onPress={() => {
-                  updateZoom();
+                  updateZoom(!zoom);
                 }}
               />
               <CheckBox
@@ -481,7 +481,7 @@ export default function Profile({navigation}) {
                 textStyle={{fontSize: 16, fontWeight: 500, color: "#000000"}}
                 containerStyle={{backgroundColor: "#fcfcfc"}}
                 onPress={() => {
-                  updateHome();
+                  updateHome(!home);
                 }}
               />
             </View>

@@ -62,6 +62,8 @@ export default function LoginScreen({navigation}) {
             // initialize all global states
             const clientProfile = res.data.clientProfile;
             const clientCategories = res.data.clientCategories;
+            console.log(clientProfile.zoomSession);
+            console.log(clientProfile.homeSession);
             updateUserId(clientProfile.clientId);
             updateEmail(clientProfile.emailAddress);
             // updatePassword(state.password);
@@ -74,8 +76,8 @@ export default function LoginScreen({navigation}) {
               updateIntSpecs(clientCategories.categories);
             }
             updateCapacity(clientProfile.maxOtherClientsToShareWith);
-            updateZoom(clientProfile.zoom);
-            updateHome(clientProfile.home);
+            updateZoom(clientProfile.zoomSession);
+            updateHome(clientProfile.homeSession);
             updateAvatar(clientProfile.imageName);
             if (clientProfile.address) {
               updateAddr1(clientProfile.address.split(",")[0]);

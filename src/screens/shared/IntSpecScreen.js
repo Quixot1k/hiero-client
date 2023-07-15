@@ -105,7 +105,7 @@ export default function IntSpecScreen({navigation}) {
               textStyle={{fontSize: 16, fontWeight: 500, color: "#000"}}
               wrapperStyle={{marginBottom: -20}}
               onPress={() => {
-                updateZoom();
+                updateZoom(!zoom);
               }}
             />
             <CheckBox
@@ -116,7 +116,7 @@ export default function IntSpecScreen({navigation}) {
               textStyle={{fontSize: 16, fontWeight: 500, color: "#000"}}
               // wrapperStyle={{ marginBottom: -20 }}
               onPress={() => {
-                updateHome();
+                updateHome(!home);
               }}
             />
           </View>
