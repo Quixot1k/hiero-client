@@ -1,6 +1,6 @@
 import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React, {useState} from "react";
-import {FontAwesome, FontAwesome5, MaterialIcons} from '@expo/vector-icons';
+import {FontAwesome, FontAwesome5, MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import PrimaryButton from "../../components/PrimaryButton";
 import {add, format} from "date-fns";
 import {useStore} from "../../store";
@@ -10,8 +10,8 @@ import useRemoveClientFromSession from "../../hooks/useRemoveClientFromSession";
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 const SessionDetailScreen = ({navigation, route}) => {
   const sessionObj = route.params;
-  const [clientProfileListCopy, setClientProfileListCopy] = useState(sessionObj.clientProfileList);
-  const {userId} = useStore((state) => state);
+  const [clientProfileListCopy, setClientProfileListCopy] = useState(sessionObj.clientProfileList || []);
+  const {userId, role} = useStore((state) => state);
   const removeSession = useRemoveSession();
   const removeClientFromSession = useRemoveClientFromSession();
   const convertMilitaryTime = (dateString, timeString) => {
@@ -37,6 +37,7 @@ const SessionDetailScreen = ({navigation, route}) => {
               height: 50,
               justifyContent: "center",
               alignItems: "center",
+              backgroundColor: "#ccc",
             }}>
               <Image source={{uri: clientObj.imageName}} style={{
                 width: 50,
@@ -96,9 +97,10 @@ const SessionDetailScreen = ({navigation, route}) => {
                   }}/>
                 </TouchableOpacity>
               </View>
-              <View style={{marginTop: 30}}>
+              <View style={{marginTop: 30, width: 165}}>
                 <Text style={styles.info}>Gender: {clientObj.gender}</Text>
-                <Text style={styles.info}>Email: {clientObj.emailAddress}</Text>
+                <Text
+                  style={styles.info}>Email: {clientObj.emailAddress}</Text>
                 <Text style={styles.info}>Mobile: {clientObj.phone}</Text>
               </View>
             </View>
@@ -127,6 +129,38 @@ const SessionDetailScreen = ({navigation, route}) => {
             </View>
           </View>
         )}
+      </View>
+    )
+  }
+
+  const TrainerDetails = () => {
+    return (
+      <View style={styles.trainerDetailWrapper}>
+        <View style={styles.imageWrapper}>
+          <Image source={{uri: sessionObj.trainerProfile.imageName}} style={{
+            width: 120,
+            height: 120,
+            borderRadius: 60,
+          }}/>
+        </View>
+        <View>
+          <View style={{flexDirection: "row", alignItems: "center", marginVertical: 2}}>
+            <MaterialIcons name="person" size={20} color="black" style={{marginRight: 8}}/>
+            <Text style={styles.info}>{sessionObj.trainerProfile.name}</Text>
+          </View>
+          <View style={{flexDirection: "row", alignItems: "center", marginVertical: 2}}>
+            <MaterialCommunityIcons name="gender-male" size={20} color="black" style={{marginRight: 8}}/>
+            <Text style={styles.info}>{sessionObj.trainerProfile.gender}</Text>
+          </View>
+          <View style={{flexDirection: "row", alignItems: "center", marginVertical: 2}}>
+            <MaterialIcons name="email" size={20} color="black" style={{marginRight: 8}}/>
+            <Text style={styles.info}>{sessionObj.trainerProfile.emailAddress}</Text>
+          </View>
+          <View style={{flexDirection: "row", alignItems: "center", marginVertical: 2}}>
+            <MaterialIcons name="phone-in-talk" size={20} color="black" style={{marginRight: 8}}/>
+            <Text style={styles.info}>{sessionObj.trainerProfile.phone}</Text>
+          </View>
+        </View>
       </View>
     )
   }
@@ -167,23 +201,49 @@ const SessionDetailScreen = ({navigation, route}) => {
             <Text style={{fontSize: 15}}>1/5</Text>
           </View>
           <View style={{alignItems: "center"}}>
-            <PrimaryButton title={"Cancel Entire Session"}
-                           paddingHorizontal={10}
-                           paddingVertical={8}
-                           marginTop={10}
-                           marginBottom={5}
-                           fontSize={15}
-                           warning={true}
-                           onPress={() => {
-                             removeSession.mutate({
-                               id: userId,
-                               startDate: sessionObj.session.startDate,
-                               startTime: sessionObj.session.startTime
-                             })
-                           }}
-            />
+            {role === "client" && <PrimaryButton title={"Cancel My Session"}
+                                                 paddingHorizontal={10}
+                                                 paddingVertical={8}
+                                                 marginTop={10}
+                                                 marginBottom={5}
+                                                 fontSize={15}
+                                                 warning={true}
+                                                 onPress={() => {
+                                                   removeClientFromSession.mutate({
+                                                     id: userId,
+                                                     startDate: sessionObj.session.startDate,
+                                                     startTime: sessionObj.session.startTime,
+                                                   }, {
+                                                     // onSuccess: () => {
+                                                     //   // remove the client from clientProfileListCopy by clientId
+                                                     //   setClientProfileListCopy((prev) => {
+                                                     //     return prev.filter((client) => {
+                                                     //       return client.clientId !== clientObj.clientId;
+                                                     //     })
+                                                     //   })
+                                                     // }
+                                                   });
+                                                 }}
+            />}
+            {role === "trainer" && <PrimaryButton title={"Cancel Entire Session"}
+                                                  paddingHorizontal={10}
+                                                  paddingVertical={8}
+                                                  marginTop={10}
+                                                  marginBottom={5}
+                                                  fontSize={15}
+                                                  warning={true}
+                                                  onPress={() => {
+                                                    removeSession.mutate({
+                                                      id: userId,
+                                                      startDate: sessionObj.session.startDate,
+                                                      startTime: sessionObj.session.startTime
+                                                    });
+                                                  }}
+            />}
           </View>
         </View>
+        {/*trainer*/}
+        <TrainerDetails/>
         {/*clients */}
         {clientProfileListCopy?.map((clientObj, index) => (
           <ClientDetails clientObj={clientObj} key={index}/>
@@ -217,6 +277,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
   },
+  trainerDetailWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    width: 0.9 * screenWidth,
+    backgroundColor: "#ffffff",
+    borderRadius: 14,
+    shadowColor: "black",
+    shadowOpacity: 0.35,
+    shadowOffset: {width: 3, height: 1},
+    shadowRadius: 3,
+  },
   clientDetailWrapper: {
     width: 0.9 * screenWidth,
     backgroundColor: "#ffffff",
@@ -230,7 +304,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    borderWidth: 1,
+    backgroundColor: "#ccc",
     marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -238,10 +312,10 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 15,
     fontWeight: "400",
-    textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 1.5,
-    marginVertical: 8,
+    // textShadowColor: "rgba(0, 0, 0, 0.1)",
+    // textShadowOffset: {width: 1, height: 1},
+    // textShadowRadius: 1.5,
+    marginVertical: 5,
   },
 })
 export default SessionDetailScreen
