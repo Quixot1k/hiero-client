@@ -1,9 +1,9 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View,} from "react-native";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import TrainerItem from "../../components/TrainerItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import useTrainerFromGym from "../../hooks/useTrainerFromGym";
+import TrainerItem from "../../components/TrainerItem";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 export default function TrainerListScreen({navigation, route}) {
@@ -56,13 +56,14 @@ export default function TrainerListScreen({navigation, route}) {
             {isLoading && <ActivityIndicator style={{marginTop: 30}}/>}
             {error && <Text style={{marginTop: 100}}>{error.message}</Text>}
             {filterTrainerList?.map((trainerObj, index) => (
-              <TrainerItem
-                key={index}
-                trainer={trainerObj}
-                onPress={() => {
-                  navigation.navigate("TrainerDetailScreen", {trainerObj});
-                }}
-              />
+              <View key={trainerObj.trainerProfile.trainerId}>
+                <TrainerItem
+                  trainerObj={trainerObj}
+                  onPress={() => {
+                    navigation.navigate("TrainerDetailScreen", {trainerObj});
+                  }}
+                />
+              </View>
             ))}
           </ScrollView>
         </View>

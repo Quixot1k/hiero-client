@@ -1,22 +1,26 @@
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
-export default function TrainerItem({trainer, onPress}) {
+export default function TrainerItem({trainerObj, onPress}) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         {/* avatar */}
         <View style={styles.avatar}>
-          <Text>{trainer.trainerProfile.imageName}</Text>
+          <Image source={{uri: trainerObj.trainerProfile.imageName}} style={{
+            borderRadius: 30,
+            height: 60,
+            width: 60,
+          }}/>
         </View>
         {/* name + specs */}
         <View>
           <View style={{marginBottom: 2}}>
-            <Text style={styles.name}>{trainer.trainerProfile.name}</Text>
+            <Text style={styles.name}>{trainerObj.trainerProfile.name}</Text>
           </View>
           <View style={{flexDirection: "row", flexWrap: "wrap", width: 150}}>
-            {trainer.providerCategories.categories
+            {trainerObj.providerCategories.categories
               .slice(0, 2)
               .map((category) => {
                 return (
@@ -31,7 +35,7 @@ export default function TrainerItem({trainer, onPress}) {
         </View>
         {/* bid */}
         <View style={{flexDirection: "row", alignItems: "center"}}>
-          <Text style={styles.bid}>${trainer.trainerProfile.minimumBid}</Text>
+          <Text style={styles.bid}>${trainerObj.trainerProfile.minimumBid}</Text>
           <AntDesign name="caretright" size={12} color="black"/>
         </View>
       </View>
@@ -45,9 +49,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: 330,
-    height: 90,
+    height: 80,
     marginVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     backgroundColor: "#ffffff",
     borderRadius: 14,
     shadowColor: "black",
@@ -56,8 +60,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   avatar: {
-    borderWidth: 1,
-    borderColor: "#000",
+    backgroundColor: "#ccc",
     borderRadius: 30,
     height: 60,
     width: 60,

@@ -1,6 +1,16 @@
 import {MaterialIcons} from "@expo/vector-icons";
 import React, {useState} from "react";
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import WeeklyView from "../../components/WeeklyView";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -69,8 +79,13 @@ export default function TrainerDetailScreen({route}) {
         {/* head */}
         <View style={styles.header}>
           <View flexDirection="row" alignItems="center">
-            <View style={styles.image}></View>
-            <Text style={styles.title}>{trainerObj.trainerProfile.name}</Text>
+            <View style={styles.image}>
+              <Image source={{uri: trainerObj.trainerProfile.imageName}} style={{
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+              }}/>
+            </View>
           </View>
           <Text style={styles.title}>
             ${trainerObj.trainerProfile.minimumBid}
@@ -271,8 +286,8 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    borderWidth: 1,
     marginRight: 20,
+    backgroundColor: "#ccc",
   },
   title: {
     fontSize: 24,
