@@ -18,7 +18,7 @@ export default function AvatarScreen({navigation}) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.1,
     });
     if (!result.canceled) {
       // console.log(result.assets[0].uri);
@@ -35,7 +35,7 @@ export default function AvatarScreen({navigation}) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.1,
     });
     if (!result.canceled) {
       updateAvatar(result.assets[0].uri);
