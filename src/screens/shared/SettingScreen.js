@@ -1,5 +1,5 @@
 import React from "react";
-import {MaterialIcons} from "@expo/vector-icons";
+import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import {useStore} from "../../store";
 import {CommonActions} from "@react-navigation/native";
@@ -36,7 +36,14 @@ export default function Settings({navigation}) {
             onPress={() => navigation.navigate("IntSpecUpdateScreen")}
           >
             <MaterialIcons name="dns" size={24} color="black"/>
-            <Text style={styles.btnTitle}>Category</Text>
+            <Text style={styles.btnTitle}>{role === "client" ? "Interests" : "Specialities"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.btnWrapper, {borderBottomWidth: 0}]}
+            onPress={() => navigation.navigate("AvailabilityScreen")}
+          >
+            <MaterialCommunityIcons name="clock-edit" size={24} color="black"/>
+            <Text style={styles.btnTitle}>Availability</Text>
           </TouchableOpacity>
         </View>
         {/* Others */}
