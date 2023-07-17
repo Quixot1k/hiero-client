@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 20,
     width: screenWidth,
   },
   listWrapper: {

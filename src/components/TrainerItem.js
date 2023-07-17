@@ -1,7 +1,8 @@
 import React from "react";
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
+const screenWidth = Dimensions.get("window").width;
 export default function TrainerItem({trainerObj, onPress}) {
   return (
     <TouchableOpacity onPress={onPress}>
@@ -26,7 +27,7 @@ export default function TrainerItem({trainerObj, onPress}) {
                 return (
                   <View style={styles.specWrapper}>
                     <Text style={styles.specialtyItem}>
-                      {category.categoryName}
+                      {category.categoryName.length < 20 ? category.categoryName : category.categoryName.substring(0, 20) + "..."}
                     </Text>
                   </View>
                 );
@@ -48,12 +49,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 330,
-    height: 80,
+    width: 0.85 * screenWidth,
     marginVertical: 5,
     paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor: "#ffffff",
-    borderRadius: 14,
+    borderRadius: 12,
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 1},
