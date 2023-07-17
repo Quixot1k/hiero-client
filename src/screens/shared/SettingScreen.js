@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 20,
     width: screenWidth,
   },
   section: {
@@ -97,11 +97,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    width: 0.9 * screenWidth,
+    width: 0.9375 * screenWidth,
   },
   btnWrapper: {
-    width: 0.85 * screenWidth,
-    height: 45,
+    width: 0.9 * screenWidth,
+    height: 50,
     marginVertical: 5,
     borderRadius: 10,
     flexDirection: "row",

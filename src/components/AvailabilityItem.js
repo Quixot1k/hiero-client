@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     width: 0.9375 * screenWidth,
     borderRadius: 10,
     paddingVertical: 12,
-    paddingHorizontal: 15,
     marginVertical: 8,
     backgroundColor: "#ffffff",
     shadowColor: "black",
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
     opacity: 0.9,
   },
   dayWrapper: {
-    width: 0.15 * screenWidth,
+    width: 0.125 * screenWidth,
     borderRadius: 0.1 * screenWidth,
     backgroundColor: "#000000",
     alignItems: "center",

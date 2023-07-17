@@ -168,6 +168,8 @@ const SessionDetailScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
+        {/*trainer*/}
+        <TrainerDetails/>
         {/*Session Details*/}
         <View style={styles.sessionDetailWrapper}>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>
@@ -242,8 +244,6 @@ const SessionDetailScreen = ({navigation, route}) => {
             />}
           </View>
         </View>
-        {/*trainer*/}
-        <TrainerDetails/>
         {/*clients */}
         {clientProfileListCopy?.map((clientObj, index) => (
           <ClientDetails clientObj={clientObj} key={index}/>
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 10,
+    marginTop: 20,
     width: screenWidth,
   },
   sessionDetailWrapper: {

@@ -206,11 +206,9 @@ export default function Profile({navigation}) {
             </View>
             <PrimaryButton
               title={"Update profile picture"}
-              paddingVertical={6}
-              paddingHorizontal={20}
-              marginTop={25}
-              fontSize={14}
+              fontSize={16}
               fontWeight={"500"}
+              paddingVertical={8}
               marginBottom={5}
             />
           </View>
@@ -565,7 +563,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 20,
+    paddingVertical: 15,
     backgroundColor: "#fcfcfc",
     shadowColor: "black",
     shadowOpacity: 0.3,
