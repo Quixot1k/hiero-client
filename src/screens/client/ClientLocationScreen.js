@@ -154,7 +154,7 @@ export default function ClientLocationScreen({navigation}) {
         </View>
         <View style={styles.mapWrapper}>
           <MapView
-            style={{width: "100%", height: "100%", borderRadius: 20}}
+            style={{width: "100%", height: "100%", borderRadius: 12}}
             initialRegion={{
               latitude: 37.78825,
               longitude: -122.4324,
