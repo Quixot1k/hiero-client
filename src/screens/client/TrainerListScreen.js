@@ -55,16 +55,17 @@ export default function TrainerListScreen({navigation, route}) {
           <ScrollView contentContainerStyle={{alignItems: "center"}}>
             {isLoading && <ActivityIndicator style={{marginTop: 30}}/>}
             {error && <Text style={{marginTop: 100}}>{error.message}</Text>}
-            {filterTrainerList?.map((trainerObj, index) => (
-              <View key={trainerObj.trainerProfile.trainerId}>
+            {
+              filterTrainerList?.map((trainerObj, index) => (
                 <TrainerItem
+                  key={index}
                   trainerObj={trainerObj}
                   onPress={() => {
                     navigation.navigate("TrainerDetailScreen", {trainerObj});
                   }}
                 />
-              </View>
-            ))}
+              ))
+            }
           </ScrollView>
         </View>
       </ScrollView>

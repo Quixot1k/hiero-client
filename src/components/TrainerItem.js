@@ -23,15 +23,12 @@ export default function TrainerItem({trainerObj, onPress}) {
           <View style={{flexDirection: "row", flexWrap: "wrap", width: 150}}>
             {trainerObj.providerCategories.categories
               .slice(0, 2)
-              .map((category) => {
-                return (
-                  <View style={styles.specWrapper}>
-                    <Text style={styles.specialtyItem}>
-                      {category.categoryName.length < 20 ? category.categoryName : category.categoryName.substring(0, 20) + "..."}
-                    </Text>
-                  </View>
-                );
-              })}
+              .map((category, index) => (
+                <View style={styles.specWrapper} key={index}>
+                  <Text style={styles.specialtyItem}>
+                    {category.categoryName.length < 20 ? category.categoryName : category.categoryName.substring(0, 20) + "..."}
+                  </Text>
+                </View>))}
           </View>
         </View>
         {/* bid */}
