@@ -14,6 +14,7 @@ import TrainerDetailScreen from "../screens/client/TrainerDetailScreen";
 import ScheduleScreen from "../screens/shared/ScheduleScreen";
 import TrainerLocationScreen from "../screens/trainer/TrainerLocationScreen";
 import {useStore} from "../store";
+import AvailabilityScreen from "../screens/client/AvailabilityScreen";
 
 // Dashboard
 const NestedDashboard = () => {
@@ -87,7 +88,14 @@ const NestedSettings = () => {
         name="IntSpecUpdateScreen"
         component={IntSpecScreen}
         options={{
-          title: "Update " + (role === "client" ? "Interest" : "Speciality"),
+          title: "Update your " + (role === "client" ? "Interest" : "Speciality"),
+        }}
+      />
+      <Stack.Screen
+        name="AvailabilityScreen"
+        component={AvailabilityScreen}
+        options={{
+          title: "Set your availability",
         }}
       />
       <Stack.Screen
