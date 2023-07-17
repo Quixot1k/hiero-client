@@ -4,18 +4,13 @@ import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touch
 import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import DeviceInfo from "react-native-device-info";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
-  const role = useStore((state) => state.role);
-  const updateRole = useStore((state) => state.updateRole);
-  const email = useStore((state) => state.email);
-  const updateEmail = useStore((state) => state.updateEmail);
-  const password = useStore((state) => state.password);
-  const updatePassword = useStore((state) => state.updatePassword);
-  const password2 = useStore((state) => state.password2);
-  const updatePassword2 = useStore((state) => state.updatePassword2);
+  const {deviceIds, role, email, password, password2} = useStore((state) => state);
+  const {updateDeviceIds, updateRole, updateEmail, updatePassword, updatePassword2} = useStore((state) => state);
 
   const [hidden, setHidden] = useState({
     password: true,
@@ -38,6 +33,17 @@ export default function LoginScreen({navigation}) {
       navigation.navigate("InfoScreen");
     }
   };
+
+  useEffect(() => {
+    const getDeviceId = async () => {
+      const deviceId = await DeviceInfo.getUniqueId();
+      updateDeviceIds(deviceId);
+      console.log(deviceIds);
+    };
+    getDeviceId().catch(err => {
+      console.log(err);
+    });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

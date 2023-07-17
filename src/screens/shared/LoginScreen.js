@@ -5,12 +5,15 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import axios from "axios";
 import {useState} from "react";
+
 import URL from "../../config/config";
 
 const {width: screenWidth} = Dimensions.get("window");
+
 export default function LoginScreen({navigation}) {
   const {role, email, password} = useStore((state) => state);
   const {
+    updateDeviceIds,
     updateIsLogged,
     updateRole,
     updateUserId,
@@ -62,8 +65,6 @@ export default function LoginScreen({navigation}) {
             // initialize all global states
             const clientProfile = res.data.clientProfile;
             const clientCategories = res.data.clientCategories;
-            console.log(clientProfile.zoomSession);
-            console.log(clientProfile.homeSession);
             updateUserId(clientProfile.clientId);
             updateEmail(clientProfile.emailAddress);
             // updatePassword(state.password);
