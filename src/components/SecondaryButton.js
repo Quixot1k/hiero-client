@@ -1,16 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import {StyleSheet, Text, TouchableOpacity} from "react-native";
 
 export default function SecondaryButton({
-  title,
-  onPress,
-  height,
-  fontSize = 16,
-  fontWeight = 700,
-  marginTop = 20,
-  marginBottom = 24,
-  paddingVertical = 12,
-  paddingHorizontal = 32,
-}) {
+                                          title,
+                                          onPress,
+                                          height,
+                                          fontSize = 16,
+                                          fontWeight = 700,
+                                          marginTop = 20,
+                                          marginBottom = 24,
+                                          paddingVertical = 12,
+                                          paddingHorizontal = 32,
+                                        }) {
   return (
     <TouchableOpacity
       style={[
@@ -26,7 +26,7 @@ export default function SecondaryButton({
       onPress={onPress}
     >
       <Text
-        style={[styles.text, { fontWeight: fontWeight, fontSize: fontSize }]}
+        style={[styles.text, {fontWeight: fontWeight, fontSize: fontSize}]}
       >
         {title}
       </Text>
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1.5,
+    borderWidth: 2,
     borderRadius: 10,
     backgroundColor: "#fcfcfc",
-    shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 3, height: 3 },
-    shadowRadius: 2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.4,
+    shadowOffset: {width: 1, height: 1},
+    shadowRadius: 3,
   },
   text: {
     lineHeight: 21,
