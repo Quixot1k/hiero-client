@@ -5,11 +5,13 @@ import axios from "axios";
 import FormData from "form-data";
 import {useStore} from "../../store";
 import {format} from "date-fns";
+import URL from "../../config/config";
 
 const {width: screenWidth} = Dimensions.get("window");
 
 export default function ProfileCreateScreen({navigation}) {
   const {
+    deviceIds,
     role,
     // isLogged,
     // message,
@@ -51,8 +53,6 @@ export default function ProfileCreateScreen({navigation}) {
     updateBirth,
     updateGender,
     updateEmail,
-    updatePassword,
-    updatePassword2,
     updateMobile,
     updateAddr1,
     updateAddr2,
@@ -91,6 +91,7 @@ export default function ProfileCreateScreen({navigation}) {
       clientLocations: {
         locations: [],
       },
+      deviceIds: deviceIds,
     };
     formData.append("clientInfoEntity", JSON.stringify(userData));
     formData.append("image", {
@@ -100,7 +101,7 @@ export default function ProfileCreateScreen({navigation}) {
     });
     try {
       await axios
-        .post("http://localhost:10001/client", formData, {
+        .post(`${URL}/client`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -153,6 +154,7 @@ export default function ProfileCreateScreen({navigation}) {
         trainerId: "",
         locations: trainerLocations,
       },
+      deviceIds: deviceIds,
     };
     formData.append("image", {
       uri: avatarUri,
@@ -167,9 +169,8 @@ export default function ProfileCreateScreen({navigation}) {
     formData.append("trainerInfoEntity", JSON.stringify(userData));
 
     try {
-      console.log(userData);
       await axios
-        .post("http://localhost:10001/trainer", formData, {
+        .post(`${URL}/trainer`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -420,7 +421,7 @@ const styles = StyleSheet.create({
   textInput: {
     borderRadius: 10,
     textAlign: "center",
-    color: "#3f3f3f",
+    color: "#252525",
     height: 46,
     width: 330,
     marginHorizontal: 6,
