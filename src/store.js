@@ -1,7 +1,28 @@
 import {create} from 'zustand'
+import {Platform} from "react-native";
 
 export const useStore = create((set) => ({
   /* SYSTEM */
+  deviceIds: {
+    ios: [],
+    android: []
+  },
+  updateDeviceIds: (newDeviceId) => set(state => {
+    const platform = Platform.OS;
+    const newDeviceIdsByPlatform = [...state.deviceIds[platform]]; // Create a new array to avoid mutating the original state
+    if (newDeviceIdsByPlatform.indexOf(newDeviceId) === -1) {
+      newDeviceIdsByPlatform.push(newDeviceId);
+    }
+    return {
+      deviceIds: {
+        ...state.deviceIds,
+        [platform]: newDeviceIdsByPlatform
+      }
+    };
+  }),
+
+  /* USER */
+  // general
   role: "client",
   updateRole: (newRole) => set(() => ({role: newRole})),
   isLogged: false,
@@ -9,8 +30,7 @@ export const useStore = create((set) => ({
   message: "",
   updateMessage: (newMessage) => set(() => ({message: newMessage})),
 
-  /* USER */
-  // properties for both trainers and clients
+  // for both trainers and clients
   userId: -1,
   updateUserId: (newUserId) => set(() => ({userId: newUserId})),
   email: "mat@gmail.com",
@@ -50,7 +70,8 @@ export const useStore = create((set) => ({
   updateZoom: (newZoom) => set((state) => ({zoom: newZoom})),
   home: false,
   updateHome: (newHome) => set((state) => ({home: newHome})),
-  // properties only for trainers
+
+  // only for trainers
   business: "",
   updateBusiness: (newBusiness) => set(() => ({business: newBusiness})),
   certifications: [], // { certificationId: "", certificationType: "", certificationNumber: "" },
@@ -70,7 +91,7 @@ export const useStore = create((set) => ({
   bid: 0,
   updateBid: (newBid) => set(() => ({bid: newBid})),
 
-  // properties only for clients
+  // only for clients
   addr1: "",
   updateAddr1: (newAddr1) => set(() => ({addr1: newAddr1})),
   addr2: "",
