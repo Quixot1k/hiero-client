@@ -3,10 +3,11 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const screenWidth = Dimensions.get("window").width;
 const AvailabilityItem = ({day, color}) => {
+  // console.log(color);
   return (
     <View style={[styles.container, {backgroundColor: color}]}>
       <View style={styles.dayWrapper}>
-        <Text style={{fontSize: 18, color: "#ffffff", fontWeight: "700"}}>{day}</Text>
+        <Text style={{fontSize: 18, color: "#ffffff", fontWeight: "700"}}>{day.substring(0, 3)}</Text>
       </View>
       <View style={styles.timepickerWrapper}>
         <View style={{flexDirection: "row", alignItems: "center"}}>

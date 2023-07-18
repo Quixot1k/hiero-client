@@ -1,19 +1,42 @@
-import {Dimensions, SafeAreaView, ScrollView, StyleSheet} from "react-native";
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
+import PrimaryButton from "../../components/PrimaryButton";
+import useAvailability from "../../hooks/useAvailability";
 import AvailabilityItem from "../../components/AvailabilityItem";
 import WEEKDAY from "../../constant/WEEKDAY";
-import PrimaryButton from "../../components/PrimaryButton";
+import useUpdateAvailability from "../../hooks/useUpdateAvailability";
+import {useStore} from "../../store";
+import {useEffect, useState} from "react";
+import {MaterialIcons} from "@expo/vector-icons";
 
 const screenWidth = Dimensions.get("window").width;
 const AvailabilityScreen = () => {
+  const {userId} = useStore((state) => state);
+  const {data: availabilities, error, isLoading} = useAvailability();
+  const updateAvailability = useUpdateAvailability();
+  const [localAvailabilities, setLocalAvailabilities] = useState(availabilities || []);
+  const handleSave = () => {
+    updateAvailability.mutate({
+      "clientId": userId,
+      "dayStartEndTimeList": localAvailabilities
+    });
+  }
+
+  useEffect(() => {
+    setLocalAvailabilities(availabilities);
+  }, [availabilities]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {
-          WEEKDAY.map((day, index) => (
-            <AvailabilityItem day={Object.keys(day)[0]} color={Object.values(day)[0]} key={index}/>
-          ))
+          localAvailabilities?.map((ava, index) => (
+            <AvailabilityItem day={ava.day} color={WEEKDAY[ava.day]} key={index}/>))
         }
-        <PrimaryButton title={"Save"} fontSize={20} fontWeight={"700"} paddingVertical={12}/>
+        <TouchableOpacity>
+          <MaterialIcons name="add-circle" size={32} color="#252525" marginVertical={20}/>
+        </TouchableOpacity>
+        <PrimaryButton title={"Save"} fontSize={20} fontWeight={"700"} paddingVertical={12} marginTop={10}
+                       onPress={handleSave}/>
       </ScrollView>
     </SafeAreaView>
   );
