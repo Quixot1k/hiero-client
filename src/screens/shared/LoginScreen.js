@@ -5,15 +5,15 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import axios from "axios";
 import {useState} from "react";
-
 import URL from "../../config/config";
+
 
 const {width: screenWidth} = Dimensions.get("window");
 
 export default function LoginScreen({navigation}) {
+
   const {role, email, password} = useStore((state) => state);
   const {
-    updateDeviceIds,
     updateIsLogged,
     updateRole,
     updateUserId,

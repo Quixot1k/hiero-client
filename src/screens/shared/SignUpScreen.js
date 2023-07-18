@@ -5,11 +5,11 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
 import {useEffect, useState} from "react";
-import DeviceInfo from "react-native-device-info";
+import messaging from "@react-native-firebase/messaging";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
-  const {deviceIds, role, email, password, password2} = useStore((state) => state);
+  const {role, email, password, password2} = useStore((state) => state);
   const {updateDeviceIds, updateRole, updateEmail, updatePassword, updatePassword2} = useStore((state) => state);
 
   const [hidden, setHidden] = useState({
@@ -35,15 +35,13 @@ export default function LoginScreen({navigation}) {
   };
 
   useEffect(() => {
-    const getDeviceId = async () => {
-      const deviceId = await DeviceInfo.getUniqueId();
-      updateDeviceIds(deviceId);
-      console.log(deviceIds);
-    };
-    getDeviceId().catch(err => {
-      console.log(err);
-    });
-  }, []);
+    const getFcmToken = async () => {
+      const token = await messaging().getToken();
+      return token;
+    }
+    const token = getFcmToken().catch(err => console.log(err));
+    updateDeviceIds(token);
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
