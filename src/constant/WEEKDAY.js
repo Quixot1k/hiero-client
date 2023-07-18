@@ -1,10 +1,10 @@
-const WEEKDAY = [
-  {Mon: "#E0D1FF"},
-  {Tue: "#C3CAF9"},
-  {Wed: "#A5E8FF"},
-  {Thu: "#7FFFD4"},
-  {Fri: "#92FFAB"},
-  {Sat: "#BAFF92"},
-  {Sun: "#FFFF99"},
-];
+const WEEKDAY = {
+  Monday: "#E0D1FF",
+  Tuesday: "#C3CAF9",
+  Wednesday: "#A5E8FF",
+  Thursday: "#7FFFD4",
+  Friday: "#92FFAB",
+  Saturday: "#BAFF92",
+  Sunday: "#FFFF99",
+};
 export default WEEKDAY;
