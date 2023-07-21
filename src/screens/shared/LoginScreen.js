@@ -45,6 +45,7 @@ export default function LoginScreen({navigation}) {
   } = useStore((state) => state);
 
   const [hidden, setHidden] = useState(true);
+
   const handleClientSignIn = async () => {
     try {
       await axios
@@ -107,6 +108,7 @@ export default function LoginScreen({navigation}) {
       console.log(err);
     }
   };
+
   const handleTrainerSignIn = async () => {
     try {
       await axios

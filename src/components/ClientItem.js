@@ -21,7 +21,7 @@ export default function ClientItem({clientObj, onPress}) {
           justifyContent: "flex-start",
         }}
       >
-        <View style={{width: 180}}>
+        <View style={{width: 160}}>
           <Text style={styles.name}>{clientObj.name}</Text>
         </View>
         <AntDesign
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 26,
     textDecorationLine: "underline",
-    marginRight: 80,
     textShadowColor: "rgba(0, 0, 0, 0.25)",
     textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 1.5,

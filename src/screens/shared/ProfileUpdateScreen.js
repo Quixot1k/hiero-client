@@ -515,8 +515,7 @@ export default function Profile({navigation}) {
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         style={{paddingHorizontal: 20}}
-        backgroundStyle={[styles.bottomSheet,
-        ]}
+        backgroundStyle={styles.bottomSheet}
         onChange={(index) => {
           setBottomSheetVisible(index);
         }}

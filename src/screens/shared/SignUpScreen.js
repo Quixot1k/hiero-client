@@ -37,6 +37,7 @@ export default function LoginScreen({navigation}) {
   useEffect(() => {
     const getFcmToken = async () => {
       const token = await messaging().getToken();
+      console.log(token);
       return token;
     }
     const token = getFcmToken().catch(err => console.log(err));
