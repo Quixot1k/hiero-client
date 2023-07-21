@@ -1,6 +1,5 @@
 import {Dimensions, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React, {useEffect, useMemo, useState} from "react";
-import DatePicker from "react-native-date-picker";
 import WeekView from "react-native-week-view";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {MaterialIcons} from "@expo/vector-icons";
@@ -10,6 +9,7 @@ import {useStore} from "../../store";
 import useSession from "../../hooks/useSession";
 import useBlockSession from "../../hooks/useBlockSession";
 import useRemoveSession from "../../hooks/useRemoveSession";
+import InlineDateTimePickerModal from "../../components/InlineDateTimePickerModal";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
@@ -45,7 +45,7 @@ export default function ScheduleScreen({navigation}) {
   const [endDatetime, setEndDatetime] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(0);
-  const snapPoints = useMemo(() => ["10%", "50%"], []);
+  const snapPoints = useMemo(() => ["10%", "42.5%"], []);
   const [sessionQuery, setSessionQuery] = useState({
     id: userId,
     offset: 0,
@@ -161,57 +161,70 @@ export default function ScheduleScreen({navigation}) {
       <BottomSheet
         index={bottomSheetVisible}
         snapPoints={snapPoints}
-        style={{paddingHorizontal: 20}}
+        style={{paddingHorizontal: 30}}
         backgroundStyle={styles.bottomSheet}
         onChange={(index) => {
           setBottomSheetVisible(index);
         }}
       >
-        <View style={{marginHorizontal: 12}}>
-          <Text style={{fontWeight: "700", fontSize: 26}}>
-            Block
-          </Text>
-          <View style={{flexDirection: "row", alignItems: "center"}}>
-            <Text style={{fontSize: 18}}>Start:</Text>
-            <DatePicker
-              date={startDatetime}
-              minuteInterval={15}
-              onDateChange={(date) => setStartDatetime(date)}
-              style={{height: 100, transform: [{scale: 0.875}]}}
-            />
-          </View>
-          <View style={{flexDirection: "row", alignItems: "center"}}>
-            <Text style={{fontSize: 18}}>End:</Text>
-            <DatePicker
-              date={endDatetime}
-              minuteInterval={15}
-              minimumDate={startDatetime}
-              onDateChange={(date) => {
-                setEndDatetime(date)
-              }}
-              style={{height: 100, transform: [{scale: 0.875}]}}
-            />
-          </View>
-          <View style={{alignItems: "center", marginTop: 12}}>
-            <PrimaryButton
-              title={"Block"}
-              width={110}
-              fontSize={18}
-              paddingVertical={12}
-              paddingHorizontal={5}
-              marginTop={0}
-              marginBottom={0}
-              onPress={() => {
-                blockSession.mutate({
-                  trainerId: userId,
-                  date: format(startDatetime, "yyyy-MM-dd"),
-                  startTime: format(startDatetime, "HHmm"),
-                  endTime: format(endDatetime, "HHmm"),
-                });
-              }}
-            />
+        <Text style={{fontWeight: "700", fontSize: 26}}>
+          Block
+        </Text>
+        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 20}}>
+          <Text style={{fontSize: 20, width: 50}}>Start:</Text>
+          {/*<DatePicker*/}
+          {/*  date={startDatetime}*/}
+          {/*  minuteInterval={15}*/}
+          {/*  onDateChange={(date) => setStartDatetime(date)}*/}
+          {/*  style={{height: 100, transform: [{scale: 0.875}]}}*/}
+          {/*/>*/}
+          <View style={{marginRight: 15}}>
+            <InlineDateTimePickerModal date={startDatetime} time={startDatetime}
+                                       onDateChange={(date) => setStartDatetime(date)}
+                                       onTimeChange={(time) => {
+                                         setStartDatetime(time)
+                                       }}/>
           </View>
         </View>
+        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20}}>
+          <Text style={{fontSize: 20, width: 50}}>End:</Text>
+          {/*<DatePicker*/}
+          {/*  date={endDatetime}*/}
+          {/*  minuteInterval={15}*/}
+          {/*  minimumDate={startDatetime}*/}
+          {/*  onDateChange={(date) => {*/}
+          {/*    setEndDatetime(date)*/}
+          {/*  }}*/}
+          {/*  style={{height: 100, transform: [{scale: 0.875}]}}*/}
+          {/*/>*/}
+          <View style={{marginRight: 15}}>
+            <InlineDateTimePickerModal date={endDatetime} time={endDatetime}
+                                       onDateChange={(date) => setEndDatetime(date)}
+                                       onTimeChange={(time) => {
+                                         setEndDatetime(time)
+                                       }}/>
+          </View>
+        </View>
+        <View style={{alignItems: "center", marginTop: 12}}>
+          <PrimaryButton
+            title={"Block"}
+            width={110}
+            fontSize={18}
+            paddingVertical={12}
+            paddingHorizontal={5}
+            marginTop={0}
+            marginBottom={0}
+            onPress={() => {
+              blockSession.mutate({
+                trainerId: userId,
+                date: format(startDatetime, "yyyy-MM-dd"),
+                startTime: format(startDatetime, "HHmm"),
+                endTime: format(endDatetime, "HHmm"),
+              });
+            }}
+          />
+        </View>
+
       </BottomSheet>
     </SafeAreaView>
   );

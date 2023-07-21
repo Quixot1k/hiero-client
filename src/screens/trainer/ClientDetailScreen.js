@@ -11,13 +11,12 @@ import {
   View
 } from "react-native";
 import {format} from "date-fns";
-import DatePicker from "react-native-date-picker";
 import {MaterialIcons} from "@expo/vector-icons";
-import WeeklyView from "../../components/WeeklyView";
 import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import {Dropdown} from "react-native-element-dropdown";
 import useAddSession from "../../hooks/useAddSession";
+import InlineDateTimePicker from "../../components/InlineDateTimePicker";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function ClientDetailScreen({route}) {
@@ -30,7 +29,6 @@ export default function ClientDetailScreen({route}) {
       value: location.locationId,
     });
   }
-
   const [visible, setVisible] = useState({
     calendarVisible: true,
     adhocVisible: true,
@@ -46,7 +44,7 @@ export default function ClientDetailScreen({route}) {
   const addSession = useAddSession();
 
   const handleAddAdhoc = () => {
-    const addSessionQuery = {
+    addSession.mutate({
       trainerId: userId,
       clientId: clientObj.clientId,
       locationId: adhoc.locationId,
@@ -55,8 +53,7 @@ export default function ClientDetailScreen({route}) {
       endTime: format(adhoc.endDatetime, "HHmm"),
       numClientsInSession: adhoc.capacity,
       pricePaidByClients: adhoc.price,
-    };
-    addSession.mutate(addSessionQuery);
+    });
   };
 
   return (
@@ -81,42 +78,42 @@ export default function ClientDetailScreen({route}) {
           </View>
         </View>
         {/* calendar */}
-        <View style={styles.section}>
-          <View style={styles.sectionBtn}>
-            <TouchableOpacity
-              onPress={() => {
-                if (visible.calendarVisible === true) {
-                  setVisible({...visible, calendarVisible: false});
-                } else {
-                  setVisible({...visible, calendarVisible: true});
-                }
-              }}
-            >
-              <View
-                style={
-                  visible.calendarVisible && {transform: [{rotate: "90deg"}]}
-                }
-              >
-                <MaterialIcons
-                  name="keyboard-arrow-right"
-                  size={24}
-                  color="black"
-                />
-              </View>
-            </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "500",
-              }}
-            >
-              Upcoming Sessions:
-            </Text>
-          </View>
-          <View style={{alignItems: "center"}}>
-            {visible.calendarVisible && <WeeklyView/>}
-          </View>
-        </View>
+        {/*<View style={styles.section}>*/}
+        {/*  <View style={styles.sectionBtn}>*/}
+        {/*    <TouchableOpacity*/}
+        {/*      onPress={() => {*/}
+        {/*        if (visible.calendarVisible === true) {*/}
+        {/*          setVisible({...visible, calendarVisible: false});*/}
+        {/*        } else {*/}
+        {/*          setVisible({...visible, calendarVisible: true});*/}
+        {/*        }*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      <View*/}
+        {/*        style={*/}
+        {/*          visible.calendarVisible && {transform: [{rotate: "90deg"}]}*/}
+        {/*        }*/}
+        {/*      >*/}
+        {/*        <MaterialIcons*/}
+        {/*          name="keyboard-arrow-right"*/}
+        {/*          size={24}*/}
+        {/*          color="black"*/}
+        {/*        />*/}
+        {/*      </View>*/}
+        {/*    </TouchableOpacity>*/}
+        {/*    <Text*/}
+        {/*      style={{*/}
+        {/*        fontSize: 16,*/}
+        {/*        fontWeight: "500",*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      Upcoming Sessions:*/}
+        {/*    </Text>*/}
+        {/*  </View>*/}
+        {/*  <View style={{alignItems: "center"}}>*/}
+        {/*    {visible.calendarVisible && <WeeklyView/>}*/}
+        {/*  </View>*/}
+        {/*</View>*/}
         {/* adhoc */}
         <View style={styles.section}>
           <View style={styles.sectionBtn}>
@@ -150,7 +147,7 @@ export default function ClientDetailScreen({route}) {
               Adhoc
             </Text>
           </View>
-          <View style={{alignItems: "center"}}>
+          <View style={{alignItems: "center", paddingHorizontal: 20}}>
             {visible.adhocVisible && (
               <>
                 {/*Location*/}
@@ -158,13 +155,17 @@ export default function ClientDetailScreen({route}) {
                           placeholder={"Select a location"}
                           value={adhoc.locationId}
                           style={{
-                            width: screenWidth - 100,
+                            alignSelf: "flex-start",
+                            width: 0.75 * screenWidth,
                             paddingHorizontal: 10,
                             paddingVertical: 1,
                             marginTop: 14,
                             borderRadius: 9,
                             backgroundColor: "#efeff0",
                           }}
+                          placeholderStyle={{fontSize: 17}}
+                          selectedTextStyle={{fontSize: 17}}
+                          itemTextStyle={{fontSize: 17}}
                           onChange={(item) => {
                             setAdhoc({...adhoc, locationId: item.value});
                           }}/>
@@ -172,57 +173,62 @@ export default function ClientDetailScreen({route}) {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginLeft: 40,
-                    marginBottom: -25,
+                    alignSelf: "flex-start",
                   }}
                 >
-                  <Text style={{fontSize: 16}}>Start:</Text>
-                  <DatePicker
-                    date={adhoc.startDatetime}
-                    minuteInterval={15}
-                    onDateChange={(date) =>
-                      setAdhoc({...adhoc, startDatetime: date})
-                    }
-                    style={{
-                      height: 100,
-                      marginLeft: -15,
-                      transform: [{scale: 0.785}],
-                    }}
-                  />
+                  <View style={{width: 40}}>
+                    <Text style={{fontSize: 16}}>Start:</Text>
+                  </View>
+                  {/*<DatePicker*/}
+                  {/*  date={adhoc.startDatetime}*/}
+                  {/*  minuteInterval={15}*/}
+                  {/*  onDateChange={(date) =>*/}
+                  {/*    setAdhoc({...adhoc, startDatetime: date})*/}
+                  {/*  }*/}
+                  {/*  style={{*/}
+                  {/*    height: 100,*/}
+                  {/*    marginLeft: -15,*/}
+                  {/*    transform: [{scale: 0.785}],*/}
+                  {/*  }}*/}
+                  {/*/>*/}
+                  <View style={{marginVertical: 10}}>
+                    <InlineDateTimePicker
+                      value={adhoc.startDatetime}
+                      onDateChange={(date) => {
+                        setAdhoc({...adhoc, startDatetime: date})
+                      }}
+                      onTimeChange={(date) => {
+                        setAdhoc({...adhoc, startDatetime: date})
+                      }}/>
+                  </View>
                 </View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginLeft: 40,
+                    alignSelf: "flex-start",
+                    marginBottom: 10
                   }}
                 >
-                  <Text style={{fontSize: 16}}>End:</Text>
-                  <DatePicker
-                    date={adhoc.endDatetime}
-                    minuteInterval={15}
-                    onDateChange={(date) => {
-                      setAdhoc({...adhoc, endDatetime: date});
-                    }}
-                    style={{
-                      height: 100,
-                      marginLeft: -15,
-                      transform: [{scale: 0.785}],
-                    }}
-                  />
+                  <View style={{width: 40}}>
+                    <Text style={{fontSize: 16}}>End:</Text>
+                  </View>
+                  <View>
+                    <InlineDateTimePicker
+                      value={adhoc.startDatetime}
+                      onDateChange={(date) => {
+                        setAdhoc({...adhoc, endDatetime: date})
+                      }}
+                      onTimeChange={(date) => {
+                        setAdhoc({...adhoc, endDatetime: date})
+                      }}/>
+                  </View>
                 </View>
-                <View
-                  style={{
-                    width: screenWidth - 40,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-evenly",
-                  }}
-                >
+                <View style={{alignSelf: "flex-start"}}>
                   <View
-                    style={{flexDirection: "row", alignItems: "center"}}
+                    style={{flexDirection: "row", alignItems: "center", marginBottom: 10}}
                   >
-                    <Text style={{fontSize: 15}}>Capacity: </Text>
+                    <Text style={{fontSize: 16, width: 80}}>Capacity: </Text>
                     <TextInput
                       value={adhoc.capacity ? String(adhoc.capacity) : ""}
                       onChangeText={(text) =>
@@ -234,7 +240,7 @@ export default function ClientDetailScreen({route}) {
                   <View
                     style={{flexDirection: "row", alignItems: "center"}}
                   >
-                    <Text style={{fontSize: 15}}>Price: </Text>
+                    <Text style={{fontSize: 16, width: 80}}>Price: </Text>
                     <TextInput
                       value={adhoc.price ? String(adhoc.price) : ""}
                       onChangeText={(text) =>
@@ -247,7 +253,7 @@ export default function ClientDetailScreen({route}) {
                 <View>
                   <PrimaryButton
                     title={"Add Adhoc"}
-                    marginTop={30}
+                    marginTop={20}
                     paddingHorizontal={20}
                     onPress={() => {
                       handleAddAdhoc();
