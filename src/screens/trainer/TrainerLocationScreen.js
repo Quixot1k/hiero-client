@@ -7,7 +7,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
-import URL from "../../config/config";
+import URL from "../../config/url";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function TrainerLocationScreen({navigation}) {

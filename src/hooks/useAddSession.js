@@ -1,7 +1,7 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
 import {useStore} from "../store";
-import URL from "../config/config";
+import URL from "../config/url";
 
 const useAddSession = () => {
   const queryClient = useQueryClient();

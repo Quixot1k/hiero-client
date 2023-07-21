@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
-import URL from "../config/config"
+import URL from "../config/url"
 
 const useBlockSession = () => {
   const queryClient = useQueryClient();

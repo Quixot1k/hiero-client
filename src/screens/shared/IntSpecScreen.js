@@ -5,7 +5,7 @@ import IntSpecItem from "../../components/IntSpecItem";
 import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import INT_SPEC_LIST from "../../constant/INT_SPEC_LIST";
-import URL from "../../config/config";
+import URL from "../../config/url";
 
 const {width: screenWidth} = Dimensions.get("window");
 

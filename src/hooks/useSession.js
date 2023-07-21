@@ -3,7 +3,7 @@ import axios from "axios";
 import {useStore} from "../store";
 import {add} from "date-fns";
 import {v4 as uuid} from "uuid";
-import URL from "../config/config";
+import URL from "../config/url";
 
 const useSession = (sessionQuery) => {
   const {role} = useStore((state) => state);
