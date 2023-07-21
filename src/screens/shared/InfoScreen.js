@@ -4,10 +4,10 @@ import {useStore} from "../../store";
 import {Dropdown} from "react-native-element-dropdown";
 import validator from "validator/es";
 import {useState} from "react";
-import DatePicker from "react-native-date-picker";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {format} from "date-fns";
 import GENDER_OPTION from "../../constant/GENDER_OPTION";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const {width: screenWidth} = Dimensions.get("window");
 
@@ -23,7 +23,6 @@ export default function InfoScreen({navigation}) {
     updateBusiness,
   } = useStore((state) => state);
 
-  const [visible, setVisible] = useState(false);
   const [warning, setWarning] = useState({
     firstName: false,
     lastName: false,
@@ -31,6 +30,7 @@ export default function InfoScreen({navigation}) {
     gender: false,
     mobile: false,
   });
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const handleNext = () => {
     if (firstName === "") {
       setWarning({...warning, firstName: true});
@@ -97,21 +97,19 @@ export default function InfoScreen({navigation}) {
             placeholder="Birth (YYYY/MM/DD)"
           />
           <TouchableOpacity onPress={() => {
-            setVisible(true)
+            setDatePickerVisibility(true);
           }}>
             <MaterialCommunityIcons name="calendar-cursor" size={24} color="#3f3f3f"/>
           </TouchableOpacity>
+          <DateTimePickerModal isVisible={isDatePickerVisible}
+                               onConfirm={(date) => {
+                                 updateBirth(date)
+                                 setDatePickerVisibility(false);
+                               }}
+                               onCancel={() => {
+                                 setDatePickerVisibility(false);
+                               }}/>
         </View>
-        <DatePicker modal open={visible} date={new Date()} mode="date"
-                    onConfirm={(date) => {
-                      updateBirth(date)
-                      setVisible(false)
-                      setWarning({...warning, birth: false})
-                    }}
-                    onCancel={() => {
-                      setVisible(false)
-                    }}/>
-
         {role === "trainer" && (
           <TextInput
             value={business}
@@ -221,5 +219,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+  },
+  bottomSheet: {
+    backgroundColor: "#fcfcfc",
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 10,
   },
 });
