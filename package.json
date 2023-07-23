@@ -45,7 +45,9 @@
     "react-native-week-view": "^0.29.0",
     "uuidv4": "^6.2.13",
     "validator": "^13.9.0",
-    "zustand": "^4.3.9"
+    "zustand": "^4.3.9",
+    "expo-notifications": "~0.18.1",
+    "expo-device": "~5.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
