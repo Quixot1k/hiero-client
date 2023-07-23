@@ -33,9 +33,9 @@ export const useStore = create((set) => ({
   // for both trainers and clients
   userId: -1,
   updateUserId: (newUserId) => set(() => ({userId: newUserId})),
-  email: "mat@gmail.com",
+  email: "nina@gmail.com",
   updateEmail: (newEmail) => set(() => ({email: newEmail})),
-  password: "mat@123",
+  password: "nina@123",
   updatePassword: (newPassword) => set(() => ({password: newPassword})),
   password2: "",
   updatePassword2: (newPassword2) => set(() => ({password2: newPassword2})),

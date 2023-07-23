@@ -4,8 +4,8 @@ import {Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touch
 import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
-import {useEffect, useState} from "react";
-import messaging from "@react-native-firebase/messaging";
+import {useState} from "react";
+// import messaging from "@react-native-firebase/messaging";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
@@ -34,15 +34,15 @@ export default function LoginScreen({navigation}) {
     }
   };
 
-  useEffect(() => {
-    const getFcmToken = async () => {
-      const token = await messaging().getToken();
-      console.log(token);
-      return token;
-    }
-    const token = getFcmToken().catch(err => console.log(err));
-    updateDeviceIds(token);
-  }, [])
+  // useEffect(() => {
+  //   const getFcmToken = async () => {
+  //     const token = await messaging().getToken();
+  //     console.log(token);
+  //     return token;
+  //   }
+  //   const token = getFcmToken().catch(err => console.log(err));
+  //   updateDeviceIds(token);
+  // }, [])
 
   return (
     <SafeAreaView style={styles.container}>
