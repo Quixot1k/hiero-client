@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "239093700246",
-    "project_id": "kairos-e0790",
-    "storage_bucket": "kairos-e0790.appspot.com"
+    "project_number": "622234647223",
+    "project_id": "kairos-9bd1b",
+    "storage_bucket": "kairos-9bd1b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:239093700246:android:2338ec9c4e05bc539854b7",
+        "mobilesdk_app_id": "1:622234647223:android:a793236a80560b64bbeb32",
         "android_client_info": {
           "package_name": "com.kairos.kairosclient"
         }
       },
       "oauth_client": [
         {
-          "client_id": "239093700246-blkjc0goebkh37h3adchi7f1o6h32l8u.apps.googleusercontent.com",
+          "client_id": "622234647223-d1h8m5sf8it8lj1urk17llls6rmv87rd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA7py4vqlA0BlVQemCKXTRDduuS_xCSt5M"
+          "current_key": "AIzaSyDr7DgCHTC0cfsBUl_hU4wDREWHGskPllg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "239093700246-blkjc0goebkh37h3adchi7f1o6h32l8u.apps.googleusercontent.com",
+              "client_id": "622234647223-d1h8m5sf8it8lj1urk17llls6rmv87rd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

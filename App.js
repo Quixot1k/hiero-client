@@ -3,8 +3,8 @@ import StackNavigator from "./src/navigation/StackNavigator";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import {Platform} from "react-native";
 import {useEffect, useRef} from "react";
+import {Platform} from "react-native";
 // import {useEffect} from "react";
 // import messaging from '@react-native-firebase/messaging';
 // import {Alert, PermissionsAndroid, Platform} from 'react-native';
@@ -21,6 +21,14 @@ Notifications.setNotificationHandler({
 
 async function registerForPushNotificationsAsync() {
   let token;
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
   if (Device.isDevice) {
     const {status: existingStatus} = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -32,21 +40,10 @@ async function registerForPushNotificationsAsync() {
       alert('Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    token = (await Notifications.getDevicePushTokenAsync()).data;
   } else {
     alert('Must use physical device for Push Notifications');
   }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
   return token;
 }
 
