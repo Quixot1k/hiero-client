@@ -5,9 +5,6 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import {useEffect, useRef} from "react";
 import {Platform} from "react-native";
-// import {useEffect} from "react";
-// import messaging from '@react-native-firebase/messaging';
-// import {Alert, PermissionsAndroid, Platform} from 'react-native';
 
 const queryClient = new QueryClient();
 
@@ -48,38 +45,6 @@ async function registerForPushNotificationsAsync() {
 }
 
 export default function App() {
-  // useEffect(() => {
-  //   async function requestUserPermission() {
-  //     if (Platform.OS === 'ios') {
-  //       const authStatus = await messaging().requestPermission();
-  //       const enabled =
-  //         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-  //         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-  //       if (enabled) {
-  //         console.log('Authorization status:', authStatus && "enabled");
-  //       }
-  //     } else if (Platform.OS === 'android') {
-  //       await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-  //     }
-  //
-  //   }
-  //
-  //   // Request permission
-  //   requestUserPermission().catch(err => {
-  //     console.log(err)
-  //   });
-  //
-  //   // Register foreground handler
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-  //   });
-  //
-  //   // Register background handler
-  //   messaging().setBackgroundMessageHandler(async remoteMessage => {
-  //     console.log('Message handled in the background!', remoteMessage);
-  //   });
-  //   return unsubscribe;
-  // }, []);
   const notificationListener = useRef();
   const responseListener = useRef();
   useEffect(() => {
