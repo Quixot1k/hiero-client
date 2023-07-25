@@ -7,12 +7,6 @@ import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
-const convertMilitaryTime = (dateString, timeString) => {
-  const hour = timeString.substring(0, 2);
-  const minute = timeString.substring(2, 4);
-  return new Date(dateString + "T" + hour + ":" + minute);
-}
-
 export default function SessionScreen({navigation}) {
   const role = useStore((state) => state.role);
   const {data: sessions, error, isLoading} = useTodaySession()

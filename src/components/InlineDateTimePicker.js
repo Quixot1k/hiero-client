@@ -1,31 +1,64 @@
-import {StyleSheet, View} from "react-native";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {useState} from "react";
+import {format} from "date-fns";
 
-const InlineDateTimePicker = ({display = "default", value, onDateChange, onTimeChange}) => {
+const InlineDateTimePicker = ({value, onDateChange, onTimeChange}) => {
+  const [visible, setVisible] = useState({
+    date: false,
+    time: false,
+  });
   return (
-    <View style={styles.container}>
-      <RNDateTimePicker value={value} mode={"date"} display={display}
-                        onChange={(event, date) => {
-                          if (onDateChange) {
-                            onDateChange(date)
-                          }
-                        }}
+    <View>
+      <View style={{flexDirection: "row"}}>
+        <TouchableOpacity onPress={() => setVisible({...visible, date: true})} style={[styles.pressable, {width: 145}]}>
+          <Text style={{fontSize: 18}}>{format(value, "yyyy-MM-dd")}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setVisible({...visible, time: true})} style={[styles.pressable, {width: 80}]}>
+          <Text style={{fontSize: 18}}>{format(value, "HH:mm")}</Text>
+        </TouchableOpacity>
+      </View>
+      <DateTimePickerModal
+        isVisible={visible.date}
+        mode={"date"}
+        onConfirm={(date) => {
+          onDateChange(date);
+          setVisible({...visible, date: false});
+        }}
+        onCancel={() => {
+          setVisible({...visible, date: false});
+        }}
+        modalStyleIOS={styles.dateTimePickerModal}
       />
-      <RNDateTimePicker value={value} mode={"time"} display={display} minuteInterval={15}
-                        onChange={(event, date) => {
-                          if (onTimeChange) {
-                            onTimeChange(date)
-                          }
-                        }}/>
+      <DateTimePickerModal
+        isVisible={visible.time}
+        mode={"time"}
+        minuteInterval={15}
+        onConfirm={(date) => {
+          onTimeChange(date);
+          setVisible({...visible, time: false});
+        }}
+        onCancel={() => {
+          setVisible({...visible, time: false});
+        }}
+        modalStyleIOS={styles.dateTimePickerModal}
+      />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
+  container: {},
+  pressable: {
+    backgroundColor: "#eee",
+    paddingVertical: 8,
+    borderRadius: 10,
+    marginRight: 10,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
+  },
+  dateTimePickerModal: {
+    marginBottom: 35,
   }
-})
-export default InlineDateTimePicker
+});
+export default InlineDateTimePicker;

@@ -9,7 +9,7 @@ import {useStore} from "../../store";
 import useSession from "../../hooks/useSession";
 import useBlockSession from "../../hooks/useBlockSession";
 import useRemoveSession from "../../hooks/useRemoveSession";
-import InlineDateTimePickerModal from "../../components/InlineDateTimePickerModal";
+import InlineDateTimePicker from "../../components/InlineDateTimePicker";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
@@ -179,11 +179,11 @@ export default function ScheduleScreen({navigation}) {
           {/*  style={{height: 100, transform: [{scale: 0.875}]}}*/}
           {/*/>*/}
           <View style={{marginRight: 10}}>
-            <InlineDateTimePickerModal date={startDatetime} time={startDatetime}
-                                       onDateChange={(date) => setStartDatetime(date)}
-                                       onTimeChange={(time) => {
-                                         setStartDatetime(time)
-                                       }}/>
+            <InlineDateTimePicker value={startDatetime}
+                                  onDateChange={(date) => setStartDatetime(date)}
+                                  onTimeChange={(time) => {
+                                    setStartDatetime(time)
+                                  }}/>
           </View>
         </View>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20}}>
@@ -198,11 +198,11 @@ export default function ScheduleScreen({navigation}) {
           {/*  style={{height: 100, transform: [{scale: 0.875}]}}*/}
           {/*/>*/}
           <View style={{marginRight: 10}}>
-            <InlineDateTimePickerModal date={endDatetime} time={endDatetime}
-                                       onDateChange={(date) => setEndDatetime(date)}
-                                       onTimeChange={(time) => {
-                                         setEndDatetime(time)
-                                       }}/>
+            <InlineDateTimePicker value={endDatetime}
+                                  onDateChange={(date) => setEndDatetime(date)}
+                                  onTimeChange={(time) => {
+                                    setEndDatetime(time)
+                                  }}/>
           </View>
         </View>
         <View style={{alignItems: "center", marginTop: 12}}>

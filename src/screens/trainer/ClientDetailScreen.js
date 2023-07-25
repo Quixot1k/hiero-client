@@ -158,15 +158,15 @@ export default function ClientDetailScreen({route}) {
                             alignSelf: "flex-start",
                             width: 0.75 * screenWidth,
                             paddingHorizontal: 10,
-                            paddingVertical: 3,
+                            paddingVertical: 4,
                             marginTop: 15,
                             marginBottom: 7,
                             borderRadius: 9,
                             backgroundColor: "#efeff0",
                           }}
-                          placeholderStyle={{fontSize: 17}}
-                          selectedTextStyle={{fontSize: 17}}
-                          itemTextStyle={{fontSize: 17}}
+                          placeholderStyle={{fontSize: 18}}
+                          selectedTextStyle={{fontSize: 18}}
+                          itemTextStyle={{fontSize: 18}}
                           onChange={(item) => {
                             setAdhoc({...adhoc, locationId: item.value});
                           }}/>
@@ -179,7 +179,7 @@ export default function ClientDetailScreen({route}) {
                   }}
                 >
                   <View style={{width: 50}}>
-                    <Text style={{fontSize: 18}}>Start:</Text>
+                    <Text style={{fontSize: 16}}>Start:</Text>
                   </View>
                   {/*<DatePicker*/}
                   {/*  date={adhoc.startDatetime}*/}
@@ -213,7 +213,7 @@ export default function ClientDetailScreen({route}) {
                   }}
                 >
                   <View style={{width: 50}}>
-                    <Text style={{fontSize: 18}}>End:</Text>
+                    <Text style={{fontSize: 16}}>End:</Text>
                   </View>
                   <View>
                     <InlineDateTimePicker
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     // textShadowColor: "rgba(0, 0, 0, 0.1)",
     // textShadowOffset: {width: 1, height: 1},
     // textShadowRadius: 1.5,
-    marginVertical: 8,
+    marginVertical: 6,
   },
   section: {
     marginVertical: 15,
