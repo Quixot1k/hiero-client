@@ -9,7 +9,8 @@ const InlineDateTimePicker = ({display = "default", value, onDateChange, onTimeC
                           if (onDateChange) {
                             onDateChange(date)
                           }
-                        }}/>
+                        }}
+      />
       <RNDateTimePicker value={value} mode={"time"} display={display} minuteInterval={15}
                         onChange={(event, date) => {
                           if (onTimeChange) {

@@ -63,8 +63,8 @@ export default function LocationItem({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#151515",
-    width: 0.775 * screenWidth,
-    height: 180,
+    width: 0.825 * screenWidth,
+    height: 200,
     borderRadius: 16,
     flexDirection: "row",
     justifyContent: "space-between",

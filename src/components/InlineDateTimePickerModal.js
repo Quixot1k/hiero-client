@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {useState} from "react";
 import {format} from "date-fns";
@@ -11,12 +11,12 @@ const InlineDateTimePickerModal = ({date, time, onDateChange, onTimeChange}) => 
   return (
     <View>
       <View style={{flexDirection: "row"}}>
-        <Pressable onPress={() => setVisible({...visible, date: true})} style={[styles.pressable, {width: 150}]}>
-          <Text style={{fontSize: 22}}>{format(date, "yyyy-MM-dd")}</Text>
-        </Pressable>
-        <Pressable onPress={() => setVisible({...visible, time: true})} style={[styles.pressable, {width: 80}]}>
-          <Text style={{fontSize: 22}}>{format(time, "HH:mm")}</Text>
-        </Pressable>
+        <TouchableOpacity onPress={() => setVisible({...visible, date: true})} style={[styles.pressable, {width: 150}]}>
+          <Text style={{fontSize: 20}}>{format(date, "yyyy-MM-dd")}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setVisible({...visible, time: true})} style={[styles.pressable, {width: 80}]}>
+          <Text style={{fontSize: 20}}>{format(time, "HH:mm")}</Text>
+        </TouchableOpacity>
       </View>
       <DateTimePickerModal
         isVisible={visible.date}
@@ -28,6 +28,7 @@ const InlineDateTimePickerModal = ({date, time, onDateChange, onTimeChange}) => 
         onCancel={() => {
           setVisible({...visible, date: false});
         }}
+        modalStyleIOS={styles.dateTimePickerModal}
       />
       <DateTimePickerModal
         isVisible={visible.time}
@@ -40,6 +41,7 @@ const InlineDateTimePickerModal = ({date, time, onDateChange, onTimeChange}) => 
         onCancel={() => {
           setVisible({...visible, time: false});
         }}
+        modalStyleIOS={styles.dateTimePickerModal}
       />
     </View>
   );
@@ -53,6 +55,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 10,
     alignItems: "center",
+  },
+  dateTimePickerModal: {
+    marginBottom: 35,
   }
 });
 export default InlineDateTimePickerModal;

@@ -158,8 +158,9 @@ export default function ClientDetailScreen({route}) {
                             alignSelf: "flex-start",
                             width: 0.75 * screenWidth,
                             paddingHorizontal: 10,
-                            paddingVertical: 1,
-                            marginTop: 14,
+                            paddingVertical: 3,
+                            marginTop: 15,
+                            marginBottom: 7,
                             borderRadius: 9,
                             backgroundColor: "#efeff0",
                           }}
@@ -174,10 +175,11 @@ export default function ClientDetailScreen({route}) {
                     flexDirection: "row",
                     alignItems: "center",
                     alignSelf: "flex-start",
+                    marginBottom: 7,
                   }}
                 >
-                  <View style={{width: 40}}>
-                    <Text style={{fontSize: 16}}>Start:</Text>
+                  <View style={{width: 50}}>
+                    <Text style={{fontSize: 18}}>Start:</Text>
                   </View>
                   {/*<DatePicker*/}
                   {/*  date={adhoc.startDatetime}*/}
@@ -207,11 +209,11 @@ export default function ClientDetailScreen({route}) {
                     flexDirection: "row",
                     alignItems: "center",
                     alignSelf: "flex-start",
-                    marginBottom: 10
+                    marginBottom: 15,
                   }}
                 >
-                  <View style={{width: 40}}>
-                    <Text style={{fontSize: 16}}>End:</Text>
+                  <View style={{width: 50}}>
+                    <Text style={{fontSize: 18}}>End:</Text>
                   </View>
                   <View>
                     <InlineDateTimePicker

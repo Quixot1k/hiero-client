@@ -45,7 +45,7 @@ export default function ScheduleScreen({navigation}) {
   const [endDatetime, setEndDatetime] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(0);
-  const snapPoints = useMemo(() => ["10%", "42.5%"], []);
+  const snapPoints = useMemo(() => ["10%", "45%"], []);
   const [sessionQuery, setSessionQuery] = useState({
     id: userId,
     offset: 0,
@@ -167,18 +167,18 @@ export default function ScheduleScreen({navigation}) {
           setBottomSheetVisible(index);
         }}
       >
-        <Text style={{fontWeight: "700", fontSize: 26}}>
+        <Text style={{fontWeight: "700", fontSize: 26, marginBottom: 30}}>
           Block
         </Text>
-        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 20}}>
-          <Text style={{fontSize: 20, width: 50}}>Start:</Text>
+        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 25}}>
+          <Text style={{fontSize: 18, width: 50}}>Start:</Text>
           {/*<DatePicker*/}
           {/*  date={startDatetime}*/}
           {/*  minuteInterval={15}*/}
           {/*  onDateChange={(date) => setStartDatetime(date)}*/}
           {/*  style={{height: 100, transform: [{scale: 0.875}]}}*/}
           {/*/>*/}
-          <View style={{marginRight: 15}}>
+          <View style={{marginRight: 10}}>
             <InlineDateTimePickerModal date={startDatetime} time={startDatetime}
                                        onDateChange={(date) => setStartDatetime(date)}
                                        onTimeChange={(time) => {
@@ -187,7 +187,7 @@ export default function ScheduleScreen({navigation}) {
           </View>
         </View>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20}}>
-          <Text style={{fontSize: 20, width: 50}}>End:</Text>
+          <Text style={{fontSize: 18, width: 50}}>End:</Text>
           {/*<DatePicker*/}
           {/*  date={endDatetime}*/}
           {/*  minuteInterval={15}*/}
@@ -197,7 +197,7 @@ export default function ScheduleScreen({navigation}) {
           {/*  }}*/}
           {/*  style={{height: 100, transform: [{scale: 0.875}]}}*/}
           {/*/>*/}
-          <View style={{marginRight: 15}}>
+          <View style={{marginRight: 10}}>
             <InlineDateTimePickerModal date={endDatetime} time={endDatetime}
                                        onDateChange={(date) => setEndDatetime(date)}
                                        onTimeChange={(time) => {

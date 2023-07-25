@@ -108,7 +108,12 @@ export default function InfoScreen({navigation}) {
                                }}
                                onCancel={() => {
                                  setDatePickerVisibility(false);
-                               }}/>
+                               }}
+                               date={new Date()}
+                               modalStyleIOS={{
+                                 marginBottom: 35,
+                               }}
+          />
         </View>
         {role === "trainer" && (
           <TextInput
@@ -188,7 +193,7 @@ const styles = StyleSheet.create({
   textInput: {
     borderRadius: 10,
     height: 50,
-    width: 260,
+    width: 280,
     marginTop: 25,
     paddingLeft: 10,
     fontSize: 17,
@@ -201,7 +206,7 @@ const styles = StyleSheet.create({
   textInputView: {
     borderRadius: 10,
     height: 50,
-    width: 260,
+    width: 280,
     marginTop: 25,
     backgroundColor: "#fefefe",
     shadowColor: "black",
@@ -212,7 +217,7 @@ const styles = StyleSheet.create({
   dropdown: {
     borderRadius: 10,
     height: 50,
-    width: 260,
+    width: 280,
     marginTop: 25,
     backgroundColor: "#fefefe",
     shadowColor: "#000000",

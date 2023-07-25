@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     width: 0.9375 * screenWidth,
   },
   btnWrapper: {
-    width: 0.9 * screenWidth,
+    width: 0.875 * screenWidth,
     height: 50,
     marginVertical: 5,
     borderRadius: 10,

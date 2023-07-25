@@ -28,7 +28,7 @@ const SessionDetailScreen = ({navigation, route}) => {
           flexDirection: "row",
           alignItems: "center",
           paddingRight: 16,
-          paddingVertical: 6,
+          paddingVertical: 8,
           justifyContent: "flex-end",
         }}>
           {!visible &&
@@ -37,7 +37,6 @@ const SessionDetailScreen = ({navigation, route}) => {
               height: 50,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#ccc",
             }}>
               <Image source={{uri: clientObj.imageName}} style={{
                 width: 50,
@@ -97,7 +96,7 @@ const SessionDetailScreen = ({navigation, route}) => {
                   }}/>
                 </TouchableOpacity>
               </View>
-              <View style={{marginTop: 30, width: 165}}>
+              <View style={{marginTop: 45, width: 165}}>
                 <Text style={styles.info}>Gender: {clientObj.gender}</Text>
                 <Text
                   style={styles.info}>Email: {clientObj.emailAddress}</Text>
@@ -169,7 +168,7 @@ const SessionDetailScreen = ({navigation, route}) => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/*trainer*/}
-        <TrainerDetails/>
+        {role === "client" && <TrainerDetails/>}
         {/*Session Details*/}
         <View style={styles.sessionDetailWrapper}>
           <View style={{flexDirection: "row", alignItems: "center", marginVertical: 8}}>

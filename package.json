@@ -9,9 +9,8 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
-    "@expo/webpack-config": "^18.0.1",
     "@gorhom/bottom-sheet": "^4.4.7",
-    "@react-native-community/datetimepicker": "6.7.3",
+    "@react-native-community/datetimepicker": "^7.4.1",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -21,9 +20,12 @@
     "axios": "^1.3.6",
     "date-fns": "^2.30.0",
     "expo": "~48.0.18",
+    "expo-dev-client": "~2.2.1",
+    "expo-device": "~5.2.1",
     "expo-file-system": "^15.2.2",
     "expo-image-picker": "~14.1.1",
     "expo-location": "~15.1.1",
+    "expo-notifications": "~0.18.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-system-ui": "~2.2.1",
@@ -45,10 +47,7 @@
     "react-native-week-view": "^0.29.0",
     "uuidv4": "^6.2.13",
     "validator": "^13.9.0",
-    "zustand": "^4.3.9",
-    "expo-notifications": "~0.18.1",
-    "expo-device": "~5.2.1",
-    "expo-dev-client": "~2.2.1"
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
