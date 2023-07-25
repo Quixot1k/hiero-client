@@ -96,7 +96,7 @@ export default function Profile({navigation}) {
       state: state,
       zipcode: zip,
       maxTravelDistance: parseInt(distance),
-      gender: "1",
+      gender: gender,
       imageName: avatarUri,
       homeSession: home,
       zoomSession: zoom,
@@ -133,7 +133,7 @@ export default function Profile({navigation}) {
       password: password,
       phone: mobile,
       age: parseInt(birth),
-      gender: "1",
+      gender: gender,
       bio: bio,
       minimumBid: parseInt(bid),
       maxTravelDistance: parseInt(distance),
@@ -235,7 +235,7 @@ export default function Profile({navigation}) {
               />
             </View>
             <View style={styles.inputWrapper}>
-              <Text style={styles.text}>Email Address</Text>
+              <Text style={styles.text}>Email</Text>
               <TextInput
                 style={styles.textInput}
                 value={email}
@@ -245,7 +245,7 @@ export default function Profile({navigation}) {
               />
             </View>
             <View style={styles.inputWrapper}>
-              <Text style={styles.text}>Phone Number</Text>
+              <Text style={styles.text}>Phone</Text>
               <TextInput
                 style={styles.textInput}
                 value={mobile}
@@ -305,7 +305,6 @@ export default function Profile({navigation}) {
               <View style={styles.inputWrapper}>
                 <Text style={styles.text}>Certification</Text>
                 <TouchableOpacity
-                  style={{alignItems: "center", width: 300}}
                   onPress={() => navigation.navigate("CertificationScreen")}
                 >
                   <Text
@@ -591,7 +590,7 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     width: "100%",
-    height: 40,
+    height: 50,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -604,7 +603,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: 195,
-    height: 35,
+    height: 45,
     paddingLeft: 10,
     fontSize: 16,
     backgroundColor: "#ffffff",
@@ -650,7 +649,7 @@ const styles = StyleSheet.create({
   dropdown: {
     borderRadius: 10,
     width: 195,
-    height: 35,
+    height: 45,
     paddingLeft: 10,
     backgroundColor: "#fefefe",
     shadowColor: "#000000",

@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   panelWrapper: {
     alignItems: "center",
     backgroundColor: "#fcfcfc",
-    borderRadius: 6,
+    borderRadius: 10,
     paddingVertical: 35,
     paddingHorizontal: 50,
     paddingBottom: 20,
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
-    shadowRadius: 4,
+    shadowRadius: 6,
   },
   dropdown: {
     borderWidth: 1.4,
