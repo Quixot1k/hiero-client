@@ -3,10 +3,10 @@
 ### To launch the project, follow these steps:
 1. Open your terminal and navigate to the root folder of the project.
 2. Run the command `npm i` to install all the necessary dependencies.
-3. Run the command `expo run:[ios|android]` to start the development server. (You may encounter crashes if you continue to use "npm start" or "expo start" to launch the app in the Expo App.)
+3. Run the command `expo start` or `npm run` to start the development server. Also, another way to launch the project is  `expo start --dev-client`.
 
 This is a React Native app using Expo SDK48, **Zustand 🥳** and react-query to manage states and local cache.
-Due to a bug causing the Expo app to freeze when the Datetimepicker and modal appear simultaneously, we have made the decision to utilize "expo prebuild" and introduce components using customized code. 
+
 
 ### The app's code is structured as follows:
 
