@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   textInput: {
-    width: 300,
-    height: 38,
+    width: 0.825 * screenWidth,
+    height: 50,
     fontSize: 18,
-    borderRadius: 20,
+    borderRadius: 30,
     paddingHorizontal: 24,
     marginBottom: 20,
     backgroundColor: "#ffffff",

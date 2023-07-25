@@ -161,7 +161,7 @@ export default function ClientDetailScreen({route}) {
                             paddingVertical: 4,
                             marginTop: 15,
                             marginBottom: 7,
-                            borderRadius: 9,
+                            borderRadius: 10,
                             backgroundColor: "#efeff0",
                           }}
                           placeholderStyle={{fontSize: 18}}
