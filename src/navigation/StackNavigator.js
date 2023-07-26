@@ -15,6 +15,7 @@ import SignUpScreen from "../screens/shared/SignUpScreen";
 import TabNavigator from "./TabNavigator";
 import {useStore} from "../store";
 import IntSpecScreen from "../screens/shared/IntSpecScreen";
+import ScheduleScreen from "../screens/shared/ScheduleScreen";
 
 export default function StackNavigator() {
   const navigation = useNavigation();
@@ -118,48 +119,10 @@ export default function StackNavigator() {
         component={TabNavigator}
         options={{headerShown: false}}
       />
-      {/*<Stack.Screen*/}
-      {/*  name="GymListScreen"*/}
-      {/*  component={GymListScreen}*/}
-      {/*  options={{headerTitle: "Gym"}}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="TrainerListScreen"*/}
-      {/*  component={TrainerListScreen}*/}
-      {/*  options={{headerTitle: "Trainer"}}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="ClientListScreen"*/}
-      {/*  component={ClientListScreen}*/}
-      {/*  options={{headerTitle: "Client"}}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="ScheduleScreen"*/}
-      {/*  component={ScheduleScreen}*/}
-      {/*  options={{headerTitle: "Schedule"}}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="ProfileUpdateScreen"*/}
-      {/*  component={ProfileUpdateScreen}*/}
-      {/*  options={{*/}
-      {/*    title: "Update your profile",*/}
-      {/*  }}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="SessionDetailScreen"*/}
-      {/*  component={SessionDetailScreen}*/}
-      {/*  options={{headerTitle: "Session Detail"}}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="ClientDetailScreen"*/}
-      {/*  component={ClientDetailScreen}*/}
-      {/*  options={{headerTitle: "Client Detail"}}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="TrainerDetailScreen"*/}
-      {/*  component={TrainerDetailScreen}*/}
-      {/*  options={{headerTitle: "Trainer Detail"}}*/}
-      {/*/>*/}
+      {/*for notification navigation*/}
+      <Stack.Screen name="ScheduleScreen_Notification" component={ScheduleScreen} options={{
+        headerTitle: "Schedule"
+      }}/>
     </Stack.Navigator>
   );
 }
