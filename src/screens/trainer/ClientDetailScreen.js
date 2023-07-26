@@ -18,7 +18,7 @@ import {Dropdown} from "react-native-element-dropdown";
 import useAddSession from "../../hooks/useAddSession";
 import InlineDateTimePicker from "../../components/InlineDateTimePicker";
 
-const {width: screenWidth} = Dimensions.get("window");
+const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 export default function ClientDetailScreen({route}) {
   const {clientObj} = route.params;
   const {userId, trainerLocations} = useStore((state) => state);
@@ -279,8 +279,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 30,
+    paddingTop: 30,
     width: screenWidth,
+    height: 0.825 * screenHeight,
   },
   header: {
     width: 0.9 * screenWidth,

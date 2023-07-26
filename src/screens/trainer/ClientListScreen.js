@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 30,
+    paddingTop: 30,
     width: screenWidth,
-    height: 0.785 * screenHeight,
+    height: 0.8 * screenHeight,
   },
   textInput: {
     width: 0.825 * screenWidth,
