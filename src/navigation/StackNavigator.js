@@ -101,7 +101,7 @@ export default function StackNavigator() {
       <Stack.Screen
         name="CertificationScreen"
         component={CertificationScreen}
-        options={{title: "Certification", headerRight: headRightButton}}
+        options={{title: "Certification", headerRight: isLogged ? null : headRightButton,}}
       />
       <Stack.Screen
         name="BioScreen"

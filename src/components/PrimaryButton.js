@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 6,
-    elevation: 3,
     backgroundColor: "black",
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowOffset: {width: 3, height: 3},
     shadowRadius: 5,
+    elevation: 3,
   },
   text: {
     lineHeight: 21,

@@ -278,8 +278,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
+    elevation: 6,
     paddingTop: 14,
     marginBottom: 20,
+
   },
   textInput: {
     width: 300,
@@ -293,6 +295,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   textInputGroup: {
     flexDirection: "row",

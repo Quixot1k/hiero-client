@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 2},
     shadowRadius: 3,
+    elevation: 5,
     opacity: 0.9,
   },
   dayWrapper: {
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 2, height: 2},
     shadowRadius: 2,
+    elevation: 3,
   },
   timepickerWrapper: {
     flexDirection: "row",

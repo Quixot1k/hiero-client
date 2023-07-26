@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
     width: screenWidth,
+    height: 0.785 * screenHeight,
   },
   textInput: {
     width: 0.825 * screenWidth,
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   listWrapper: {
     height: 0.65 * screenHeight,
@@ -93,5 +95,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
+    elevation: 6,
   },
 });

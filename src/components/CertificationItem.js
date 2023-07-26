@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 2, height: 2},
     shadowRadius: 2,
+    elevation: 3,
   },
   text: {
     color: "#000000",

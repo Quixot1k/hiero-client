@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   textInputView: {
     borderRadius: 10,
@@ -213,6 +214,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   dropdown: {
     borderRadius: 10,
@@ -224,12 +226,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
-  },
-  bottomSheet: {
-    backgroundColor: "#fcfcfc",
-    shadowColor: "black",
-    shadowOpacity: 0.25,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 10,
+    elevation: 5,
   },
 });

@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
+    elevation: 6,
   },
   listHeader: {
     height: 45,
@@ -121,6 +122,7 @@ const styles = StyleSheet.create({
     textShadowColor: "#fcfcfc",
     textShadowOffset: {width: 0, height: 0},
     textShadowRadius: 1,
+    elevation: 2,
   },
   listContentText: {
     fontSize: 17,

@@ -567,6 +567,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   defaultAvatar: {
     height: 140,
@@ -587,6 +588,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   inputWrapper: {
     width: "100%",
@@ -612,6 +614,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 5,
+    elevation: 7,
   },
   bottomSheet: {
     backgroundColor: "#fcfcfc",
@@ -619,6 +622,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
+    elevation: 12,
   },
   bottomSheetTextInput: {
     width: 0.75 * screenWidth,
@@ -634,6 +638,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 2},
     shadowRadius: 3,
+    elevation: 5,
   },
   mapWrapper: {
     borderRadius: 10,
@@ -645,6 +650,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowOffset: {width: 1, height: 2},
     shadowRadius: 3,
+    elevation: 5,
   },
   dropdown: {
     borderRadius: 10,
@@ -656,5 +662,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 5,
+    elevation: 7,
   },
 });

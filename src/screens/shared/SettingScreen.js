@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
     width: screenWidth,
+    height: 0.55 * screenHeight,
   },
   section: {
     alignItems: "center",
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
+    elevation: 6,
     paddingHorizontal: 10,
     paddingVertical: 5,
     width: 0.9375 * screenWidth,
@@ -112,6 +114,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 2},
     shadowRadius: 3,
+    elevation: 5,
   },
   btnTitle: {
     fontSize: 17.5,

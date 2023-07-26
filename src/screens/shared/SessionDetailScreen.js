@@ -272,6 +272,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 1},
     shadowRadius: 4,
+    elevation: 6,
     marginVertical: 15,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -289,6 +290,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   clientDetailWrapper: {
     width: 0.9 * screenWidth,
@@ -298,6 +300,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   imageWrapper: {
     width: 120,
@@ -311,9 +314,6 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 15,
     fontWeight: "400",
-    // textShadowColor: "rgba(0, 0, 0, 0.1)",
-    // textShadowOffset: {width: 1, height: 1},
-    // textShadowRadius: 1.5,
     marginVertical: 5,
   },
 })

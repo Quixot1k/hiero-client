@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 4,
+    elevation: 6,
     paddingVertical: 10,
   },
   listText: {
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
+    elevation: 12,
   },
   sliderWrapper: {
     marginTop: 10,
@@ -141,6 +143,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   sliderText: {
     fontSize: 16,
@@ -156,6 +159,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
     paddingHorizontal: 18,
     fontSize: 17,
   },

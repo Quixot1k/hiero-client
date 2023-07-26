@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   avatar: {
     backgroundColor: "#ccc",

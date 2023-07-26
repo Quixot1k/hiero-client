@@ -296,6 +296,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
   imageWrapper: {
     width: 100,
@@ -334,6 +335,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 1},
     shadowRadius: 4,
+    elevation: 6,
   },
   sectionBtn: {
     flexDirection: "row",
@@ -353,5 +355,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 3,
+    elevation: 5,
   },
 });

@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowOffset: {width: 2, height: 4},
     shadowRadius: 3,
+    elevation: 5,
     marginVertical: 5,
   },
   text: {

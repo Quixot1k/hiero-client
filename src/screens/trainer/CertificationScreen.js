@@ -15,7 +15,7 @@ const typeOptions = [
 const {width: screenWidth} = Dimensions.get("window");
 export default function CertificationScreen({navigation}) {
   // global state
-  const certifications = useStore((state) => state.certifications);
+  const {isLogged, certifications} = useStore((state) => state);
   const {addCertification, removeCertification} = useStore((state) => state);
   // local state
   const [type, setType] = useState("Company");
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: {width: 3, height: 4},
     shadowRadius: 6,
+    elevation: 6,
   },
   dropdown: {
     borderWidth: 1.4,

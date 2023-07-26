@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 1},
     shadowRadius: 3,
+    elevation: 5,
     marginVertical: 8,
   },
   avatar: {
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 2, height: 2},
     shadowRadius: 3,
+    elevation: 5,
   },
   name: {
     fontSize: 26,
