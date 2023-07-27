@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scrollView: {
-    marginTop: 60,
+    paddingTop: 60,
     alignItems: "center",
     width: screenWidth,
   },

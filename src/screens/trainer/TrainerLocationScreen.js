@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: "center",
     width: screenWidth,
+    paddingTop: 0,
   },
   header: {
     fontSize: 26,
@@ -304,7 +305,7 @@ const styles = StyleSheet.create({
     height: 360,
     width: 0.90 * screenWidth,
     borderRadius: 16,
-    paddingVertical: 20,
+    paddingTop: 10,
     marginBottom: 10,
     backgroundColor: "#fcfcfc",
     shadowColor: "black",

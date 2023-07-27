@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
-    marginTop: 100,
+    paddingTop: 100,
     width: screenWidth,
   },
   header: {
