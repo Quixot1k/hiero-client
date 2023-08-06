@@ -39,7 +39,8 @@ export default function App() {
       console.log(notification);
     });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(res => {
+      console.log(res);
       navigationRef.current?.navigate("ScheduleScreen_Notification")
     });
 
@@ -48,6 +49,7 @@ export default function App() {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer ref={navigationRef}>

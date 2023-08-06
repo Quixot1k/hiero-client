@@ -5,7 +5,6 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
 import {useState} from "react";
-// import messaging from "@react-native-firebase/messaging";
 
 const {width: screenWidth} = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
@@ -33,16 +32,6 @@ export default function LoginScreen({navigation}) {
       navigation.navigate("InfoScreen");
     }
   };
-
-  // useEffect(() => {
-  //   const getFcmToken = async () => {
-  //     const token = await messaging().getToken();
-  //     console.log(token);
-  //     return token;
-  //   }
-  //   const token = getFcmToken().catch(err => console.log(err));
-  //   updateDeviceIds(token);
-  // }, [])
 
   return (
     <SafeAreaView style={styles.container}>

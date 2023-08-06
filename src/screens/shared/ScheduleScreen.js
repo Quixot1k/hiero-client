@@ -167,7 +167,7 @@ export default function ScheduleScreen({navigation}) {
           setBottomSheetVisible(index);
         }}
       >
-        <Text style={{fontWeight: "700", fontSize: 26, marginBottom: 30}}>
+        <Text style={{fontWeight: "700", fontSize: 26, marginBottom: 20}}>
           Block
         </Text>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 25}}>
@@ -213,7 +213,6 @@ export default function ScheduleScreen({navigation}) {
             paddingVertical={12}
             paddingHorizontal={5}
             marginTop={0}
-            marginBottom={0}
             onPress={() => {
               blockSession.mutate({
                 trainerId: userId,

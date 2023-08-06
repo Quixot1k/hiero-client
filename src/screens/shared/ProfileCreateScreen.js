@@ -195,6 +195,7 @@ export default function ProfileCreateScreen({navigation}) {
       console.log(error);
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView

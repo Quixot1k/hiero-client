@@ -8,7 +8,7 @@ import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 const {width: screenWidth, height: screenHeight} = Dimensions.get("window");
 
 export default function SessionScreen({navigation}) {
-  const role = useStore((state) => state.role);
+  const {role} = useStore(state => state);
   const {data: sessions, error, isLoading} = useTodaySession()
 
   return (

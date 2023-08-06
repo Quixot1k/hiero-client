@@ -15,6 +15,10 @@ import ScheduleScreen from "../screens/shared/ScheduleScreen";
 import TrainerLocationScreen from "../screens/trainer/TrainerLocationScreen";
 import {useStore} from "../store";
 import AvailabilityScreen from "../screens/client/AvailabilityScreen";
+import axios from "axios";
+import URL from "../config/url";
+import {useEffect} from "react";
+import registerForPushNotificationsAsync from "../utils/registerForPushNotificationsAsync";
 
 // Dashboard
 const NestedDashboard = () => {
@@ -110,6 +114,31 @@ const NestedSettings = () => {
 }
 
 export default function TabNavigator() {
+  // handle deviceIds for messaging
+  const {deviceIds, role, userId} = useStore(state => state);
+  const {updateDeviceIds} = useStore(state => state);
+  const handleDeviceIds = async () => {
+    const params = (role === "client" ? {clientId: userId} : {trainerId: userId});
+    try {
+      await axios.post(`${URL}/${role}/addDevice`, deviceIds, {
+        params: params,
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    const token = registerForPushNotificationsAsync()
+    updateDeviceIds(token);
+    handleDeviceIds().catch(err => {
+      console.log(err);
+    });
+  }, [])
+
   const Tab = createBottomTabNavigator();
   return (<Tab.Navigator
     screenOptions={{
