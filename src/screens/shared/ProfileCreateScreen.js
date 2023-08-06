@@ -5,7 +5,7 @@ import axios from "axios";
 import FormData from "form-data";
 import {useStore} from "../../store";
 import {format} from "date-fns";
-import URL from "../../config/url";
+import URL from "../../config/URL";
 
 const {width: screenWidth} = Dimensions.get("window");
 

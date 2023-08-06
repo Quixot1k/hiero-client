@@ -1,7 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {useStore} from "../store";
-import URL from "../config/url";
+import URL from "../config/URL";
 
 const useAvailability = () => {
   const {userId} = useStore((state) => state);

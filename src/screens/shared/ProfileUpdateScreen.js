@@ -17,7 +17,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import validator from "validator/es";
 import BottomSheet, {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import URL from "../../config/url";
+import URL from "../../config/URL";
 import GENDER_OPTION from "../../constant/GENDER_OPTION";
 import {Dropdown} from "react-native-element-dropdown";
 import RNDateTimePicker from "@react-native-community/datetimepicker";

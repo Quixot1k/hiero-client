@@ -5,7 +5,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import {useStore} from "../../store";
 import axios from "axios";
 import {useState} from "react";
-import URL from "../../config/url";
+import URL from "../../config/URL";
 
 
 const {width: screenWidth} = Dimensions.get("window");

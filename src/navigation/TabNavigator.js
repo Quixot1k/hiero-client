@@ -16,7 +16,7 @@ import TrainerLocationScreen from "../screens/trainer/TrainerLocationScreen";
 import {useStore} from "../store";
 import AvailabilityScreen from "../screens/client/AvailabilityScreen";
 import axios from "axios";
-import URL from "../config/url";
+import URL from "../config/URL";
 import {useEffect} from "react";
 import registerForPushNotificationsAsync from "../utils/registerForPushNotificationsAsync";
 
