@@ -22,15 +22,16 @@ export default function Settings({navigation}) {
             <MaterialIcons name="person" size={24} color="black"/>
             <Text style={styles.btnTitle}>Profile</Text>
           </TouchableOpacity>
-          {role === "trainer" && (
-            <TouchableOpacity
-              style={styles.btnWrapper}
-              onPress={() => navigation.navigate("TrainerLocationUpdateScreen")}
-            >
-              <MaterialIcons name="location-pin" size={24} color="black"/>
-              <Text style={styles.btnTitle}>Location</Text>
-            </TouchableOpacity>
-          )}
+          {
+            role === "trainer" && (
+              <TouchableOpacity
+                style={styles.btnWrapper}
+                onPress={() => navigation.navigate("TrainerLocationUpdateScreen")}
+              >
+                <MaterialIcons name="location-pin" size={24} color="black"/>
+                <Text style={styles.btnTitle}>Location</Text>
+              </TouchableOpacity>
+            )}
           <TouchableOpacity
             style={[styles.btnWrapper, {borderBottomWidth: 0}]}
             onPress={() => navigation.navigate("IntSpecUpdateScreen")}
@@ -38,13 +39,17 @@ export default function Settings({navigation}) {
             <MaterialIcons name="dns" size={24} color="black"/>
             <Text style={styles.btnTitle}>{role === "client" ? "Interests" : "Specialities"}</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.btnWrapper, {borderBottomWidth: 0}]}
-            onPress={() => navigation.navigate("AvailabilityScreen")}
-          >
-            <MaterialCommunityIcons name="clock-edit" size={24} color="black"/>
-            <Text style={styles.btnTitle}>Availability</Text>
-          </TouchableOpacity>
+          {
+            role === "client" && (
+              <TouchableOpacity
+                style={[styles.btnWrapper, {borderBottomWidth: 0}]}
+                onPress={() => navigation.navigate("AvailabilityScreen")}
+              >
+                <MaterialCommunityIcons name="clock-edit" size={24} color="black"/>
+                <Text style={styles.btnTitle}>Availability</Text>
+              </TouchableOpacity>
+            )
+          }
         </View>
         {/* Others */}
         <View style={styles.section}>

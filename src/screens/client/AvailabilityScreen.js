@@ -35,7 +35,12 @@ const AvailabilityScreen = () => {
         <TouchableOpacity>
           <MaterialIcons name="add-circle" size={32} color="#252525" marginVertical={20}/>
         </TouchableOpacity>
-        <PrimaryButton title={"Save"} fontSize={20} fontWeight={"700"} paddingVertical={12} marginTop={10}
+        <PrimaryButton title={"Save"}
+                       paddingVertical={10}
+                       paddingHorizontal={30}
+                       marginTop={25}
+                       fontSize={17}
+                       fontWeight={"500"}
                        onPress={handleSave}/>
       </ScrollView>
     </SafeAreaView>
