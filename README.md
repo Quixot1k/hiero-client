@@ -1,4 +1,4 @@
-# kairos-client
+# hiero-client
 
 ### To launch the project, follow these steps:
 1. Open your terminal and navigate to the root folder of the project.
