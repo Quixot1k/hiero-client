@@ -1,3 +1,4 @@
+[Deprecated]
 # hiero-client
 
 ### To launch the project, follow these steps:
